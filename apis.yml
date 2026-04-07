@@ -1,7 +1,12 @@
 aid: avnet
-url: https://raw.githubusercontent.com/api-evangelist/avnet/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/avnet/refs/heads/main/apis.yml
 modified: '2026-03-21'
 apis: []
 common:
   - type: Website
     url: https://www.avnet.com
+description: >-
+  Avnet is a global technology distributor and solutions provider that delivers electronic
+  components, embedded solutions, and design and supply chain services to industrial
+  and commercial customers.
