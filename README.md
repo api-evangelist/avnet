@@ -1,33 +1,26 @@
 # Avnet (avnet)
-Avnet is a Fortune 500 company. This repository captures the APIs, developer tools, and machine-readable API artifacts for Avnet.
+Avnet is a global technology distributor and solutions provider that delivers electronic components, embedded solutions, and design and supply chain services to industrial and commercial customers.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/avnet/refs/heads/main/apis.yml)
+**URL:** [https://www.avnet.com](https://www.avnet.com)
 
-## Scope
+## Tags
 
-- **Type:** Contract
-- **Position:** Consuming
-- **Access:** 3rd-Party
-
-## Tags:
-
- - Fortune 500
+ - Electronics, Components, Supply Chain, IoT, Manufacturing
 
 ## Timestamps
 
-- **Created:** 2026-03-21
-- **Modified:** 2026-03-21
-
-## APIs
-
-No public APIs have been documented yet. Contributions welcome.
+- **Created:** 2026-01-01
+- **Modified:** 2026-04-19
 
 ## Common Properties
 
 - [Website](https://www.avnet.com)
+- [Portal](https://developer.avnet.com/)
+- [GitHubOrganization](https://github.com/avnet)
+- [LinkedIn](https://www.linkedin.com/company/avnet/)
 
 ## Maintainers
 
-**FN:** API Evangelist
+**FN:** Kin Lane
 
-**Email:** info@apievangelist.com
+**Email:** kin@apievangelist.com
