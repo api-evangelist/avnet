@@ -16,11 +16,11 @@ description: >-
 name: Avnet
 tags:
   - Fortune 500
-- Electronics
-- Components
-- Supply Chain
-- IoT
-- Manufacturing
+  - Electronics
+  - Components
+  - Supply Chain
+  - IoT
+  - Manufacturing
 created: '2026-01-01'
 type: Index
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
