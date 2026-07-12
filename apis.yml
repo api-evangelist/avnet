@@ -3,6 +3,8 @@ url: https://raw.githubusercontent.com/api-evangelist/avnet/refs/heads/main/apis
 modified: '2026-04-19'
 apis: []
 common:
+- type: DomainSecurity
+  url: security/avnet-domain-security.yml
 - type: Website
   url: https://www.avnet.com
 - type: Portal
