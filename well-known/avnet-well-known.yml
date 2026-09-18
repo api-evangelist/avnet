@@ -1,0 +1,124 @@
+generated: '2026-09-18'
+method: probed
+source: live GET of /.well-known/{security.txt,openid-configuration,oauth-authorization-server,oauth-protected-resource,api-catalog,ai-plugin.json,agent-card.json,agent.json} on every host the record knows
+summary: >-
+  NOTHING is served. No host returned a real well-known document, so NO WellKnown, SecurityTxt or AgentCard pointer is
+  emitted — this file records an absence. Three hosts answer 200 for every path with an HTML body that is not the
+  document: www.avnet.com returns an Akamai reCAPTCHA "Challenge Validation" page (1,041 bytes) or a 5,827-byte HTML page,
+  and avnet.iotconnect.io returns its 3,746-byte console SPA shell. apigw.avnet.com answers 502 from Azure Application
+  Gateway for every path. Those 200s are recorded as misses.
+pointer_basis: no 200 carried a parsable document; no pointer earned.
+false_positive_watch: >-
+  www.avnet.com and avnet.iotconnect.io are SPA/edge catch-alls that answer 200 to every /.well-known/* path. Any future
+  round that treats those 200s as served documents is wrong. iotconnect.io and www.iotconnect.io 30x every path to
+  /not_found.html.
+hosts:
+  - host: https://www.avnet.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 200, body: html-challenge-page, document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 200, body: html-page, document: false}
+      - {path: /.well-known/oauth-protected-resource, status: 200, body: html-challenge-page, document: false}
+      - {path: /.well-known/api-catalog, status: 200, body: html-challenge-page, document: false}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://avnet.com
+    note: 301 to www.avnet.com for every path; same results as above.
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://my.avnet.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://apiportal.avnet.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://apigw.avnet.com
+    note: Azure Application Gateway answers 502 Bad Gateway for every unrouted path, including the root.
+    documents:
+      - {path: /.well-known/security.txt, status: 502}
+      - {path: /.well-known/openid-configuration, status: 502}
+      - {path: /.well-known/oauth-authorization-server, status: 502}
+      - {path: /.well-known/oauth-protected-resource, status: 502}
+      - {path: /.well-known/api-catalog, status: 502}
+      - {path: /.well-known/ai-plugin.json, status: 502}
+      - {path: /.well-known/agent-card.json, status: 502}
+      - {path: /.well-known/agent.json, status: 502}
+  - host: https://www.iotconnect.io
+    note: every path 302s to /not_found.html.
+    documents:
+      - {path: /.well-known/security.txt, status: 302}
+      - {path: /.well-known/openid-configuration, status: 302}
+      - {path: /.well-known/oauth-authorization-server, status: 302}
+      - {path: /.well-known/oauth-protected-resource, status: 302}
+      - {path: /.well-known/api-catalog, status: 302}
+      - {path: /.well-known/ai-plugin.json, status: 302}
+      - {path: /.well-known/agent-card.json, status: 302}
+      - {path: /.well-known/agent.json, status: 302}
+  - host: https://docs.iotconnect.io
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://avnet.iotconnect.io
+    note: console SPA shell (3,746 bytes of HTML) returned with 200 for every path — not a document.
+    documents:
+      - {path: /.well-known/security.txt, status: 200, body: spa-shell, document: false}
+      - {path: /.well-known/openid-configuration, status: 200, body: spa-shell, document: false}
+      - {path: /.well-known/oauth-authorization-server, status: 200, body: spa-shell, document: false}
+      - {path: /.well-known/oauth-protected-resource, status: 200, body: spa-shell, document: false}
+      - {path: /.well-known/api-catalog, status: 200, body: spa-shell, document: false}
+      - {path: /.well-known/ai-plugin.json, status: 200, body: spa-shell, document: false}
+      - {path: /.well-known/agent-card.json, status: 200, body: spa-shell, document: false}
+      - {path: /.well-known/agent.json, status: 200, body: spa-shell, document: false}
+  - host: https://device.iotconnect.io
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://auth.iotconnect.io
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://deviceconsole.iotconnect.io
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}

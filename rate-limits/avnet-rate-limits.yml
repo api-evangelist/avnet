@@ -1,0 +1,40 @@
+generated: '2026-09-18'
+method: searched
+source: https://my.avnet.com/emea/resources/avnet-api/the-avnet-api-feed/
+docs: https://my.avnet.com/emea/resources/avnet-api/the-avnet-api-feed/
+limit_count: 2
+summary: >-
+  Avnet publishes two limits for its procurement API on the EMEA "Avnet API" page, both per customer. Exhaustion is
+  signalled in the response body message, not by a documented HTTP status or RateLimit-* header. The /IOTCONNECT REST
+  API documents no rate limit anywhere in its eight Swagger definitions or docs, and the Avnet API Portal itself
+  (apiportal.avnet.com) publishes none outside the sign-in wall.
+limits:
+  - surface: Avnet API Portal — Customer API (getPriceAndQty)
+    scope: per-customer
+    window: 1 minute
+    limit: 100
+    unit: request lines (BOM lines) per minute
+    burst: null
+    on_exhaustion:
+      status: null
+      body_message: "040 'Rate limit (call lines per minute) exceeded: 101'"
+      note: Additional requests are rejected; the docs quote the message text but state no HTTP status code.
+  - surface: Avnet API Portal — Customer API (getPriceAndQty)
+    scope: per-customer
+    window: 1 day
+    limit: 1000
+    unit: calls per day
+    burst: null
+    on_exhaustion:
+      status: null
+      body_message: null
+      note: "Standard Daily Call Limit — the number of daily calls is restricted to 1000 calls a day."
+headers:
+  documented: []
+  note: No X-RateLimit-*, RateLimit-* or Retry-After header is documented on either surface.
+iotconnect:
+  limit_count: 0
+  note: >-
+    None of the eight /IOTCONNECT module Swagger definitions declares a 429 response, and the docs (docs.iotconnect.io)
+    publish no request quota; the only published ceilings are functional (1 GB firmware upload, 1,000 entities per bulk
+    import, 2 active client secrets) rather than rate limits.

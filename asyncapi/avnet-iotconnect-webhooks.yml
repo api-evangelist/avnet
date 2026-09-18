@@ -1,0 +1,42 @@
+generated: '2026-09-18'
+method: derived
+source: >-
+  openapi/avnet-iotconnect-event-openapi.yml (the /IOTCONNECT Event API, https://event.iotconnect.io/api/v1.1/swagger-json)
+  — subscription operations, the WebHookConfig / WebHookHeader schemas and the deliveryMethod enumeration in
+  EventSubscriptionCreateRequest — plus the Azure 1.5.1 release note that added the OTA-acknowledgment webhook event
+  (https://docs.iotconnect.io/iotconnect/platform/product-updates/v1-5-1/).
+type: Webhooks
+asyncapi_published: false
+summary: >-
+  /IOTCONNECT delivers platform events to subscriber-supplied HTTPS endpoints as one of several delivery methods
+  ("MQTT, UI Alert, Push, SignalR, DeviceCommand, WebHook, Email etc."). The provider ships no AsyncAPI document and
+  publishes no per-event payload schema outside the console, so this catalog records the subscription surface and the
+  webhook configuration shape only — payloads are NOT described here.
+surface: /IOTCONNECT Event API (https://event.iotconnect.io)
+subscription_management:
+  list_events: GET /api/v1.1/Event — predefined event list (filterable)
+  event_detail: GET /api/v1.1/Event/{eventid}
+  topics: GET /api/v1.1/event-topics
+  delivery_methods: GET /api/v1.1/deliverymethod and GET /api/v1.1/Event/{eventId}/delivery-method
+  subscribe: POST /api/v1.1/Event/subscription/subscribe — body EventSubscriptionCreateRequest {eventGuid|eventName, deliveryMethod[], refData, severityLevelGuid, refGuid}
+  update: PUT /api/v1.1/Event/subscription/{subscriptionGuid}
+  read: GET /api/v1.1/Event/subscription/{subscriptionGuid}; GET /api/v1.1/Event/subscription (list)
+  unsubscribe: DELETE /api/v1.1/Event/subscription/{subscriptionGuid}/un-subscribe
+  test: POST /api/v1.1/Event/webhook/test — body WebHookConfigWithData {url, headers[{key,value}], data}
+webhook_config:
+  schema: WebHookConfig
+  fields:
+    url: subscriber HTTPS endpoint
+    headers: list of {key, value} custom headers sent with each delivery (the only documented way to carry a shared secret)
+  signing: not documented — no signature header, secret rotation or replay guard is published
+  retries: not documented
+  templates: per event + delivery method via POST /api/v1.1/event-template and POST /api/v1.1/Event/subscriptions/{eventSubscriptionGuid}/template
+events:
+  note: >-
+    The predefined event catalog is tenant-specific and returned by GET /api/v1.1/Event at runtime; the spec does not
+    enumerate event names. The one event named in public release notes is listed below.
+  named_in_public_docs:
+    - name: OTA update acknowledgment
+      added: Azure platform 1.5.1 (2026-03-17)
+      source: https://docs.iotconnect.io/iotconnect/platform/product-updates/v1-5-1/
+      quote: "Users can subscribe to receive webhook notifications when a device acknowledges an OTA update."

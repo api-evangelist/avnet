@@ -1,0 +1,45 @@
+# Avnet
+
+> Global electronic-components distributor and IoT solutions provider. Two API surfaces: the Avnet API Portal for procurement data (price, availability, product information) and the /IOTCONNECT IoT platform REST API (device, firmware, telemetry, events, files, users).
+
+Generated 2026-09-18 by API Evangelist from the provider's public pages and specifications (no /llms.txt is published on www.avnet.com, apiportal.avnet.com or docs.iotconnect.io). Not written by Avnet.
+
+## Avnet API Portal (procurement)
+
+- [API Portal](https://apiportal.avnet.com/): Azure API Management developer portal launched June 2025; API products and downloadable API definitions are visible only after sign-in
+- [How To](https://apiportal.avnet.com/help/HowTo): subscription keys (Ocp-Apim-Subscription-Key header or subscription-key query param), OAuth 2.0 client-credentials token at https://apigw.avnet.com/external/getToken/oauth2/v2.0/token, secret rotation via POST https://apigw.avnet.com/external/clientsecret/{client_id}
+- [FAQ](https://apiportal.avnet.com/help/FAQ): subscription key + OAuth 2 required; one key per API product
+- [Avnet API (EMEA)](https://my.avnet.com/emea/resources/avnet-api/the-avnet-api-feed/): getPriceAndQty request/response fields; 100 request lines per minute and 1,000 calls per day per customer
+- [Eligibility and cost](https://my.avnet.com/emea/resources/avnet-api/frequently-asked-questions/): free for eligible customers of Avnet, Avnet Abacus, Avnet Silica and EBV Elektronik; ordering not enabled
+- [Sign up](https://apiportal.avnet.com/signup)
+
+## /IOTCONNECT REST API
+
+- [REST API overview](https://docs.iotconnect.io/iotconnect/rest-api/): eight modules, each serving a live Swagger 2.0 definition
+- [Master](https://master.iotconnect.io/api/v2/swagger-json): reference data, FAQs, property types (27 operations)
+- [Authenticate](https://auth.iotconnect.io/api/v2/swagger-json): login with solution-key header, refresh, verify (5 operations)
+- [User](https://user.iotconnect.io/api/v2/swagger-json): users, roles, entities (50 operations)
+- [Device](https://device.iotconnect.io/api/v2/swagger-json): templates, devices, commands, certificates, rules, direct methods (190 operations)
+- [Firmware](https://firmware.iotconnect.io/api/v2/swagger-json): firmware, OTA, IoT Edge deployments (40 operations)
+- [Event](https://event.iotconnect.io/api/v1.1/swagger-json): event subscriptions incl. webhooks (23 operations)
+- [Telemetry](https://telemetry.iotconnect.io/api/v2/swagger-json): sensor data and history (15 operations)
+- [File](https://file.iotconnect.io/api/v1.1/swagger-json): file upload and management (6 operations)
+- AWS production hosts use https://{module}console.iotconnect.io/api/v2.1/swagger-json
+- [Quick start](https://docs.iotconnect.io/iotconnect/quick-start/)
+- [Device SDKs](https://docs.iotconnect.io/iotconnect/sdk/sdk-flavors/): C, Python, Node.js, .NET, Android, iOS, Greengrass
+- [GitHub](https://github.com/avnet-iotconnect): 103 public repositories
+- [PyPI iotconnect-rest-api](https://pypi.org/project/iotconnect-rest-api/): Python REST client + iotconnect-cli (3.0.0, 2026-07-07)
+- [PyPI iotconnect-sdk-lite](https://pypi.org/project/iotconnect-sdk-lite/): lite device SDK (1.3.0, 2026-03-19)
+- [Platform health](https://docs.iotconnect.io/iotconnect/platform/health/)
+- [Product updates](https://docs.iotconnect.io/iotconnect/platform/product-updates/): Azure 1.5.1 (2026-03-17), AWS 1.1.0 (2026-09-08)
+- [Incidents](https://docs.iotconnect.io/iotconnect/platform/incidents/)
+
+## Company
+
+- [Website](https://www.avnet.com)
+- [Legal notices](https://my.avnet.com/emea/about-us/legal)
+- [Privacy](https://my.avnet.com/emea/about-us/privacy)
+
+## Optional
+
+- [API Evangelist profile](https://github.com/api-evangelist/avnet): apis.yml, converted OpenAPI 3.0 specs, authentication, conventions, error catalog, rate limits, lifecycle, changelog, skills

@@ -1,0 +1,13 @@
+generated: '2026-09-18'
+method: generated
+source: openapi/ (eight /IOTCONNECT module specs) + conventions/, errors/, asyncapi/ — no provider-published skills or AGENTS.md were found on docs.iotconnect.io, apiportal.avnet.com or github.com/avnet-iotconnect
+note: Skills cover only the /IOTCONNECT surface; the Avnet API Portal procurement API has no public contract to ground a skill in.
+skills:
+  - name: avnet-iotconnect-onboard-device
+    file: skills/avnet-iotconnect-onboard-device.md
+    api: Avnet /IOTCONNECT Device API
+    operations: 8
+  - name: avnet-iotconnect-ota-update
+    file: skills/avnet-iotconnect-ota-update.md
+    api: Avnet /IOTCONNECT Firmware API
+    operations: 8

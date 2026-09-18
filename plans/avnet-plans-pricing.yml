@@ -1,0 +1,29 @@
+generated: '2026-09-18'
+method: searched
+source: https://my.avnet.com/emea/resources/avnet-api/frequently-asked-questions/
+plan_count: 0
+summary: >-
+  No priced plans are published. The Avnet API Portal offers API access "at no cost to all eligible customers" —
+  eligibility is a trading relationship with Avnet, Avnet Abacus, Avnet Silica or EBV Elektronik, checked when the
+  subscription request is reviewed, and "not all API requests are eligible for access". /IOTCONNECT publishes no
+  pricing page at all (www.iotconnect.io/pricing 302s to /not_found.html); access is by account and Solution Key
+  obtained through a support ticket.
+plans: []
+access_model:
+  price: 0
+  currency: null
+  billing: none
+  gate: approved subscription per API Product (Avnet API Portal); tenant account + Solution Key (/IOTCONNECT)
+  eligibility: existing customers of an Avnet trading company; one subscription key per trading company
+  quotas_attached: see rate-limits/avnet-rate-limits.yml (100 request lines/minute, 1,000 calls/day)
+  onboarding_time: "typically 1-2 weeks, dependent on customer IT resources (FAQ)"
+evidence:
+  - url: https://my.avnet.com/emea/resources/avnet-api/frequently-asked-questions/
+    status: 200
+    quote: "API access is currently offered at no cost to all eligible customers."
+  - url: https://apiportal.avnet.com/products
+    status: 200
+    quote: "Sign-In to view full API products list."
+  - url: https://www.iotconnect.io/pricing
+    status: 302
+    note: redirects to /not_found.html

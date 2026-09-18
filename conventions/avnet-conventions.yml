@@ -1,0 +1,127 @@
+generated: '2026-09-18'
+method: derived
+source: >-
+  Cross-cutting behaviour read from the eight /IOTCONNECT Swagger definitions in openapi/ (356 operations: 179 reads,
+  177 writes) and the module descriptions embedded in them, plus the Avnet API Portal How-To
+  (https://apiportal.avnet.com/help/HowTo) and the EMEA API feed page
+  (https://my.avnet.com/emea/resources/avnet-api/the-avnet-api-feed/) for the procurement surface.
+description: >-
+  Two surfaces with different runtime semantics. /IOTCONNECT is a conventional JSON REST API with a uniform response
+  envelope, page-number pagination and a JWT bearer; the Avnet API Portal is an Azure API Management front on a
+  SAP-shaped price-and-availability service whose runtime conventions are only partly published outside sign-in.
+
+base_urls:
+  iotconnect: >-
+    https://{module}.iotconnect.io (Azure production; module = master|auth|user|device|firmware|event|telemetry|file)
+    — AWS production is https://{module}console.iotconnect.io with /api/v2.1 paths
+  avnet_api_portal: 'https://apigw.avnet.com (gateway; product paths are only visible after sign-in)'
+api_style: 'JSON over HTTPS; /IOTCONNECT requires Content-Type: application/json on every call'
+
+authentication:
+  iotconnect: 'Authorization: Bearer <JWT> from POST /api/v2/Auth/login (solution-key header); refresh via POST /api/v2/Auth/refresh-token'
+  avnet_api_portal: 'Ocp-Apim-Subscription-Key header (or subscription-key query param) + Authorization: Bearer <OAuth2 client-credentials token>'
+  detail: authentication/avnet-authentication.yml
+
+idempotency:
+  coverage: none
+  scope: []
+  mechanism: null
+  note: >-
+    No Idempotency-Key or client-reference mechanism is documented on any of the 177 /IOTCONNECT write operations, and
+    the Avnet API Portal publishes none. PUT status toggles (e.g. PUT /api/v2/Device/{deviceGuid}/status with isActive)
+    are naturally idempotent by payload, but POST creates (devices, templates, entities, firmware, OTA sends, event
+    subscriptions) will duplicate on retry; the 409 "name already exists" conflict is the only replay guard.
+
+reversibility:
+  grade: documented
+  surfaces:
+    - write_surface: POST /api/v2/ota-update (Send OTA update) — firmware
+      reversal: cancel a scheduled OTA update
+      reversal_operation: PUT /api/v2/ota-update/cancel-scheduled-otaupdate (no operationId is published)
+      window: not stated — the spec says only that the cancel status of a scheduled update can be updated
+      docs: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+    - write_surface: POST /api/v2/Firmware (Add firmware) — firmware
+      reversal: deprecate
+      reversal_operation: PUT /api/v2/Firmware/{firmwareGuid}/deprecate
+      window: not stated
+      docs: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+    - write_surface: PUT /api/v2/Device/{uniqueId}/acquire (register device on the IoT hub) — device
+      reversal: release
+      reversal_operation: PUT /api/v2/Device/{uniqueId}/release
+      window: not stated
+      docs: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+    - write_surface: PUT /api/v2/Device/{deviceGuid}/status (isActive true/false) — device
+      reversal: the same operation with the opposite isActive value
+      reversal_operation: PUT /api/v2/Device/{deviceGuid}/status
+      window: none needed — a toggle
+      docs: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+    - write_surface: POST /api/v1.1/Event/subscription/subscribe — event
+      reversal: unsubscribe
+      reversal_operation: DELETE /api/v1.1/Event/subscription/{subscriptionGuid}/un-subscribe
+      window: not stated
+      docs: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+    - write_surface: DELETE operations (devices, templates, entities, users, firmware, files, rules)
+      reversal: none — no restore/undelete operation exists in any module
+      reversal_operation: null
+      window: null
+      docs: https://docs.iotconnect.io/iotconnect/rest-api/
+  summary: >-
+    Graded `documented`, not `verified`: reversal paths exist for OTA sends, firmware, hub registration, device status
+    and event subscriptions, but no window is stated anywhere and hard deletes have no restore. The procurement surface
+    is read-only ("ordering through the API is not enabled" — EMEA FAQ), so reversibility is na there.
+
+dry_run_mode:
+  supported: false
+  note: >-
+    No sandbox/dry-run flag. /IOTCONNECT offers a separate sandbox tenant (https://avnet.iotconnect.io/) and the
+    procurement API "an additional endpoint for technical testing ... on demand" — environments, not a per-request mode.
+
+pagination:
+  style: page-number
+  request_params:
+    pageNumber: 'integer — page to fetch ("Eg: 2")'
+    pageSize: 'integer — records per page ("Eg: 25")'
+    sortBy: string — "name desc, name asc, name"
+    searchText: string on some lookups (e.g. GET /api/v2/Faq)
+  response_fields:
+    data: array of results
+    count: total records (int64)
+    status: integer HTTP-style code
+    message: string
+  empty_result: HTTP 204 "successfully processed and no records found"
+  surface: /IOTCONNECT list operations (e.g. GET /api/v2/adu-groups, GET /api/v2/Faq)
+
+field_expansion:
+  supported: false
+  note: no expand/fields/select mechanism; lookups (…/lookup) return lightweight variants instead
+
+metadata:
+  supported: false
+  note: no free-form metadata bag on core objects; templates carry custom attributes and properties instead
+
+request_id_tracing:
+  supported: false
+  note: no request-id/correlation header is documented; the only header parameter in all eight specs is solution-key (login)
+
+versioning:
+  scheme: path-segment (/api/v2, /api/v1.1 on Azure; /api/v2.1 on AWS)
+  detail: lifecycle/avnet-lifecycle.yml
+
+error_envelope:
+  shape: "{status, message, error: [{param, message}]}"
+  codes: [401, 403, 409, 412, 500]
+  detail: errors/avnet-problem-types.yml
+
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  note: >-
+    procurement API rejects with body message "040 'Rate limit (call lines per minute) exceeded: 101'" at >100
+    lines/min or >1,000 calls/day; /IOTCONNECT documents no limit or 429
+  detail: rate-limits/avnet-rate-limits.yml
+
+cross_links:
+  errors: errors/avnet-problem-types.yml
+  lifecycle: lifecycle/avnet-lifecycle.yml
+  authentication: authentication/avnet-authentication.yml
+  rate_limits: rate-limits/avnet-rate-limits.yml

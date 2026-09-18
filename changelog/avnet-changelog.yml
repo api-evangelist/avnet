@@ -1,0 +1,57 @@
+generated: '2026-09-18'
+method: searched
+source: https://docs.iotconnect.io/iotconnect/platform/product-updates/
+scheme: platform release notes per cloud (AWS track 1.0.x-1.1.x, Azure track 1.4.x-1.5.x), each with staging and production roll-out dates; no per-API changelog
+current:
+  aws: '1.1.0'
+  azure: '1.5.1'
+window: last four releases across both tracks
+entries:
+  - version: '1.1.0'
+    track: aws
+    date: '2026-09-08'
+    staged: '2026-08-25'
+    breaking: false
+    additions:
+      - /IOTCONNECT Bridge mobile app (Android, iOS) for onboarding and AI workflows
+      - ST AIoT model-training integration and a Model Library with edge deployment
+      - AWS video streaming (WebRTC channels + Kinesis Video Streams) and a live-video dashboard widget
+      - LoRaWAN/Sidewalk positioning and FUOTA scheduling
+      - Model conversion (SageMaker Neo, OpenVINO, ST, PyTorch->TFLite, ONNX)
+      - WebSocket connector for real-time telemetry to dashboard widgets
+      - firmware upload limit raised to 1 GB; User Journey and Audit Trail logs; push notifications on model deploy
+    url: https://docs.iotconnect.io/iotconnect/platform/product-updates/aws/v1-1-0/
+  - version: '1.5.1'
+    track: azure
+    date: '2026-03-17'
+    staged: '2026-03-03'
+    europe: '2026-03-31'
+    breaking: false
+    additions:
+      - On-demand command and OTA delivery (queued until the device requests them over MQTT)
+      - Cloud Template — devices can connect without a predefined template
+      - bulk multi-level entity import
+      - OTA acknowledgment event with webhook subscription
+      - ARRAY attribute data type; Cosmos DB custom-connector export options; quick filters on grids
+    url: https://docs.iotconnect.io/iotconnect/platform/product-updates/v1-5-1/
+  - version: '1.0.9'
+    track: aws
+    date: '2025-12-23'
+    staged: '2025-11-20'
+    breaking: false
+    additions:
+      - On-demand command and OTA
+      - bulk entity creation (up to 1,000 per operation)
+      - SageMaker connector and Module Library; DocumentDB telemetry connector
+      - certificate rotation policy on templates
+    url: https://docs.iotconnect.io/iotconnect/platform/product-updates/aws/v1-0-9/
+  - version: '1.0.8'
+    track: aws
+    date: '2025-09-03'
+    staged: '2025-07-31'
+    breaking: false
+    url: https://docs.iotconnect.io/iotconnect/platform/product-updates/aws/v1-0-8
+avnet_api_portal:
+  note: >-
+    The portal states it launched in June 2025 (my.avnet.com EMEA page) and that 3rd-party platforms were migrating
+    during 2025; it publishes no dated changelog outside the sign-in wall.

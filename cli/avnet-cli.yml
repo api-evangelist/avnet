@@ -1,0 +1,34 @@
+generated: '2026-09-18'
+method: searched
+source: https://github.com/avnet-iotconnect/iotc-python-rest-api (README) and https://pypi.org/project/iotconnect-rest-api/
+name: iotconnect-cli
+surface: /IOTCONNECT REST API
+official: true
+package: packages/avnet-packages.yml#iotconnect-rest-api
+version: 3.0.0
+published: '2026-07-07'
+install:
+  - method: pip
+    command: python3 -m pip install iotconnect-rest-api
+    note: installs the iotconnect-cli entry point; ensure its location is on PATH
+configuration:
+  command: iotconnect-cli configure -u <email> -p <password> --pf {aws,az} -e {poc,prod,avnet} --skey <solution key>
+  env: {IOTC_USER: account email, IOTC_PASS: password, IOTC_SKEY: solution key, IOTC_PF: aws|az, IOTC_ENV: poc|prod|avnet}
+  credentials: session token stored in the OS home directory, valid 24 hours, auto-refreshed on use after one hour
+  note: the Solution Key is issued through the /IOTCONNECT support-ticket system, not self-service
+commands:
+  - group: configure
+    detail: store credentials, platform and environment
+  - group: devices / templates / entities
+    detail: read details; create and delete templates from template JSON; create and delete x509-authenticated devices
+  - group: firmware / OTA
+    detail: manage firmware, upload files, schedule and publish OTA to devices
+  - group: commands
+    detail: send commands to devices
+  - group: files
+    detail: upload and manage files in /IOTCONNECT file storage
+  - group: certificates
+    detail: generate an ECC x509 self-signed certificate + private key and an iotcDeviceConfig.json for the device SDKs
+notes:
+  - the README calls it a reference CLI with reduced functionality compared with the Python API it ships beside
+  - devices created via REST cannot be deleted from the UI's per-row delete icon; use the CLI/library or bulk delete

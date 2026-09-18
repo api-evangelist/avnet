@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: Avnet /IOTCONNECT telemetry API — API Evangelist overlay
+  version: 1.0.0
+  x-generated: '2026-09-18'
+  x-method: generated
+  x-source: openapi/avnet-iotconnect-telemetry-openapi.yml (converted from openapi/_original/avnet-iotconnect-telemetry-azure-prod-swagger.json)
+extends: openapi/avnet-iotconnect-telemetry-openapi.yml
+actions:
+- target: $
+  description: Add the production server the provider-hosted Swagger omits (it publishes no host/basePath).
+  update:
+    servers:
+    - url: https://telemetry.iotconnect.io
+      description: /IOTCONNECT production (Azure platform)
+- target: $.info
+  description: Provenance of the harvested contract.
+  update:
+    x-source: https://telemetry.iotconnect.io/api/v2/swagger-json
+    x-harvested: '2026-09-18'
+    x-ownership: 'Avnet product on the iotconnect.io domain (docs.iotconnect.io: "Avnet /IOTCONNECT", Copyright
+      Avnet, Inc.)'
+- target: $.info
+  description: Point at the runtime-semantics artifacts OpenAPI does not express.
+  update:
+    x-conventions: conventions/avnet-conventions.yml
+    x-authentication: authentication/avnet-authentication.yml
+    x-errors: errors/avnet-problem-types.yml

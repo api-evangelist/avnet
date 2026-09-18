@@ -1,0 +1,92 @@
+generated: '2026-09-18'
+method: searched
+source: >-
+  Registry metadata from pypi.org/pypi/<pkg>/json and registry.npmjs.org (search + package documents), NuGet
+  registration index and search.maven.org, cross-checked against the GitHub organization avnet-iotconnect (103 public
+  repos) and docs.iotconnect.io/iotconnect/sdk/sdk-flavors/. The Avnet API Portal (procurement) ships no client library
+  at all — its How-To tells integrators to download the API definition after sign-in and build their own client.
+summary:
+  first_party_sdk_count: 8
+  registry_published_count: 2
+  third_party_package_count: 0
+  note: >-
+    Every first-party package belongs to the /IOTCONNECT platform. Two are on a registry (PyPI); the Node.js, .NET,
+    Android, iOS and C SDKs are GitHub-source distributions with no registry release — the npm scope @avnet-iotc
+    holds only a 2024 demo beta. A CLI (iotconnect-cli) ships inside iotconnect-rest-api.
+github_organization:
+  found: true
+  url: https://github.com/avnet-iotconnect
+  public_repos: 103
+  note: >-
+    github.com/avnet (138 public repos) is Avnet's hardware/board-support organisation and holds no API client libraries;
+    every SDK lives under github.com/avnet-iotconnect. Both are wired as GitHubOrganization in apis.yml.
+packages:
+  - language: python
+    registry: pypi
+    name: iotconnect-rest-api
+    url: https://pypi.org/project/iotconnect-rest-api/
+    install: python3 -m pip install iotconnect-rest-api
+    repository: https://github.com/avnet-iotconnect/iotc-python-rest-api
+    official: true
+    version: 3.0.0
+    published: '2026-07-07'
+    description: Python interface for the /IOTCONNECT REST API (devices, templates, entities, OTA, files, commands) plus the iotconnect-cli reference CLI.
+  - language: python
+    registry: pypi
+    name: iotconnect-sdk-lite
+    url: https://pypi.org/project/iotconnect-sdk-lite/
+    install: python3 -m pip install iotconnect-sdk-lite
+    repository: https://github.com/avnet-iotconnect/iotc-python-lite-sdk
+    official: true
+    version: 1.3.0
+    published: '2026-03-19'
+    description: Lite/minimalist Python device SDK (MQTT) for resource-constrained environments.
+  - language: python
+    registry: github
+    name: iotc-python-sdk
+    url: https://github.com/avnet-iotconnect/iotc-python-sdk
+    official: true
+    version: null
+    published: null
+    note: Full-featured Python device SDK; no PyPI release and no GitHub release tag — last push 2026-08-24. Version is not recorded because no registry publishes one.
+  - language: javascript
+    registry: github
+    name: iotc-node-sdk
+    url: https://github.com/avnet-iotconnect/iotc-node-sdk
+    official: true
+    version: null
+    published: null
+    note: Official Node.js device SDK distributed from GitHub (last push 2024-02-29). The only npm artifact, @avnet-iotc/iotc-demo 1.0.0-beta-5 (2024-02-29), is a demo, not the SDK.
+  - language: csharp
+    registry: github
+    name: iotc-dotnet-sdk
+    url: https://github.com/avnet-iotconnect/iotc-dotnet-sdk
+    official: true
+    version: null
+    published: null
+    note: .NET device SDK from GitHub only (last push 2024-01-16); no NuGet package found under iotconnect / IoTConnect.SDK.
+  - language: java
+    registry: github
+    name: iotc-android-sdk
+    url: https://github.com/avnet-iotconnect/iotc-android-sdk
+    official: true
+    version: 3.1.4
+    published: '2023-01-25'
+    note: Version read from the GitHub release tag (no Maven Central artifact matches iotconnect).
+  - language: swift
+    registry: github
+    name: iotc-ios-swift-sdk
+    url: https://github.com/avnet-iotconnect/iotc-ios-swift-sdk
+    official: true
+    version: 1.0.0
+    published: '2023-05-31'
+    note: Version read from the GitHub release tag.
+  - language: c
+    registry: github
+    name: iotc-c-lib
+    url: https://github.com/avnet-iotconnect/iotc-c-lib
+    official: true
+    version: null
+    published: null
+    note: Core C library behind the embedded SDK family (nRF, AzureRTOS, FreeRTOS, ModusToolbox, Arduino, Yocto); no tagged release, last push 2026-07-11.
+third_party_packages: []

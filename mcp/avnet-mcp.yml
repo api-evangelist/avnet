@@ -1,0 +1,48 @@
+generated: '2026-09-18'
+method: derived
+source: >-
+  Searched for an official Avnet or /IOTCONNECT MCP server (GitHub org avnet-iotconnect — 103 repos, none MCP-related;
+  npm/PyPI — no avnet/iotconnect MCP package; docs.iotconnect.io and apiportal.avnet.com — no mention). None exists, so
+  this is a CANDIDATE tool list derived from the /IOTCONNECT Swagger definitions in openapi/. Nobody ships a server.
+status: candidate
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+note: >-
+  Candidate only. The provider publishes no operationIds, so tools are named from method + path. Any real server
+  would need the JWT from POST /api/v2/Auth/login (solution-key header) and would be tenant-scoped.
+tools:
+  - name: iotconnect_login
+    rest: POST https://auth.iotconnect.io/api/v2/Auth/login
+    description: Obtain the bearer JWT with username/password and the solution-key header.
+  - name: list_devices
+    rest: GET https://device.iotconnect.io/api/v2/Device
+    description: Page through devices (pageNumber, pageSize, sortBy).
+  - name: get_device_connection_status
+    rest: GET https://device.iotconnect.io/api/v2/Device/connection-status
+    description: Live connection status for a device; /bulk variant for many.
+  - name: send_device_command
+    rest: POST https://device.iotconnect.io/api/v2/template-command/device/{deviceGuid}/send
+    description: Send a template command to a device.
+  - name: set_device_status
+    rest: PUT https://device.iotconnect.io/api/v2/Device/{deviceGuid}/status
+    description: Activate or deactivate a device (isActive).
+  - name: get_device_telemetry
+    rest: GET https://telemetry.iotconnect.io/api/v2/Telemetry/device/{deviceGuid}
+    description: Latest sensor data for a device; history variants under the Telemetry tag.
+  - name: send_ota_update
+    rest: POST https://firmware.iotconnect.io/api/v2/ota-update
+    description: Schedule an OTA firmware update for devices.
+  - name: cancel_scheduled_ota_update
+    rest: PUT https://firmware.iotconnect.io/api/v2/ota-update/cancel-scheduled-otaupdate
+    description: Reverse a scheduled OTA update.
+  - name: subscribe_event_webhook
+    rest: POST https://event.iotconnect.io/api/v1.1/Event/subscription/subscribe
+    description: Subscribe a webhook URL (+headers) to a platform event.
+  - name: upload_file
+    rest: POST https://file.iotconnect.io/api/v1.1/File
+    description: Upload a file for device telemetry / firmware use.

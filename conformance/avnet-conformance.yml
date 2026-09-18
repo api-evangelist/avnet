@@ -1,0 +1,48 @@
+generated: '2026-09-18'
+method: derived
+source: >-
+  Eight /IOTCONNECT Swagger 2.0 definitions in openapi/, the Avnet API Portal How-To/FAQ
+  (https://apiportal.avnet.com/help/HowTo, /help/FAQ) and the /IOTCONNECT docs (docs.iotconnect.io). No compliance
+  or certification claim (SOC 2, ISO 27001, etc.) is published on any reachable Avnet or /IOTCONNECT page, so NO
+  Compliance pointer is emitted.
+standards:
+  - id: oauth2
+    conforms: true
+    scope: Avnet API Portal
+    evidence: "client_credentials grant against https://apigw.avnet.com/external/getToken/oauth2/v2.0/token (How-To section 7); endpoint answers AADSTS invalid_client anonymously"
+  - id: oauth2
+    conforms: false
+    scope: /IOTCONNECT
+    evidence: securityDefinitions declare an apiKey-typed Bearer header, not an oauth2 flow; tokens come from a proprietary username/password login
+  - id: oidc
+    conforms: false
+    evidence: no /.well-known/openid-configuration on any host (well-known/avnet-well-known.yml)
+  - id: rfc9457
+    conforms: false
+    evidence: errors use the vendor {status, message, error[]} envelope (errors/avnet-problem-types.yml)
+  - id: pagination
+    conforms: true
+    scope: /IOTCONNECT
+    evidence: pageNumber / pageSize / sortBy query parameters on list operations, e.g. GET /api/v2/adu-groups in openapi/avnet-iotconnect-device-openapi.yml; count field in every list envelope
+  - id: idempotency
+    conforms: false
+    evidence: no Idempotency-Key or equivalent header in any of the 177 write operations
+  - id: rfc8594
+    conforms: false
+    evidence: no Deprecation/Sunset headers documented (lifecycle/avnet-lifecycle.yml)
+  - id: rfc9116
+    conforms: false
+    evidence: no security.txt on any of eleven probed hosts
+  - id: openapi
+    conforms: true
+    scope: /IOTCONNECT
+    evidence: Swagger 2.0 served per module at https://<module>.iotconnect.io/api/{v2|v1.1}/swagger-json (Azure) and https://<module>console.iotconnect.io/api/v2.1/swagger-json (AWS)
+  - id: mqtt
+    conforms: true
+    scope: /IOTCONNECT device side
+    evidence: "device SDKs and the Telemetry API's GET /api/v2/Telemetry/mqtt-reader (openapi/avnet-iotconnect-telemetry-openapi.yml); docs.iotconnect.io/iotconnect/sdk/communication-protocols/"
+domain_standards:
+  note: >-
+    REWARD-ONLY check. Neither surface declares a sector standard in its contract: the procurement API uses Avnet's own
+    SAP-flavoured field names (KDMAT, MATNR, ECCN_NUMER) rather than an EDI/cXML/OCI shape, and the IoT API does not
+    declare LwM2M, OPC UA, Sparkplug or a similar namespace in the specs. Nothing is asserted.

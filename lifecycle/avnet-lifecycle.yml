@@ -1,0 +1,50 @@
+generated: '2026-09-18'
+method: searched
+source: >-
+  https://docs.iotconnect.io/iotconnect/platform/product-updates/, https://docs.iotconnect.io/iotconnect/platform/health/,
+  https://docs.iotconnect.io/iotconnect/platform/incidents/, https://docs.iotconnect.io/iotconnect/platform/announcements/,
+  https://apiportal.avnet.com/ (availability claim), https://apiportal.avnet.com/help/HowTo (credential renewal), and the
+  eight /IOTCONNECT Swagger definitions (deprecated flags).
+versioning:
+  scheme: path-segment
+  detail: >-
+    /IOTCONNECT versions each module in the path (/api/v2/..., /api/v1.1/... for Event and File on Azure; /api/v2.1/...
+    for every module on AWS). Platform releases are numbered separately (Azure 1.5.1, AWS 1.1.0) and roll from a staging
+    environment to North America production and then Europe on published dates. The Avnet API Portal publishes no
+    versioning policy outside the sign-in wall.
+  current:
+    iotconnect_azure_platform: '1.5.1'
+    iotconnect_aws_platform: '1.1.0'
+    iotconnect_api_paths: [v2, v1.1, v2.1]
+deprecation:
+  policy_published: false
+  headers: {Deprecation: false, Sunset: false}
+  deprecated_operations: []
+  detail: >-
+    No deprecation or sunset policy is published and none of the 356 Azure-production operations carries deprecated:
+    true. The one dated retirement notice is an announcement (2023-10-04) that the Baltimore CyberTrust Root CA transition
+    ended and devices must chain to DigiCert Global Root G2.
+credential_lifecycle:
+  avnet_api_portal:
+    client_secret_max_age: 6 months (Avnet security policy)
+    active_secrets_max: 2
+    subscription_key_renewal: recommended every 6 months; primary/secondary pair supports zero-downtime rotation
+    programmatic_rotation: POST https://apigw.avnet.com/external/clientsecret/{client_id}
+  iotconnect:
+    access_token_lifetime: 24 hours (per iotc-python-rest-api README); refresh via POST /api/v2/Auth/refresh-token
+sla:
+  avnet_api_portal:
+    availability: '99.95%'
+    source: https://apiportal.avnet.com/ ("99.95% Availability", "2 Million API Calls Daily")
+    contractual: unknown
+  iotconnect:
+    availability: null
+    note: no SLA figure published
+status_page:
+  url: https://docs.iotconnect.io/iotconnect/platform/health/
+  kind: component health board (Good/Warning/Critical) for Sandbox https://avnet.iotconnect.io/ and Production https://portal.iotconnect.io/ — Portal, Message Processor, Telemetry-Live, Big Data, Device Connection Status, Commands, Device Twin, OTA, Rule-Engine, Events, Device Diagnostics, Power BI Reporting, Notifications
+  incidents: https://docs.iotconnect.io/iotconnect/platform/incidents/ (yearly incident archives 2019-2025)
+  note: status.iotconnect.io does not resolve; no status page exists for the Avnet API Portal.
+changelog:
+  url: https://docs.iotconnect.io/iotconnect/platform/product-updates/
+  artifact: changelog/avnet-changelog.yml

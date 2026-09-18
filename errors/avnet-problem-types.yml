@@ -1,0 +1,81 @@
+generated: '2026-09-18'
+method: derived
+source: >-
+  4xx/5xx responses across the eight /IOTCONNECT Swagger definitions in openapi/ (356 operations) and the ErrorsResponse /
+  ErrorModel schemas; Avnet API Portal error codes from the Developer Utility section of
+  https://apiportal.avnet.com/help/HowTo and the rate-limit message on
+  https://my.avnet.com/emea/resources/avnet-api/the-avnet-api-feed/.
+format: vendor-envelope
+envelope:
+  iotconnect:
+    schema: ErrorsResponse
+    fields: {status: integer HTTP-style code, message: string, error: 'array of {param, message}'}
+    note: >-
+      Every /IOTCONNECT response — success or failure — is wrapped in {data, status, message, count}; the status field
+      enumerates the full HTTP status range. Failures use ErrorsResponse with a per-parameter error[] list. Not RFC 9457.
+  avnet_api_portal:
+    note: Documented as free-text status/message pairs; no envelope schema is published outside the sign-in wall.
+problem_types:
+  - status: 401
+    title: Unauthorized
+    surface: iotconnect
+    occurrences: 319
+    detail: authentication failed because the token is invalid, expired or missing
+    remediation: log in again via POST /api/v2/Auth/login (solution-key header) or POST /api/v2/Auth/refresh-token
+  - status: 403
+    title: Forbidden
+    surface: iotconnect
+    occurrences: 191
+    detail: the user is not authorized to access this section
+    remediation: request the role/permission from a tenant administrator (User API roles)
+  - status: 409
+    title: Conflict
+    surface: iotconnect
+    occurrences: 302
+    detail: >-
+      the request could not be carried out because of a server-side conflict — the spec enumerates cases per operation
+      (e.g. template does not exist, attribute name already exists, invalid logged user or company)
+    remediation: read the per-operation 409 description and the error[] list; fix the referenced field
+  - status: 412
+    title: Precondition Failed
+    surface: iotconnect
+    occurrences: 339
+    detail: a condition set for this request failed and the request cannot be carried out — the spec's validation-failure code
+    remediation: the error[] array names the offending param
+  - status: 204
+    title: No Content (empty result)
+    surface: iotconnect
+    occurrences: 43
+    detail: request processed successfully and no records found — used for empty lists rather than an empty 200
+    remediation: treat as an empty collection
+  - status: 500
+    title: Internal Server Error
+    surface: iotconnect
+    occurrences: 356
+    detail: technical error on the server
+    remediation: retry later; raise a support ticket from the console
+  - status: 401
+    title: Unauthorized
+    surface: avnet-api-portal
+    detail: access token is missing or invalid (empty, invalid or expired)
+    remediation: regenerate a token at https://apigw.avnet.com/external/getToken/oauth2/v2.0/token
+  - status: 400
+    title: Token client-id is mismatched with URL client-id
+    surface: avnet-api-portal
+    detail: the client_id in the request URL differs from the client_id used to mint the access token
+    remediation: use the same client id for the token and the URL
+  - status: 400
+    title: Maximum number of activated secrets reached
+    surface: avnet-api-portal
+    detail: "Can't create new secret, the maximum number of activated secrets (2) has been reached"
+    remediation: remove an unused client secret in the API Portal profile
+  - status: 500
+    title: Internal server error
+    surface: avnet-api-portal
+    remediation: contact API support
+  - status: null
+    code: '040'
+    title: Rate limit (call lines per minute) exceeded
+    surface: avnet-api-portal
+    detail: "message text e.g. 040 'Rate limit (call lines per minute) exceeded: 101' when more than 100 request lines per minute are sent"
+    remediation: throttle to 100 request lines per minute and 1,000 calls per day

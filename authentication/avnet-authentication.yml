@@ -1,0 +1,92 @@
+generated: '2026-09-18'
+method: searched
+source: >-
+  Avnet API Portal How-To (https://apiportal.avnet.com/help/HowTo) and FAQ (https://apiportal.avnet.com/help/FAQ),
+  the /IOTCONNECT Authenticate API Swagger (https://auth.iotconnect.io/api/v2/swagger-json, saved to
+  openapi/avnet-iotconnect-auth-openapi.yml) and the securityDefinitions shared by all eight /IOTCONNECT module specs,
+  plus the iotc-python-rest-api README (https://github.com/avnet-iotconnect/iotc-python-rest-api).
+docs: https://apiportal.avnet.com/help/HowTo
+summary:
+  types: [apiKey, oauth2, http]
+  api_key_in: [header, query]
+  note: >-
+    Two unrelated auth systems. The Avnet API Portal (procurement) layers an Azure API Management subscription key on top
+    of an Entra ID OAuth 2.0 client-credentials bearer token. /IOTCONNECT issues its own JWT from a username/password
+    login that also carries a per-tenant solution key in a header.
+surfaces:
+  - surface: Avnet API Portal (procurement APIs, gateway apigw.avnet.com)
+    schemes:
+      - name: Ocp-Apim-Subscription-Key
+        type: apiKey
+        in: header
+        parameter: Ocp-Apim-Subscription-Key
+        alternate: {in: query, parameter: subscription-key}
+        description: >-
+          Mandatory on every call. A subscription key is scoped to ONE API Product; a second product needs a second key.
+          Keys are issued only after an Avnet API owner approves the subscription request, and each subscription carries a
+          primary/secondary key pair so one can be regenerated while the other stays live. Avnet recommends renewing every
+          6 months.
+      - name: OAuth2 client credentials
+        type: oauth2
+        flow: clientCredentials
+        tokenUrl: https://apigw.avnet.com/external/getToken/oauth2/v2.0/token
+        description: >-
+          grant_type=client_credentials with the client_id, client_secret and scope shown on the portal Profile page after
+          approval (none of the three is published). The token endpoint proxies Microsoft Entra ID — an anonymous POST
+          returns AADSTS7000216 invalid_client. The access token is sent as Authorization: Bearer <token>. Client secrets
+          expire and must be renewed every 6 months; at most 2 active secrets per client; a Developer Utility endpoint
+          POST https://apigw.avnet.com/external/clientsecret/{client_id} (bearer-authenticated) rotates a secret programmatically.
+    probes:
+      - url: https://apigw.avnet.com/external/getToken/oauth2/v2.0/token
+        method: POST
+        status: 401
+        body: AADSTS7000216 invalid_client (client_assertion, client_secret or request required)
+        checked: '2026-09-18'
+  - surface: /IOTCONNECT REST API (eight modules on *.iotconnect.io)
+    schemes:
+      - name: Bearer
+        type: apiKey
+        in: header
+        parameter: Authorization
+        description: >-
+          Declared as an apiKey scheme named Bearer in every module's securityDefinitions ("Please enter JWT with Bearer
+          into field"); applied globally (security: [{Bearer: []}]). The JWT comes from POST /api/v2/Auth/login on
+          auth.iotconnect.io, which additionally requires a solution-key header (the tenant's Solution Key, obtained through
+          an /IOTCONNECT support ticket). GET /api/v2/Auth/basic-token, POST /api/v2/Auth/refresh-token, GET
+          /api/v2/Auth/verify-token and POST /api/v2/Auth/m-login complete the flow. The first-party REST client stores the
+          token locally, treats it as valid for 24 hours and refreshes it on use after one hour.
+        sources:
+          - openapi/avnet-iotconnect-auth-openapi.yml
+          - openapi/avnet-iotconnect-device-openapi.yml
+          - openapi/avnet-iotconnect-event-openapi.yml
+          - openapi/avnet-iotconnect-file-openapi.yml
+          - openapi/avnet-iotconnect-firmware-openapi.yml
+          - openapi/avnet-iotconnect-master-openapi.yml
+          - openapi/avnet-iotconnect-telemetry-openapi.yml
+          - openapi/avnet-iotconnect-user-openapi.yml
+      - name: solution-key
+        type: apiKey
+        in: header
+        parameter: solution-key
+        description: Required on the login and mobile-login operations only (openapi/avnet-iotconnect-auth-openapi.yml).
+schemes:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+  parameter: Ocp-Apim-Subscription-Key
+  surface: Avnet API Portal
+- name: OAuth2 client credentials
+  type: oauth2
+  flow: clientCredentials
+  tokenUrl: https://apigw.avnet.com/external/getToken/oauth2/v2.0/token
+  surface: Avnet API Portal
+- name: Bearer
+  type: apiKey
+  in: header
+  parameter: Authorization
+  surface: /IOTCONNECT
+- name: solution-key
+  type: apiKey
+  in: header
+  parameter: solution-key
+  surface: /IOTCONNECT (login only)

@@ -1,0 +1,64 @@
+generated: '2026-09-18'
+method: derived
+source: >-
+  *Guid id-reference fields across the component schemas of the eight /IOTCONNECT Swagger definitions in openapi/
+  (318 reference fields in 145 schemas), read with the entity concepts documented at
+  https://docs.iotconnect.io/iotconnect/concepts/. Identifiers are opaque GUIDs; no prefixes or domains are published.
+id_scheme:
+  type: GUID
+  prefixes: []
+  note: every object is addressed by a <name>Guid; devices additionally carry a human uniqueId used in device-side paths (/api/v2/Device/uniqueId/{uniqueId}, /acquire, /release, /twin)
+entities:
+  - name: Company
+    module: user
+    detail: tenant root; companyGuid appears on 22 schemas
+  - name: Entity
+    module: user
+    detail: hierarchical organisational unit (parentEntityGuid) that scopes devices and users — the most-referenced object (31 schemas)
+  - name: User
+    module: user
+    detail: belongs to an Entity, holds a Role
+  - name: Role
+    module: user
+  - name: DeviceTemplate
+    module: device
+    detail: defines attributes, commands, settings and rules for a class of devices (29 references); a CloudTemplate is an auto-created template for unassociated devices
+  - name: Device
+    module: device
+    detail: instance of a DeviceTemplate inside an Entity; gateways own child devices (parentDeviceGuid)
+  - name: Command
+    module: device
+    detail: template-level command definition sent to devices; CommandSchedule wraps recurring sends
+  - name: DeviceCertificate
+    module: device
+  - name: Firmware
+    module: firmware
+    detail: firmware package for a DeviceTemplate; FirmwareUpgrade is a version of it; OtaUpdateItem is one device's scheduled update
+  - name: EventSubscription
+    module: event
+    detail: binds an Event (in an EventTopic, at a SeverityLevel) to delivery methods such as webhook, email, push
+  - name: File
+    module: file
+  - name: ReportingGroup
+    module: user
+relationships:
+  - {from: Entity, to: Company, type: belongs_to, via: companyGuid}
+  - {from: Entity, to: Entity, type: belongs_to, via: parentEntityGuid, note: n-level hierarchy}
+  - {from: User, to: Entity, type: belongs_to, via: entityGuid}
+  - {from: User, to: Role, type: belongs_to, via: roleGuid}
+  - {from: Device, to: DeviceTemplate, type: belongs_to, via: deviceTemplateGuid}
+  - {from: Device, to: Entity, type: belongs_to, via: entityGuid}
+  - {from: Device, to: Device, type: belongs_to, via: parentDeviceGuid, note: gateway -> child device}
+  - {from: DeviceTemplate, to: Command, type: has_many, via: deviceTemplateGuid on command schemas}
+  - {from: DeviceTemplate, to: Attribute, type: has_many, via: deviceTemplateGuid; parentTemplateAttributeGuid nests object attributes}
+  - {from: Device, to: DeviceCertificate, type: has_one, via: deviceCertificateGuid}
+  - {from: Firmware, to: DeviceTemplate, type: belongs_to, via: deviceTemplateGuid}
+  - {from: FirmwareUpgrade, to: Firmware, type: belongs_to, via: firmwareGuid}
+  - {from: OtaUpdateItem, to: FirmwareUpgrade, type: belongs_to, via: firmwareUpgradeGuid}
+  - {from: OtaUpdateItem, to: Device, type: belongs_to, via: deviceGuid}
+  - {from: EventSubscription, to: Event, type: belongs_to, via: eventGuid}
+  - {from: Event, to: EventTopic, type: belongs_to, via: eventTopicGuid}
+  - {from: EventSubscription, to: SeverityLevel, type: belongs_to, via: severityLevelGuid}
+  - {from: User, to: Invitation, type: has_one, via: invitationGuid}
+  - {from: Device, to: ReportingGroup, type: belongs_to, via: reportingGroupGuid}
+render: null

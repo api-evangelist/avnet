@@ -23,32 +23,405 @@ accessModel:
   source: []
   generated: '2026-07-22'
   method: derived
-modified: '2026-04-19'
-apis: []
+modified: '2026-09-18'
+apis:
+- name: Avnet API Portal (Procurement APIs)
+  description: 'Avnet''s distribution-business API programme, relaunched in June 2025 on a global Azure API Management
+    portal: real-time price and availability (getPriceAndQty), inventory and product information for the Avnet,
+    Avnet Abacus, Avnet Silica and EBV Elektronik trading companies. Access is per API Product by approved subscription
+    (Ocp-Apim-Subscription-Key) plus an OAuth 2.0 client-credentials bearer token; the product list and downloadable
+    API definitions are only visible after sign-in, so no machine-readable contract is publicly reachable.'
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Procurement
+  - Pricing
+  - Inventory
+  - Electronic Components
+  - Supply Chain
+  - Distribution
+  properties:
+  - type: Documentation
+    url: https://apiportal.avnet.com/help/HowTo
+  - type: FAQ
+    url: https://apiportal.avnet.com/help/FAQ
+  - type: APIReference
+    url: https://my.avnet.com/emea/resources/avnet-api/the-avnet-api-feed/
+  - type: SignUp
+    url: https://apiportal.avnet.com/signup
+  - type: Login
+    url: https://apiportal.avnet.com/signin
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: RateLimits
+    url: rate-limits/avnet-rate-limits.yml
+  - type: Plans
+    url: plans/avnet-plans-pricing.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT Master API
+  description: FAQs, country/state reference data and property types — the reference-data module behind the /IOTCONNECT
+    console. Part of Avnet's /IOTCONNECT IoT platform REST API (27 operations, API version 2); every request carries
+    a JWT bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per
+    module, environment and cloud platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  baseURL: https://master.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Cloud Platform
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-master-openapi.yml
+  - type: OpenAPI
+    url: https://master.iotconnect.io/api/v2/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: OpenAPI
+    url: https://masterconsole.iotconnect.io/api/v2.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-master-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT Authenticate API
+  description: Login with a solution-key header to obtain the JWT bearer token every other /IOTCONNECT module requires;
+    refresh, verify and mobile-login methods. Part of Avnet's /IOTCONNECT IoT platform REST API (5 operations, API
+    version 2); every request carries a JWT bearer token issued by the Authenticate API and the docs page serves
+    the live Swagger 2.0 definition per module, environment and cloud platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  baseURL: https://auth.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Cloud Platform
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-auth-openapi.yml
+  - type: OpenAPI
+    url: https://auth.iotconnect.io/api/v2/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: OpenAPI
+    url: https://authconsole.iotconnect.io/api/v2.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-auth-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT User API
+  description: Users, roles and the entity hierarchy that scopes devices and permissions inside an /IOTCONNECT tenant.
+    Part of Avnet's /IOTCONNECT IoT platform REST API (50 operations, API version 2); every request carries a JWT
+    bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module,
+    environment and cloud platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  baseURL: https://user.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Cloud Platform
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-user-openapi.yml
+  - type: OpenAPI
+    url: https://user.iotconnect.io/api/v2/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: OpenAPI
+    url: https://userconsole.iotconnect.io/api/v2.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-user-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT Device API
+  description: Device templates, attributes, commands, certificates, groups, rules, settings, direct methods, telemetry
+    export, Azure Device Update groups and deployments — the largest module (158 paths). Part of Avnet's /IOTCONNECT
+    IoT platform REST API (190 operations, API version 2); every request carries a JWT bearer token issued by the
+    Authenticate API and the docs page serves the live Swagger 2.0 definition per module, environment and cloud
+    platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  baseURL: https://device.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Cloud Platform
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-device-openapi.yml
+  - type: OpenAPI
+    url: https://device.iotconnect.io/api/v2/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: OpenAPI
+    url: https://deviceconsole.iotconnect.io/api/v2.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-device-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT Firmware API
+  description: Firmware packages, OTA upgrade scheduling and cancellation, module library and IoT Edge deployments.
+    Part of Avnet's /IOTCONNECT IoT platform REST API (40 operations, API version 2); every request carries a JWT
+    bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module,
+    environment and cloud platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  baseURL: https://firmware.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Firmware
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-firmware-openapi.yml
+  - type: OpenAPI
+    url: https://firmware.iotconnect.io/api/v2/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-firmware-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT Event API
+  description: Event topics, subscriptions and delivery methods (including webhook URL + headers), event templates,
+    user device registration and email send. Part of Avnet's /IOTCONNECT IoT platform REST API (23 operations, API
+    version 1.1); every request carries a JWT bearer token issued by the Authenticate API and the docs page serves
+    the live Swagger 2.0 definition per module, environment and cloud platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  baseURL: https://event.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Cloud Platform
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-event-openapi.yml
+  - type: OpenAPI
+    url: https://event.iotconnect.io/api/v1.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: OpenAPI
+    url: https://eventconsole.iotconnect.io/api/v2.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-event-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT Telemetry API
+  description: Device sensor data, telemetry history, attribute history and MQTT/STOMP reader credentials over HTTP(S).
+    Part of Avnet's /IOTCONNECT IoT platform REST API (15 operations, API version 2); every request carries a JWT
+    bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module,
+    environment and cloud platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  baseURL: https://telemetry.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Cloud Platform
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-telemetry-openapi.yml
+  - type: OpenAPI
+    url: https://telemetry.iotconnect.io/api/v2/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: OpenAPI
+    url: https://telemetryconsole.iotconnect.io/api/v2.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-telemetry-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+- name: Avnet /IOTCONNECT File API
+  description: Upload, update, delete and bulk-upload files and resolve file URLs used by device telemetry. Part
+    of Avnet's /IOTCONNECT IoT platform REST API (6 operations, API version 1.1); every request carries a JWT bearer
+    token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module, environment
+    and cloud platform (Azure or AWS).
+  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+  baseURL: https://file.iotconnect.io
+  tags:
+  - IoT
+  - Device Management
+  - Internet of Things
+  - Telemetry
+  - Cloud Platform
+  properties:
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+  - type: OpenAPI
+    url: openapi/avnet-iotconnect-file-openapi.yml
+  - type: OpenAPI
+    url: https://file.iotconnect.io/api/v1.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (Azure production)
+  - type: OpenAPI
+    url: https://fileconsole.iotconnect.io/api/v2.1/swagger-json
+    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Overlay
+    url: overlays/avnet-iotconnect-file-overlay.yaml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
 common:
 - type: DomainSecurity
   url: security/avnet-domain-security.yml
 - type: Website
   url: https://www.avnet.com
-- type: Portal
-  url: https://developer.avnet.com/
 - type: GitHubOrganization
   url: https://github.com/avnet
 - type: LinkedIn
   url: https://www.linkedin.com/company/avnet/
-description: >-
-  Avnet is a global technology distributor and solutions provider that delivers electronic components, embedded solutions, and design and supply chain services to industrial and commercial customers.
+- type: DeveloperPortal
+  url: https://apiportal.avnet.com/
+- type: Documentation
+  url: https://docs.iotconnect.io/iotconnect/rest-api/
+- type: APIReference
+  url: https://docs.iotconnect.io/iotconnect/rest-api/
+- type: GettingStarted
+  url: https://docs.iotconnect.io/iotconnect/quick-start/
+- type: FAQ
+  url: https://apiportal.avnet.com/help/FAQ
+- type: Support
+  url: https://apiportal.avnet.com/help/Support
+- type: SignUp
+  url: https://apiportal.avnet.com/signup
+- type: Login
+  url: https://apiportal.avnet.com/signin
+- type: TermsOfService
+  url: https://my.avnet.com/emea/about-us/legal
+- type: PrivacyPolicy
+  url: https://my.avnet.com/emea/about-us/privacy
+- type: GitHubOrganization
+  url: https://github.com/avnet-iotconnect
+- type: StatusPage
+  url: https://docs.iotconnect.io/iotconnect/platform/health/
+- type: ChangeLog
+  url: https://docs.iotconnect.io/iotconnect/platform/product-updates/
+- type: Authentication
+  url: authentication/avnet-authentication.yml
+- type: Conventions
+  url: conventions/avnet-conventions.yml
+- type: RateLimits
+  url: rate-limits/avnet-rate-limits.yml
+- type: Plans
+  url: plans/avnet-plans-pricing.yml
+- type: Lifecycle
+  url: lifecycle/avnet-lifecycle.yml
+- type: ChangeLog
+  url: changelog/avnet-changelog.yml
+- type: Conformance
+  url: conformance/avnet-conformance.yml
+- type: ErrorCatalog
+  url: errors/avnet-problem-types.yml
+- type: Packages
+  url: packages/avnet-packages.yml
+- type: SDKs
+  url: packages/avnet-packages.yml
+- type: CLI
+  url: cli/avnet-cli.yml
+- type: MCPServer
+  url: mcp/avnet-mcp.yml
+- type: Webhooks
+  url: asyncapi/avnet-iotconnect-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/avnet-llms.txt
+- type: DataModel
+  url: data-model/avnet-data-model.yml
+description: 'Avnet is a global technology distributor and solutions provider that delivers electronic components,
+  embedded solutions, and design and supply chain services to industrial and commercial customers. It publishes
+  two API surfaces: the Avnet API Portal (apiportal.avnet.com, launched June 2025) for procurement data such as
+  real-time price and availability across its Avnet, Abacus, Silica and EBV Elektronik trading companies, gated
+  behind per-product subscription approval; and the /IOTCONNECT IoT platform (iotconnect.io), whose eight REST modules
+  — master, authenticate, user, device, firmware, event, telemetry and file — serve live Swagger definitions and
+  ship first-party device and REST SDKs on GitHub and PyPI.'
 name: Avnet
 tags:
-  - Fortune 500
-  - Electronics
-  - Components
-  - Supply Chain
-  - IoT
-  - Manufacturing
+- Fortune 500
+- Electronics
+- Components
+- Supply Chain
+- IoT
+- Manufacturing
+- Distribution
+- Procurement
+- Device Management
+- Firmware
 created: '2026-01-01'
 type: Index
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-18'
+  status: enriched
+  artifacts_added: 49
+  pass: local-v3
