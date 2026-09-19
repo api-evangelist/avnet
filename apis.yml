@@ -68,6 +68,11 @@ apis:
   tags:
   - IoT
   - Device Management
+  - Telemetry
+  - Cloud Platform
+  tags_raw:
+  - IoT
+  - Device Management
   - Internet of Things
   - Telemetry
   - Cloud Platform
@@ -99,6 +104,11 @@ apis:
   humanURL: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
   baseURL: https://auth.iotconnect.io
   tags:
+  - IoT
+  - Device Management
+  - Telemetry
+  - Cloud Platform
+  tags_raw:
   - IoT
   - Device Management
   - Internet of Things
@@ -134,6 +144,11 @@ apis:
   tags:
   - IoT
   - Device Management
+  - Telemetry
+  - Cloud Platform
+  tags_raw:
+  - IoT
+  - Device Management
   - Internet of Things
   - Telemetry
   - Cloud Platform
@@ -166,6 +181,11 @@ apis:
   humanURL: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
   baseURL: https://device.iotconnect.io
   tags:
+  - IoT
+  - Device Management
+  - Telemetry
+  - Cloud Platform
+  tags_raw:
   - IoT
   - Device Management
   - Internet of Things
@@ -205,6 +225,11 @@ apis:
   tags:
   - IoT
   - Device Management
+  - Telemetry
+  - Firmware
+  tags_raw:
+  - IoT
+  - Device Management
   - Internet of Things
   - Telemetry
   - Firmware
@@ -235,6 +260,11 @@ apis:
   humanURL: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
   baseURL: https://event.iotconnect.io
   tags:
+  - IoT
+  - Device Management
+  - Telemetry
+  - Cloud Platform
+  tags_raw:
   - IoT
   - Device Management
   - Internet of Things
@@ -272,6 +302,11 @@ apis:
   tags:
   - IoT
   - Device Management
+  - Telemetry
+  - Cloud Platform
+  tags_raw:
+  - IoT
+  - Device Management
   - Internet of Things
   - Telemetry
   - Cloud Platform
@@ -303,6 +338,11 @@ apis:
   humanURL: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
   baseURL: https://file.iotconnect.io
   tags:
+  - IoT
+  - Device Management
+  - Telemetry
+  - Cloud Platform
+  tags_raw:
   - IoT
   - Device Management
   - Internet of Things
