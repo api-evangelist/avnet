@@ -1,7 +1,9 @@
 ---
 title: News & Press Releases | EBV Elektronik
 url: https://my.avnet.com/ebv/about-us/about-ebv-elektronik/newsroom/press-releases/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Avnet" press release artificial intelligence'
 position: 2
 source: serpapi-google
