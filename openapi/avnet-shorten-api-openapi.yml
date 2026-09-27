@@ -1,0 +1,53 @@
+openapi: 3.2.0
+info:
+  title: /IOTCONNECT™ Master Shorten API
+  description: 'Master REST API contains information of Dashboard, FAQ, Property (Custom Fields) Methods and other lockups data.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
+  version: '2.1'
+security:
+- Bearer: []
+tags:
+- name: Shorten
+paths:
+  /api/v2.1/Shorten:
+    get:
+      tags:
+      - Shorten
+      parameters:
+      - name: isSaasUrl
+        in: query
+        schema:
+          type: boolean
+      - name: isPublicUrl
+        in: query
+        schema:
+          type: boolean
+      - name: isPrivateUrl
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+      summary: Get api shorten
+      x-summary-source: derived
+      operationId: getApiV21Shorten
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header

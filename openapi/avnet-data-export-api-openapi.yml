@@ -1,0 +1,914 @@
+openapi: 3.2.0
+info:
+  title: Avnet Data Export API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged DataExport across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://device.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Data Export
+  description: Data export Api List
+paths:
+  /api/v2.1/data-export:
+    post:
+      tags:
+      - Data Export
+      summary: Export telemetry Data
+      description: This API endpoint allows you to export the device’s cosmos data history. The API endpoint implementation will export data in a file and send you a link to your email to download the exported file. For that, you need to specify the date range and export type. Export type can be Template, Entity, or Device.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the data export process started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamoExportHistoryResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            device or entity or template doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamoExportHistoryRequest'
+      operationId: postApiV21DataExport
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Data Export
+      summary: Get data export request list
+      description: 'This API endpoint will give you the data export requests list along with their status that whether they are successfully exported or not.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchtext
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: startDate asc, startDate desc, startDate'
+        schema:
+          type: string
+      - name: exportType
+        in: query
+        description: 'Export Type : 1 for Template, 2 for Entity and 3 for Device'
+        schema:
+          type: string
+      - name: deviceGuid
+        in: query
+        description: Device guid if <i>exportType</i> is 3
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the data export request list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamoExportHistoryListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid export type and invalid logged user or company.'
+      operationId: getApiV21DataExport
+      x-operation-id-source: derived
+  /api/v2/data-export:
+    post:
+      tags:
+      - Data Export
+      summary: Export telemetry Data
+      description: This API endpoint allows you to export the device’s cosmos data history. The API endpoint implementation will export data in a file and send you a link to your email to download the exported file. For that, you need to specify the date range and export type. Export type can be Template, Entity, or Device.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the data export process started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CosmosExportHistoryResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            device or entity or template doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CosmosExportHistoryRequest'
+      operationId: postApiV2DataExport
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Data Export
+      summary: Get data export request list
+      description: 'This API endpoint will give you the data export requests list along with their status that whether they are successfully exported or not.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchtext
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: startDate asc, startDate desc, startDate'
+        schema:
+          type: string
+      - name: exportType
+        in: query
+        description: 'Export Type : 1 for Template, 2 for Entity and 3 for Device'
+        schema:
+          type: string
+      - name: deviceGuid
+        in: query
+        description: Device guid if <i>exportType</i> is 3
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CosmosExportHistoryListResponse'
+      operationId: getApiV2DataExport
+      x-operation-id-source: derived
+  /api/v2/data-export/child:
+    post:
+      tags:
+      - Data Export
+      summary: Export child telemetry Data
+      description: This API endpoint allows you to export the device’s cosmos data history. The API endpoint implementation will export data in a file and send you a link to your email to download the exported file. For that, you need to specify the date range and export type. Export type can be Template, Entity, or Device.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the data export process started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CosmosExportChildHistoryResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            device or entity or template doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CosmosExportChildHistoryRequest'
+      operationId: postApiV2DataExportChild
+      x-operation-id-source: derived
+components:
+  schemas:
+    DynamoExportHistory:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    DynamoExportHistoryRequest:
+      required:
+      - exportType
+      - guids
+      - startDate
+      type: object
+      properties:
+        startDate:
+          minLength: 1
+          type: string
+          description: Start date format should be YYYY-MM-DD
+        endDate:
+          type: string
+        exportType:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          description: 'Export Type : 1 for Template, 2 for Entity and 3 for Device'
+          format: int32
+        guids:
+          type: array
+          items:
+            type: string
+          description: Guid list for selected export type. For example, if exportType is template then send template guid list.
+        dataExportName:
+          type: string
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DynamoExportHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DynamoExportHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DynamoExportHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DynamoExportHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DynamoExportHistoryList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        exportType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        startDate:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        endDate:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ruUsed:
+          type: integer
+          format: int32
+        charges:
+          type: number
+          format: double
+        status:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userId:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        requestData:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    CosmosExportHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CosmosExportHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CosmosExportHistoryList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        exportType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        startDate:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        endDate:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ruUsed:
+          type: integer
+          format: int32
+        charges:
+          type: number
+          format: double
+        status:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userId:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        requestData:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    CosmosExportChildHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CosmosExportHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CosmosExportChildHistoryRequest:
+      required:
+      - exportType
+      - guids
+      - startDate
+      type: object
+      properties:
+        startDate:
+          minLength: 1
+          type: string
+          description: Start date format should be YYYY-MM-DD
+        endDate:
+          type: string
+        exportType:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          description: 'Export Type : 1 for Template, 2 for Entity and 3 for Device'
+          format: int32
+        guids:
+          type: array
+          items:
+            type: string
+          description: Guid list for selected export type. For example, if exportType is template then send template guid list.
+      additionalProperties: false
+    CosmosExportHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CosmosExportHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CosmosExportHistory:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    CosmosExportHistoryRequest:
+      required:
+      - exportType
+      - guids
+      - startDate
+      type: object
+      properties:
+        startDate:
+          minLength: 1
+          type: string
+          description: Start date format should be YYYY-MM-DD
+        endDate:
+          type: string
+        exportType:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          description: 'Export Type : 1 for Template, 2 for Entity and 3 for Device'
+          format: int32
+        guids:
+          type: array
+          items:
+            type: string
+          description: Guid list for selected export type. For example, if exportType is template then send template guid list.
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-aws-prod-swagger.json
+- avnet-iotconnect-device-azure-prod-swagger.json
+- avnet-iotconnect-device-openapi.yml

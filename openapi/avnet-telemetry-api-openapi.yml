@@ -1,0 +1,3356 @@
+openapi: 3.2.0
+info:
+  title: Avnet Telemetry API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Telemetry across 4 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-telemetry-aws-prod-swagger.json, avnet-iotconnect-telemetry-azure-prod-swagger.json, avnet-iotconnect-telemetry-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://telemetry.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Telemetry
+  description: Telemetry Module Api List
+paths:
+  /api/v2.1/Telemetry/device/{deviceGuid}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get device sensor list
+      description: This API endpoint gives you the list of sensors/attributes associated with a device. For that, you need to send deviceGuid in request url. In response, attributeValue shows the latest sensor value received from a device.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device sensor detail list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceSensorDetailResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device not found and invalid logged user or company.'
+      operationId: getApiV21TelemetryDeviceByDeviceGuid
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/stomp-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get stomp reader information
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: type
+        in: query
+        description: type should be 'stomp' or 'ui-alert' or 'signalr', default value is 'stomp'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the stomp reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StompReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV21TelemetryStompReader
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/mqtt-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get mqtt reader information
+      description: This API endpoint gives you the information of the MQTT reader.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MqttReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV21TelemetryMqttReader
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/template:
+    post:
+      tags:
+      - Telemetry
+      summary: Get template data
+      description: 'This API endpoint provides you the list of devices associated with provided templates.
+
+
+        Here, you can send multiple templates under the template parameter. It gives you the list of all template devices. If you send attribute guid in attributes parameter, it provides you data for those attributes only for all template devices. Otherwise, it gives you all the attributes.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDetailByTemplateResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceDetailsByTemplateRequest'
+        description: Json object
+      operationId: postApiV21TelemetryTemplate
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/device-location:
+    post:
+      tags:
+      - Telemetry
+      summary: Get device location
+      description: This API endpoint helps you to get the longitude and latitude values for all devices associated with the provided template. Here, longitude and latitude are attribute guids.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that devices location received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceLocationResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Template attribute not found and Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+        description: Json object
+      operationId: postApiV21TelemetryDeviceLocation
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/{uniqueId}/mqtt-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get mqtt reader information for device
+      description: This API endpoint gives you the information of the MQTT reader.
+      parameters:
+      - name: uniqueId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device's mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MqttReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV21TelemetryByUniqueIdMqttReader
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/{uniqueId}/stomp-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get stomp reader information for device
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: device uniqueId
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type should be 'stomp' or 'ui-alert' or 'signalr', default value is 'stomp'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device's mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StompReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV21TelemetryByUniqueIdStompReader
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/{gateway}/{uniqueid}/mqtt-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get mqtt reader information for gateway child device
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: gateway
+        in: path
+        description: Gateway uniqueid
+        required: true
+        schema:
+          type: string
+      - name: uniqueid
+        in: path
+        description: Child device uniqueid
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device's mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryGatewayMqttReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV21TelemetryByGatewayByUniqueidMqttReader
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/{gateway}/{uniqueid}/stomp-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get stomp reader information for gateway child device
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: gateway
+        in: path
+        description: Gateway uniqueId
+        required: true
+        schema:
+          type: string
+      - name: uniqueid
+        in: path
+        description: Childdevice uniqueId
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type should be 'stomp' or 'ui-alert' or 'signalr', default value is 'stomp'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that child device stomp reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryGatewayStompReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV21TelemetryByGatewayByUniqueidStompReader
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/attribute-history/attribute/{attributeGuid}/device/{uniqueId}/from/{fromDate}/to/{toDate}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for single attribute
+      description: This API endpoint lets you access the historical data for your device sensors. For that, you need to send device unique id in uniqueId parameter and attribute/sensor name in attributeGuid parameter along with the fromDate and toDate.
+      parameters:
+      - name: attributeGuid
+        in: path
+        description: Enter Attribute Name when device message version in template is 2.0 or later (Eg. flowrate, gps.latitude) and enter AttributeGuid when device message version in template is 1.0
+        required: true
+        schema:
+          type: string
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: fromDate
+        in: path
+        description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      - name: continuationToken
+        in: query
+        description: Token for fetching next page of results
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the telemetry historical data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV21TelemetryAttributeHistoryAttributeByAttributeGuidDeviceByUniqueIdFromByFromDateToByToDate
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/attribute-history/device/{uniqueId}/from/{fromDate}/to/{toDate}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for all attributes
+      description: This API endpoint gives you the historical data for all device sensors. For that, you need to send device unique id in uniqueId parameter along with fromDate and toDate.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: fromDate
+        in: path
+        description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      - name: continuationToken
+        in: query
+        description: Token for fetching next page of results
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the telemetry historical data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDeviceHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV21TelemetryAttributeHistoryDeviceByUniqueIdFromByFromDateToByToDate
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/device/{uniqueId}/recent/{dataPoints}:
+    post:
+      tags:
+      - Telemetry
+      summary: Get recent data of device's attributes
+      description: This API endpoint gives you the recent N dataPoints data for a device. For that, you need to send device's unique id in uniqueId parameter along with number of dataPoints in dataPoints parameter request body.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: dataPoints
+        in: path
+        description: <i>dataPoints</i> should be numeric and should be in range of 10 to 500
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device attribute recent data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceAttributeRecentDataResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAttrRecentRequest'
+        description: <i>request</i> Json request containing childs'id and filter attributes
+      operationId: postApiV21TelemetryDeviceByUniqueIdRecentByDataPoints
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/history:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry history for multiple devices
+      description: This API endpoint gives you the telemetry history data for multiple devices. For that, you need to send the device unique id list along with date range in the request body.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the devices telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelemetryHistoryRequest'
+        description: Json object
+      operationId: postApiV21TelemetryHistory
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/device/{uniqueId}/attribute-history:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for all attributes
+      description: This API endpoint gives you the historical data for all device sensors. For that, you need to send device unique id in uniqueId parameter and request body along with fromDate, toDate, pageSize and continuationToken .
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeHistoryRequest'
+      operationId: postApiV21TelemetryDeviceByUniqueIdAttributeHistory
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/device/{uniqueId}/attribute-history/{attributeGuid}:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for single attribute
+      description: This API endpoint lets you access the historical data for your device sensors. For that, you need to send device unique id in uniqueId parameter and attribute/sensor name in attributeGuid parameter and request body along with fromDate, toDate, pageSize and continuationToken.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: attributeGuid
+        in: path
+        description: Enter Attribute Name when device message version in template is 2.0 or later (Eg. flowrate, gps.latitude) and enter AttributeGuid when device message version in template is 1.0
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeHistoryRequest'
+      operationId: postApiV21TelemetryDeviceByUniqueIdAttributeHistoryByAttributeGuid
+      x-operation-id-source: derived
+  /api/v2.1/Telemetry/device/{uniqueId}/history:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for all attributes (Non native SDK)
+      description: This API endpoint gives you the historical data for all device sensors. For that, you need to send device unique id in uniqueId parameter and request body along with fromDate, toDate, pageSize and continuationToken .
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryV2Request'
+      operationId: postApiV21TelemetryDeviceByUniqueIdHistory
+      x-operation-id-source: derived
+  /api/v2/Telemetry/device/{deviceGuid}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get device sensor list
+      description: This API endpoint gives you the list of sensors/attributes associated with a device. For that, you need to send deviceGuid in request url. In response, attributeValue shows the latest sensor value received from a device.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device sensor detail list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceSensorDetailResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device not found and invalid logged user or company.'
+      operationId: getApiV2TelemetryDeviceByDeviceGuid
+      x-operation-id-source: derived
+  /api/v2/Telemetry/stomp-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get stomp reader information
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: type
+        in: query
+        description: type should be 'stomp','ui-alert' or 'signalr', default value is 'stomp'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the stomp reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StompReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV2TelemetryStompReader
+      x-operation-id-source: derived
+  /api/v2/Telemetry/mqtt-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get mqtt reader information
+      description: This API endpoint gives you the information of the MQTT reader.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MqttReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV2TelemetryMqttReader
+      x-operation-id-source: derived
+  /api/v2/Telemetry/attribute-history/attribute/{attributeGuid}/device/{uniqueId}/from/{fromDate}/to/{toDate}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for single attribute
+      description: This API endpoint lets you access the historical data for your device sensors. For that, you need to send device unique id in uniqueId parameter and attribute/sensor name in attributeGuid parameter along with the fromDate and toDate.
+      parameters:
+      - name: attributeGuid
+        in: path
+        description: Enter Attribute Name
+        required: true
+        schema:
+          type: string
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: fromDate
+        in: path
+        description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the telemetry historical data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV2TelemetryAttributeHistoryAttributeByAttributeGuidDeviceByUniqueIdFromByFromDateToByToDate
+      x-operation-id-source: derived
+  /api/v2/Telemetry/attribute-history/device/{uniqueId}/from/{fromDate}/to/{toDate}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for all attributes
+      description: This API endpoint gives you the historical data for all device sensors. For that, you need to send device unique id in uniqueId parameter along with fromDate and toDate.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: fromDate
+        in: path
+        description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the telemetry historical data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDeviceHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV2TelemetryAttributeHistoryDeviceByUniqueIdFromByFromDateToByToDate
+      x-operation-id-source: derived
+  /api/v2/Telemetry/template:
+    post:
+      tags:
+      - Telemetry
+      summary: Get template data
+      description: 'This API endpoint provides you the list of devices associated with provided templates.
+
+
+        Here, you can send multiple templates under the template parameter. It gives you the list of all template devices. If you send attribute guid in attributes parameter, it provides you data for those attributes only for all template devices. Otherwise, it gives you all the attributes.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDetailByTemplateResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceDetailsByTemplateRequest_3'
+        description: Json object
+      operationId: postApiV2TelemetryTemplate
+      x-operation-id-source: derived
+  /api/v2/Telemetry/{uniqueId}/mqtt-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get mqtt reader information for device
+      description: This API endpoint gives you the information of the MQTT reader.
+      parameters:
+      - name: uniqueId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device's mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MqttReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV2TelemetryByUniqueIdMqttReader
+      x-operation-id-source: derived
+  /api/v2/Telemetry/{uniqueId}/stomp-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get stomp reader information for device
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: device uniqueId
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type should be 'stomp','ui-alert' or 'signalr', default value is 'stomp'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device's mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StompReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV2TelemetryByUniqueIdStompReader
+      x-operation-id-source: derived
+  /api/v2/Telemetry/{gateway}/{uniqueid}/mqtt-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get mqtt reader information for gateway child device
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: gateway
+        in: path
+        description: Gateway uniqueid
+        required: true
+        schema:
+          type: string
+      - name: uniqueid
+        in: path
+        description: Child device uniqueid
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device's mqtt reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryGatewayMqttReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV2TelemetryByGatewayByUniqueidMqttReader
+      x-operation-id-source: derived
+  /api/v2/Telemetry/{gateway}/{uniqueid}/stomp-reader:
+    get:
+      tags:
+      - Telemetry
+      summary: Get stomp reader information for gateway child device
+      description: This API endpoint provides you the information of stomp reader or an UI alert. For that, you need to send a stomp or UI alert in the query string parameter type.
+      parameters:
+      - name: gateway
+        in: path
+        description: Gateway uniqueId
+        required: true
+        schema:
+          type: string
+      - name: uniqueid
+        in: path
+        description: Childdevice uniqueId
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: type should be 'stomp','ui-alert' or 'signalr', default value is 'stomp'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that child device stomp reader information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryGatewayStompReaderResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device not found, device is not acquired and invalid logged user or company.'
+      operationId: getApiV2TelemetryByGatewayByUniqueidStompReader
+      x-operation-id-source: derived
+  /api/v2/Telemetry/device/{uniqueId}/recent/{dataPoints}:
+    post:
+      tags:
+      - Telemetry
+      summary: Get recent data of device's attributes
+      description: This API endpoint gives you the recent N dataPoints data for a device. For that, you need to send device's unique id in uniqueId parameter along with number of dataPoints in dataPoints parameter request body.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: dataPoints
+        in: path
+        description: <i>dataPoints</i> should be numeric and should be in range of 10 to 500
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device attribute recent data received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceAttributeRecentDataResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAttrRecentRequest_2'
+        description: <i>request</i> Json request containing childs'id and filter attributes
+      operationId: postApiV2TelemetryDeviceByUniqueIdRecentByDataPoints
+      x-operation-id-source: derived
+  /api/v2/Telemetry/history:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry history for multiple devices
+      description: This API endpoint gives you the telemetry history data for multiple devices. For that, you need to send the device unique id list along with date range in the request body.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the devices telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryHistoryResponse_2'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TelemetryHistoryRequest_2'
+        description: Json object
+      operationId: postApiV2TelemetryHistory
+      x-operation-id-source: derived
+  /api/v2/Telemetry/device/{uniqueId}/attribute-history:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for all attributes
+      description: This API endpoint gives you the historical data for all device sensors. For that, you need to send device unique id in uniqueId parameter and request body along with fromDate, toDate, pageSize and continuationToken .
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeHistoryRequest_2'
+      operationId: postApiV2TelemetryDeviceByUniqueIdAttributeHistory
+      x-operation-id-source: derived
+  /api/v2/Telemetry/device/{uniqueId}/attribute-history/{attributeGuid}:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for single attribute
+      description: This API endpoint lets you access the historical data for your device sensors. For that, you need to send device unique id in uniqueId parameter and attribute/sensor name in attributeGuid parameter and request body along with fromDate, toDate, pageSize and continuationToken.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      - name: attributeGuid
+        in: path
+        description: Enter Attribute Name when device message version in template is 2.0 or later (Eg. flowrate, gps.latitude) and enter AttributeGuid when device message version in template is 1.0
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeHistoryRequest_2'
+      operationId: postApiV2TelemetryDeviceByUniqueIdAttributeHistoryByAttributeGuid
+      x-operation-id-source: derived
+  /api/v2/Telemetry/device/{uniqueId}/history:
+    post:
+      tags:
+      - Telemetry
+      summary: Get telemetry historical data for all attributes (Non native SDK)
+      description: This API endpoint gives you the historical data for all device sensors. For that, you need to send device unique id in uniqueId parameter and request body along with fromDate, toDate, pageSize and continuationToken .
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device telemetry history received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeHistoryResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryV2Request_2'
+      operationId: postApiV2TelemetryDeviceByUniqueIdHistory
+      x-operation-id-source: derived
+components:
+  schemas:
+    TelemetryTemplate:
+      type: object
+      properties:
+        templateguid:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    DeviceDetailByTemplate:
+      type: object
+      properties:
+        deviceUniqueId:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type: boolean
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        attributes:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    DeviceLocationResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceLocation'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TelemetryGatewayStompReaderResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StompReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceLocation:
+      type: object
+      properties:
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        latitude:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        latitudeName:
+          type:
+          - string
+          - 'null'
+        latitudeValue:
+          type:
+          - string
+          - 'null'
+        longitude:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        longitudeName:
+          type:
+          - string
+          - 'null'
+        longitudeValue:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceSensorDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceSensorDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    StompReaderResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StompReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceDetailByTemplateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceDetailByTemplate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TelemetryGatewayMqttReaderResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StompReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    DeviceSensorDetail:
+      type: object
+      properties:
+        templateAttributeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        attributeName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        attributeValue:
+          type:
+          - string
+          - 'null'
+        deviceUpdatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        notificationCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        aggregateType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        DataType:
+          type:
+          - string
+          - 'null'
+        aggregateTypeValues:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        attributeColor:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    StompReaderData:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    MqttReaderResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StompReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    DeviceDetailsByTemplateRequest:
+      type: object
+      properties:
+        template:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TelemetryTemplate'
+          description: Template list
+      additionalProperties: false
+    Template:
+      type: object
+      properties:
+        templateguid:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    AttributeDeviceHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AttributeHistoryRequest:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        childUniqueId:
+          type:
+          - string
+          - 'null'
+          description: Child device uniqueId
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: ContinuationToken to get next page records
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: attributes for filter
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: "Page size, default page size is 10000 \nMax Page size value is 10000"
+          format: int32
+        isCpIdOptional:
+          type: boolean
+      additionalProperties: false
+    DeviceDetailsByTemplateRequest_2:
+      type: object
+      properties:
+        template:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Template'
+      additionalProperties: false
+    DeviceAttrRecentRequest:
+      type: object
+      properties:
+        childUniqueId:
+          type:
+          - string
+          - 'null'
+        filterAttrs:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    HistoryV2Request:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        attributeName:
+          type:
+          - string
+          - 'null'
+          description: Enter Attribute Name when device message version in template is 2.0 or later (Eg. flowrate, gps.latitude) and enter AttributeGuid when device message version in template is 1.0 if you want to get data for specific attribute or not required to pass attributeGuid for get all attribute history
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: ContinuationToken to get next page records
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: 'Page size, default page size is 10000
+
+            Max Page size value is 10000'
+          format: int32
+      additionalProperties: false
+    TelemetryHistoryRequest:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        uniqueIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device Unique Id
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC date and date format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC date and date format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: Token to get next page records
+      additionalProperties: false
+    TelemetryHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AttributeHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceAttributeRecentDataResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Template_2:
+      type: object
+      properties:
+        templateguid:
+          type:
+          - string
+          - 'null'
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AttributeHistoryRequest_2:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: ContinuationToken to get next page records
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: "Page size, default page size is 10000 \nMax Page size value is 10000"
+          format: int32
+        sortOrder:
+          type:
+          - string
+          - 'null'
+          description: SortOrder for order by
+      additionalProperties: false
+    DeviceDetailsByTemplateRequest_3:
+      type: object
+      properties:
+        template:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Template_2'
+      additionalProperties: false
+    DeviceAttrRecentRequest_2:
+      type: object
+      properties:
+        childUniqueId:
+          type:
+          - string
+          - 'null'
+        filterAttrs:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sortOrder:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    HistoryV2Request_2:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        attributeName:
+          type:
+          - string
+          - 'null'
+          description: Enter Attribute Name when device message version in template is 2.0 or later (Eg. flowrate, gps.latitude) and enter AttributeGuid when device message version in template is 1.0 if you want to get data for specific attribute or not required to pass attributeGuid for get all attribute history
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: ContinuationToken to get next page records
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: 'Page size, default page size is 10000
+
+            Max Page size value is 10000'
+          format: int32
+        sortOrder:
+          type:
+          - string
+          - 'null'
+          description: Sort order for the results, either "asc" or "desc"
+      additionalProperties: false
+    TelemetryHistoryRequest_2:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        uniqueIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device Unique Id
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC date and date format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC date and date format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        messageVersion:
+          type:
+          - string
+          - 'null'
+          description: 'Device message version. Valid message versions are : ''2.0'', ''2.1''. Default value is ''2.0'''
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: Token to get next page records
+        sortOrder:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TelemetryHistoryResponse_2:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TelemetryHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TelemetryHistory:
+      type: object
+      properties:
+        feed:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+        continuationToken:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceSensorDetail_2:
+      type: object
+      properties:
+        templateAttributeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        attributeName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        attributeValue:
+          type:
+          - string
+          - 'null'
+        deviceUpdatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        notificationCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        aggregateType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        DataType:
+          type:
+          - string
+          - 'null'
+        aggregateTypeValues:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        attributeColor:
+          type:
+          - string
+          - 'null'
+        gatewayUpdatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    StompReaderData_2:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Template_3:
+      type: object
+      properties:
+        templateguid:
+          type:
+          - string
+          - 'null'
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AttributeHistoryRequest_3:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: ContinuationToken to get next page records
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: "Page size, default page size is 10000 \nMax Page size value is 10000"
+          format: int32
+        sortOrder:
+          type:
+          - string
+          - 'null'
+          description: SortOrder for order by
+      additionalProperties: false
+    DeviceDetailsByTemplateRequest_4:
+      type: object
+      properties:
+        template:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Template_3'
+      additionalProperties: false
+    DeviceAttrRecentRequest_3:
+      type: object
+      properties:
+        childUniqueId:
+          type:
+          - string
+          - 'null'
+        filterAttrs:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sortOrder:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    HistoryV2Request_3:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        attributeName:
+          type:
+          - string
+          - 'null'
+          description: Enter Attribute Name when device message version in template is 2.0 or later (Eg. flowrate, gps.latitude) and enter AttributeGuid when device message version in template is 1.0 if you want to get data for specific attribute or not required to pass attributeGuid for get all attribute history
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC and format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: ContinuationToken to get next page records
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: 'Page size, default page size is 10000
+
+            Max Page size value is 10000'
+          format: int32
+        sortOrder:
+          type:
+          - string
+          - 'null'
+          description: Sort order for the results, either "asc" or "desc"
+      additionalProperties: false
+    TelemetryHistoryRequest_3:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        uniqueIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device Unique Id
+        fromDate:
+          minLength: 1
+          type: string
+          description: From date should be UTC date and date format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        toDate:
+          minLength: 1
+          type: string
+          description: To date should be UTC date and date format should be YYYY-MM-DD or YYYY-MM-DD HH:mm:ss
+        messageVersion:
+          type:
+          - string
+          - 'null'
+          description: 'Device message version. Valid message versions are : ''2.0'', ''2.1''. Default value is ''2.0'''
+        continuationToken:
+          type:
+          - string
+          - 'null'
+          description: Token to get next page records
+        sortOrder:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TelemetryHistoryResponse_3:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TelemetryHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceSensorDetail_3:
+      type: object
+      properties:
+        templateAttributeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        attributeName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        attributeValue:
+          type:
+          - string
+          - 'null'
+        deviceUpdatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        notificationCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        aggregateType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        DataType:
+          type:
+          - string
+          - 'null'
+        aggregateTypeValues:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        attributeColor:
+          type:
+          - string
+          - 'null'
+        gatewayUpdatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    StompReaderData_3:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  requestBodies:
+    AttributeHistoryRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AttributeHistoryRequest_3'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-aws-prod-swagger.json
+- avnet-iotconnect-telemetry-aws-prod-swagger.json
+- avnet-iotconnect-telemetry-azure-prod-swagger.json
+- avnet-iotconnect-telemetry-openapi.yml

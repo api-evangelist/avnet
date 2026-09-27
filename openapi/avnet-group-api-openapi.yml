@@ -1,0 +1,3371 @@
+openapi: 3.2.0
+info:
+  title: Avnet Group API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Group across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://device.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Group
+  description: Group Api List
+paths:
+  /api/v2.1/Group/types:
+    get:
+      tags:
+      - Group
+      summary: Get group type list
+      description: This API endpoint provides you the list of available group types along with their active status.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group type list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupTypeListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21GroupTypes
+      x-operation-id-source: derived
+  /api/v2.1/Group:
+    post:
+      tags:
+      - Group
+      summary: Add new group
+      description: This API endpoint allows you to create a new group. Groups can be of devices or users. You can also add devices and users in the same group. For creating a group, you just need to mention a group name.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group created successfully and returns created group guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group name already exists and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreateRequest'
+        description: Json object
+      operationId: postApiV21Group
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Group
+      summary: Get group list
+      description: 'This API endpoint provides you the list of available groups along with their active status as well as devices count and users count.
+
+
+        You can also add filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: name asc, name desc, name'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21Group
+      x-operation-id-source: derived
+  /api/v2.1/Group/{groupGuid}:
+    put:
+      tags:
+      - Group
+      summary: Update group name / Sphere group details
+      description: This API endpoint allows you to update the group name or sphere group details. For that, you need to send groupGuid in request url and group name in the request body.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exists, group name already exists and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateRequest'
+        description: Json object
+      operationId: putApiV21GroupByGroupGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Group
+      summary: Delete a group
+      description: This API endpoint allows you to delete a group. For that, you need to send groupGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exists and invalid logged user or company.'
+      operationId: deleteApiV21GroupByGroupGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Group
+      summary: Get group detail
+      description: This API endpoint provides you all the available details of a group. For that, you need to send groupGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupGetResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21GroupByGroupGuid
+      x-operation-id-source: derived
+  /api/v2.1/Group/lookup:
+    get:
+      tags:
+      - Group
+      summary: Get group lookup list
+      description: This API endpoint provides you the lookup list of available group along with their active status.
+      parameters:
+      - name: type
+        in: query
+        description: Group type filter
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLookupResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21GroupLookup
+      x-operation-id-source: derived
+  /api/v2.1/Group/device:
+    post:
+      tags:
+      - Group
+      summary: Add devices in a group
+      description: This API endpoint allows you to add multiple devices in a group. For that, you need to send groupGuid with deviceGuid list in the request body.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device added in group successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeviceCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, device doesn''t exist, device already exists in group and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupDeviceCreateRequest'
+        description: Json object
+      operationId: postApiV21GroupDevice
+      x-operation-id-source: derived
+  /api/v2.1/Group/{groupGuid}/device/{deviceGuid}:
+    delete:
+      tags:
+      - Group
+      summary: Delete a device from a group
+      description: This API endpoint allows you to delete a device from the group. For that, you need to send groupGuid along with deviceGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device deleted from group successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeviceDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, device doesn''t exist and invalid logged user or company.'
+      operationId: deleteApiV21GroupByGroupGuidDeviceByDeviceGuid
+      x-operation-id-source: derived
+  /api/v2.1/Group/{groupGuid}/device:
+    get:
+      tags:
+      - Group
+      summary: Get device list for a group
+      description: 'This API endpoint gives you the list of available devices in a group. For that, you need to send groupGuid in request url.
+
+
+        You can also add filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: uniqueId asc, uniqueId desc, uniqueId'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's device list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeviceListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21GroupByGroupGuidDevice
+      x-operation-id-source: derived
+  /api/v2.1/Group/user:
+    post:
+      tags:
+      - Group
+      summary: Add users in a group
+      description: This API endpoint allows you to add multiple users to your group. For that, you need to send groupGuid with userGuid list with their permissions in the request body.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUserCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, user doesn''t exist, user already exists in group and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUserCreateRequest'
+        description: Json Object
+      operationId: postApiV21GroupUser
+      x-operation-id-source: derived
+  /api/v2.1/Group/{groupGuid}/user/{userGuid}:
+    put:
+      tags:
+      - Group
+      summary: Update user permission in a group
+      description: This API endpoint allows you to change user’s permissions in your group. For that, you need to send groupGuid along with userGuid in request url and permissions in the request body.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userGuid
+        in: path
+        description: User Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUserUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, user doesn''t exist, user already exists in group and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUserUpdateRequest'
+        description: Json Object
+      operationId: putApiV21GroupByGroupGuidUserByUserGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Group
+      summary: Delete a user from a group
+      description: This API endpoint allows you to delete a user from the group. For that, you need to send groupGuid along with userGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userGuid
+        in: path
+        description: User Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUserDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, user doesn''t exist and invalid logged user or company.'
+      operationId: deleteApiV21GroupByGroupGuidUserByUserGuid
+      x-operation-id-source: derived
+  /api/v2.1/Group/{groupGuid}/user:
+    get:
+      tags:
+      - Group
+      summary: Get user list for a group
+      description: 'This API endpoint will give you the list of available users in a group. For that, you need to send groupGuid in request url.
+
+
+        You can also add filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: name asc, name desc, name'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsersListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21GroupByGroupGuidUser
+      x-operation-id-source: derived
+  /api/v2.1/Group/template/{templateGuid}/target/{target}:
+    get:
+      tags:
+      - Group
+      summary: Get entity group by target
+      description: This API endpoint allows EntityGroupByTarget functionality.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: target
+        in: path
+        description: filter by target group
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the EntityGroupByTarget request completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityGroupByTargetResponse'
+      operationId: getApiV21GroupTemplateByTemplateGuidTargetByTarget
+      x-operation-id-source: derived
+  /api/v2/Group/types:
+    get:
+      tags:
+      - Group
+      summary: Get group type list
+      description: This API endpoint provides you the list of available group types along with their active status.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group type list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupTypeListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2GroupTypes
+      x-operation-id-source: derived
+  /api/v2/Group:
+    post:
+      tags:
+      - Group
+      summary: Add new group
+      description: This API endpoint allows you to create a new group. Groups can be of devices or users. You can also add devices and users in the same group. For creating a group, you just need to mention a group name.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group created successfully and returns created group guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group name already exists and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreateRequest_2'
+        description: Json object
+      operationId: postApiV2Group
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Group
+      summary: Get group list
+      description: 'This API endpoint provides you the list of available groups along with their active status as well as devices count and users count.
+
+
+        You can also add filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: name asc, name desc, name'
+        schema:
+          type: string
+      - name: isSphere
+        in: query
+        description: To filter sphere device group only
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2Group
+      x-operation-id-source: derived
+  /api/v2/Group/{groupGuid}:
+    put:
+      tags:
+      - Group
+      summary: Update group name / Sphere group details
+      description: This API endpoint allows you to update the group name or sphere group details. For that, you need to send groupGuid in request url and group name in the request body.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exists, group name already exists and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateRequest_2'
+        description: Json object
+      operationId: putApiV2GroupByGroupGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Group
+      summary: Delete a group
+      description: This API endpoint allows you to delete a group. For that, you need to send groupGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exists and invalid logged user or company.'
+      operationId: deleteApiV2GroupByGroupGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Group
+      summary: Get group detail
+      description: This API endpoint provides you all the available details of a group. For that, you need to send groupGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupGetResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist and invalid logged user or company.'
+      operationId: getApiV2GroupByGroupGuid
+      x-operation-id-source: derived
+  /api/v2/Group/lookup:
+    get:
+      tags:
+      - Group
+      summary: Get group lookup list
+      description: This API endpoint provides you the lookup list of available group along with their active status.
+      parameters:
+      - name: type
+        in: query
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLookupResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2GroupLookup
+      x-operation-id-source: derived
+  /api/v2/Group/device:
+    post:
+      tags:
+      - Group
+      summary: Add devices in a group
+      description: This API endpoint allows you to add multiple devices in a group. For that, you need to send groupGuid with deviceGuid list in the request body.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device added in group successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeviceCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, device doesn''t exist, device already exists in group and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupDeviceCreateRequest'
+        description: Json object
+      operationId: postApiV2GroupDevice
+      x-operation-id-source: derived
+  /api/v2/Group/{groupGuid}/device/{deviceGuid}:
+    delete:
+      tags:
+      - Group
+      summary: Delete a device from a group
+      description: This API endpoint allows you to delete a device from the group. For that, you need to send groupGuid along with deviceGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device deleted from group successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeviceDeleteResponse_2'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, device doesn''t exist and invalid logged user or company.'
+      operationId: deleteApiV2GroupByGroupGuidDeviceByDeviceGuid
+      x-operation-id-source: derived
+  /api/v2/Group/{groupGuid}/device:
+    get:
+      tags:
+      - Group
+      summary: Get device list for a group
+      description: 'This API endpoint gives you the list of available devices in a group. For that, you need to send groupGuid in request url.
+
+
+        You can also add filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: uniqueId asc, uniqueId desc, uniqueId'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's device list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDeviceListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist and invalid logged user or company.'
+      operationId: getApiV2GroupByGroupGuidDevice
+      x-operation-id-source: derived
+  /api/v2/Group/user:
+    post:
+      tags:
+      - Group
+      summary: Add users in a group
+      description: This API endpoint allows you to add multiple users to your group. For that, you need to send groupGuid with userGuid list with their permissions in the request body.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUserCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, user doesn''t exist, user already exists in group and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUserCreateRequest_2'
+        description: Json Object
+      operationId: postApiV2GroupUser
+      x-operation-id-source: derived
+  /api/v2/Group/{groupGuid}/user/{userGuid}:
+    put:
+      tags:
+      - Group
+      summary: Update user permission in a group
+      description: This API endpoint allows you to change user’s permissions in your group. For that, you need to send groupGuid along with userGuid in request url and permissions in the request body.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userGuid
+        in: path
+        description: User Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUserUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, user doesn''t exist, user already exists in group and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUserUpdateRequest_2'
+        description: Json Object
+      operationId: putApiV2GroupByGroupGuidUserByUserGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Group
+      summary: Delete a user from a group
+      description: This API endpoint allows you to delete a user from the group. For that, you need to send groupGuid along with userGuid in request url.
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userGuid
+        in: path
+        description: User Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUserDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist, user doesn''t exist and invalid logged user or company.'
+      operationId: deleteApiV2GroupByGroupGuidUserByUserGuid
+      x-operation-id-source: derived
+  /api/v2/Group/{groupGuid}/user:
+    get:
+      tags:
+      - Group
+      summary: Get user list for a group
+      description: 'This API endpoint will give you the list of available users in a group. For that, you need to send groupGuid in request url.
+
+
+        You can also add filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: groupGuid
+        in: path
+        description: Group Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: name asc, name desc, name'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that group's user permission deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsersListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Group doesn''t exist and invalid logged user or company.'
+      operationId: getApiV2GroupByGroupGuidUser
+      x-operation-id-source: derived
+components:
+  schemas:
+    GroupUser:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        permission:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    GroupUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupUserCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityGroupByTarget:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        ggDeviceCnt:
+          type: integer
+          format: int32
+        deviceUniqueIds:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupDevice:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    GroupTypeListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupTypeList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupGetResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupGet'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupDeviceDeleteData:
+      type: object
+      properties:
+        deviceUniqueId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupDeviceCreateRequest:
+      required:
+      - deviceGuids
+      - groupGuid
+      type: object
+      properties:
+        groupGuid:
+          minLength: 1
+          type: string
+          description: Group Guid
+        deviceGuids:
+          type: array
+          items:
+            type: string
+          description: Device Guid List
+      additionalProperties: false
+    GroupDeviceCreate:
+      type: object
+      properties:
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/StatusModel'
+        success:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/StatusModel'
+      additionalProperties: false
+    GroupUserUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupCreateRequest:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+          description: Group Type Guid.
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+    GroupList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        devices:
+          type: integer
+          format: int32
+        users:
+          type: integer
+          format: int32
+      additionalProperties: false
+    GroupGet:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    GroupDeviceDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupDeviceDeleteData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupUsersListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupUser'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupDeviceListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupDevice'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupUserUpdateRequest:
+      required:
+      - permission
+      type: object
+      properties:
+        permission:
+          type: object
+          additionalProperties:
+            type: object
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    GroupLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityGroupByTargetResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityGroupByTarget'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupUserDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupUserCreateRequest:
+      required:
+      - groupGuid
+      - permission
+      - userGuids
+      type: object
+      properties:
+        groupGuid:
+          minLength: 1
+          type: string
+          description: Group guid
+        userGuids:
+          type: array
+          items:
+            type: string
+          description: User guid list
+        permission:
+          type: object
+          additionalProperties:
+            type: object
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    GroupUpdateRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+    GroupTypeList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    StatusModel:
+      type: object
+      properties:
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        statusMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupDeviceCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupDeviceCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SphereDeviceGroupListModel:
+      type: object
+      properties:
+        desc:
+          type:
+          - string
+          - 'null'
+        osFeedType:
+          type:
+          - string
+          - 'null'
+        updatePolicy:
+          type:
+          - string
+          - 'null'
+        productName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupCreateRequest_2:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+          description: Group Type Guid.
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupModel'
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+    GroupList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        devices:
+          type: integer
+          format: int32
+        users:
+          type: integer
+          format: int32
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupListModel'
+      additionalProperties: false
+    GroupGet_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupModel'
+      additionalProperties: false
+    GroupDeviceDeleteResponse_2:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SphereDeviceGroupModel:
+      type: object
+      properties:
+        desc:
+          type:
+          - string
+          - 'null'
+        osFeedType:
+          enum:
+          - 0
+          - 1
+          type: integer
+          format: int32
+        updatePolicy:
+          enum:
+          - 0
+          - 1
+          - 2
+          type: integer
+          format: int32
+        productId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    GroupUserUpdateRequest_2:
+      required:
+      - permission
+      type: object
+      properties:
+        permission:
+          type: object
+          additionalProperties:
+            type:
+            - object
+            - 'null'
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    GroupUserCreateRequest_2:
+      required:
+      - groupGuid
+      - permission
+      - userGuids
+      type: object
+      properties:
+        groupGuid:
+          minLength: 1
+          type: string
+          description: Group guid
+        userGuids:
+          type: array
+          items:
+            type: string
+          description: User guid list
+        permission:
+          type: object
+          additionalProperties:
+            type:
+            - object
+            - 'null'
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    GroupUpdateRequest_2:
+      required:
+      - name
+      type: object
+      properties:
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupModel'
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+    GroupCreateRequest_3:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+          description: Group Type Guid.
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupModel'
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+    GroupList_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        devices:
+          type: integer
+          format: int32
+        users:
+          type: integer
+          format: int32
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupListModel'
+      additionalProperties: false
+    GroupGet_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupModel'
+      additionalProperties: false
+    GroupDeviceDeleteResponse_3:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupUserUpdateRequest_3:
+      required:
+      - permission
+      type: object
+      properties:
+        permission:
+          type: object
+          additionalProperties:
+            type:
+            - object
+            - 'null'
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    GroupUserCreateRequest_3:
+      required:
+      - groupGuid
+      - permission
+      - userGuids
+      type: object
+      properties:
+        groupGuid:
+          minLength: 1
+          type: string
+          description: Group guid
+        userGuids:
+          type: array
+          items:
+            type: string
+          description: User guid list
+        permission:
+          type: object
+          additionalProperties:
+            type:
+            - object
+            - 'null'
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    GroupUpdateRequest_3:
+      required:
+      - name
+      type: object
+      properties:
+        sphereGroup:
+          $ref: '#/components/schemas/SphereDeviceGroupModel'
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-aws-prod-swagger.json
+- avnet-iotconnect-device-azure-prod-swagger.json
+- avnet-iotconnect-device-openapi.yml

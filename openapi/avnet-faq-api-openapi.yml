@@ -1,0 +1,1228 @@
+openapi: 3.2.0
+info:
+  title: Avnet Faq API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Faq across 3 of this provider''s published API definitions: avnet-iotconnect-master-aws-prod-swagger.json, avnet-iotconnect-master-azure-prod-swagger.json, avnet-iotconnect-master-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://master.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: FAQ
+  description: FAQ Api List
+paths:
+  /api/v2.1/Faq:
+    get:
+      tags:
+      - FAQ
+      summary: Get FAQ list
+      description: 'This API endpoint provides you the list of available FAQs.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: Page Number
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: Page Size
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: Search Text
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: Sort by name and order/ex:name asc
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ list is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is invalid etc.'
+      operationId: getApiV21Faq
+      x-operation-id-source: derived
+    post:
+      tags:
+      - FAQ
+      summary: Add new FAQ
+      description: Add new frequently asked questions using this API endpoint. For that, you need to send questions and answers in the request body.
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ is created successfully and returns created FAQ id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, User is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqCreateRequest'
+        description: Json object
+      operationId: postApiV21Faq
+      x-operation-id-source: derived
+  /api/v2.1/Faq/{faqGuid}/sequence:
+    put:
+      tags:
+      - FAQ
+      summary: Update FAQ sequence
+      description: Update the display sequence of a frequently asked question using this API endpoint. For that, you need to send faqGuid in request url along with a new display sequence in the request body.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ sequence is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqSequenceUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, User is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqSequenceUpdateRequest'
+        description: Json object
+      operationId: putApiV21FaqByFaqGuidSequence
+      x-operation-id-source: derived
+  /api/v2.1/Faq/{faqGuid}:
+    delete:
+      tags:
+      - FAQ
+      summary: Delete FAQ
+      description: Delete a frequently asked question using this API endpoint. For that, you need to send faqGuid in request url.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, User is not valid etc.'
+      operationId: deleteApiV21FaqByFaqGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - FAQ
+      summary: Get single FAQ detail
+      description: This API endpoint provides you a detailed description of a single FAQ. For that, you need to send faqGuid in request url.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ detail is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqDetailResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, Logged in user is invalid etc.'
+      operationId: getApiV21FaqByFaqGuid
+      x-operation-id-source: derived
+    put:
+      tags:
+      - FAQ
+      summary: Update FAQ
+      description: This API endpoint allows you to update a frequently asked question. For that, you need to send faqGuid in request url along with update details in the request body.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, User is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqUpdateRequest'
+        description: Json object
+      operationId: putApiV21FaqByFaqGuid
+      x-operation-id-source: derived
+  /api/v2/Faq:
+    get:
+      tags:
+      - FAQ
+      summary: Get FAQ list
+      description: 'This API endpoint provides you the list of available FAQs.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: Page Number
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: Page Size
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: Search Text
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: Sort by name and order/ex:name asc
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ list is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is invalid etc.'
+      operationId: getApiV2Faq
+      x-operation-id-source: derived
+    post:
+      tags:
+      - FAQ
+      summary: Add new FAQ
+      description: Add new frequently asked questions using this API endpoint. For that, you need to send questions and answers in the request body.
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ is created successfully and returns created FAQ id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, User is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqCreateRequest'
+        description: Json object
+      operationId: postApiV2Faq
+      x-operation-id-source: derived
+  /api/v2/Faq/{faqGuid}/sequence:
+    put:
+      tags:
+      - FAQ
+      summary: Update FAQ sequence
+      description: Update the display sequence of a frequently asked question using this API endpoint. For that, you need to send faqGuid in request url along with a new display sequence in the request body.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ sequence is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqSequenceUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, User is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqSequenceUpdateRequest'
+        description: Json object
+      operationId: putApiV2FaqByFaqGuidSequence
+      x-operation-id-source: derived
+  /api/v2/Faq/{faqGuid}:
+    delete:
+      tags:
+      - FAQ
+      summary: Delete FAQ
+      description: Delete a frequently asked question using this API endpoint. For that, you need to send faqGuid in request url.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, User is not valid etc.'
+      operationId: deleteApiV2FaqByFaqGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - FAQ
+      summary: Get single FAQ detail
+      description: This API endpoint provides you a detailed description of a single FAQ. For that, you need to send faqGuid in request url.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ detail is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqDetailResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, Logged in user is invalid etc.'
+      operationId: getApiV2FaqByFaqGuid
+      x-operation-id-source: derived
+    put:
+      tags:
+      - FAQ
+      summary: Update FAQ
+      description: This API endpoint allows you to update a frequently asked question. For that, you need to send faqGuid in request url along with update details in the request body.
+      parameters:
+      - name: faqGuid
+        in: path
+        description: FAQ Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that FAQ is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FaqUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            FAQ doesn''t exist, Company doesn''t exist, User is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FaqUpdateRequest'
+        description: Json object
+      operationId: putApiV2FaqByFaqGuid
+      x-operation-id-source: derived
+components:
+  schemas:
+    FaqUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FaqCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FaqCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FaqDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FaqDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FaqUpdateRequest:
+      required:
+      - answer
+      - question
+      - sequence
+      type: object
+      properties:
+        sequence:
+          minLength: 1
+          type: string
+          description: FAQ Sequence
+        question:
+          minLength: 1
+          type: string
+          description: FAQ Question
+        answer:
+          minLength: 1
+          type: string
+          description: FAQ Answer
+      additionalProperties: false
+    FaqDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FaqListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Faq'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FaqSequenceUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FaqCreateRequest:
+      required:
+      - answer
+      - question
+      type: object
+      properties:
+        question:
+          minLength: 1
+          type: string
+          description: FAQ Question
+        answer:
+          minLength: 1
+          type: string
+          description: FAQ Answer
+      additionalProperties: false
+    FaqDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        question:
+          type:
+          - string
+          - 'null'
+        answer:
+          type:
+          - string
+          - 'null'
+        sequence:
+          type: integer
+          format: int64
+      additionalProperties: false
+    Faq:
+      type: object
+      properties:
+        faqGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        question:
+          type:
+          - string
+          - 'null'
+        answer:
+          type:
+          - string
+          - 'null'
+        sequence:
+          type: integer
+          format: int64
+        createdDate:
+          type: string
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedByName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FaqSequenceUpdateRequest:
+      required:
+      - newSequence
+      type: object
+      properties:
+        newSequence:
+          type: integer
+          description: New FAQ Sequence
+          format: int64
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    FaqCreate:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-master-aws-prod-swagger.json
+- avnet-iotconnect-master-azure-prod-swagger.json
+- avnet-iotconnect-master-openapi.yml

@@ -1,0 +1,5653 @@
+openapi: 3.2.0
+info:
+  title: Avnet Command API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Command across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://device.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Command
+  description: Command Api List
+paths:
+  /api/v2.1/template-command:
+    post:
+      tags:
+      - Command
+      summary: Add new template command
+      description: 'Commands are used to manage a device remotely. You can add multiple commands to your device template. You can use commands to run a command on the device remotely, instantly, from IoTConnect.
+
+
+        This API endpoint allows you to create device template commands. These commands will be defined in your device template and will be a part of your device template. A template can have one or more commands.
+
+
+        Here, name and command are mandatory for any template command.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command created successfully and returns created template command guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandCreateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist, command already exists, tag is required for gateway template, invalid tag and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandCreateRequest'
+        description: Json object
+      operationId: postApiV21TemplateCommand
+      x-operation-id-source: derived
+  /api/v2.1/template-command/{commandGuid}:
+    put:
+      tags:
+      - Command
+      summary: Update template command
+      description: This API endpoint lets you update a command. For that, you need to send commandGuid in request url and command update details in the request body.
+      parameters:
+      - name: commandGuid
+        in: path
+        description: Template Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist, command not found, command already exists, tag is required for gateway template, invalid tag and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandUpdateRequest'
+        description: Json object
+      operationId: putApiV21TemplateCommandByCommandGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Command
+      summary: Delete a command
+      description: This API endpoint allows you to delete a command. For that, you need to send commandGuid in request url.
+      parameters:
+      - name: commandGuid
+        in: path
+        description: Template Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandDeleteResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist, command not found and invalid logged user or company'
+      operationId: deleteApiV21TemplateCommandByCommandGuid
+      x-operation-id-source: derived
+  /api/v2.1/template-command/{deviceTemplateGuid}:
+    get:
+      tags:
+      - Command
+      summary: Get device template command list
+      description: 'This API endpoint gives you the list of available commands in your device template. For that, you need to send deviceTemplateGuid in request url.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: name asc, name desc, name'
+        schema:
+          type: string
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist and invalid logged user or company'
+      operationId: getApiV21TemplateCommandByDeviceTemplateGuid
+      x-operation-id-source: derived
+  /api/v2.1/template-command/{deviceTemplateGuid}/lookup:
+    get:
+      tags:
+      - Command
+      summary: Get device template command lookup
+      description: This API endpoint provides you the lookup list of available commands in your device template. For that, you need to send deviceTemplateGuid in request url.
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: tag
+        in: query
+        description: Tag
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandLookupResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist and invalid logged user or company'
+      operationId: getApiV21TemplateCommandByDeviceTemplateGuidLookup
+      x-operation-id-source: derived
+  /api/v2.1/template-command/device/{deviceGuid}/send:
+    post:
+      tags:
+      - Command
+      summary: Execute a command on device
+      description: Run a command on any device using this API endpoint. For that, you need to send deviceGuid in request url along with commandGuid and parameterValue in the request body. This command will be executed on a real device. Using this, you will be able to send data to devices from your UI.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command sent to device successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSendToDeviceResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device doesn''t exist, not allowed to send the device command as the device is shared device with read permission only,
+
+            command doesn''t exist and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandSendToDeviceRequest'
+        description: Json object
+      operationId: postApiV21TemplateCommandDeviceByDeviceGuidSend
+      x-operation-id-source: derived
+  /api/v2.1/template-command/send:
+    post:
+      tags:
+      - Command
+      summary: Execute a command on multiple devices
+      description: 'Run a command on multiple devices using this API endpoint. For that, you need to send either entityGuid or deviceGuid list along with commandGuid and parameterValue in the request body.
+
+
+        If you wish to send entityGuid, send value “1” in the applyTo parameter and entity guid in entityGuid parameter. This will send commands to all the devices available in the given entity. You can also send these commands to child devices of a given entity. For that, you need to send value “true” in isRecursive parameter.
+
+
+        If you wish to send deviceGuid list, send value “2” in the applyTo parameter and list of device guids in devices parameter. This will send commands to selected devices only.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command sent to devices successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSendResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device doesn''t exist and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandSendRequest'
+        description: Json object
+      operationId: postApiV21TemplateCommandSend
+      x-operation-id-source: derived
+  /api/v2.1/device-command/{uniqueId}/send:
+    post:
+      tags:
+      - Command
+      summary: Execute a command on device using device uniqueId
+      description: Run a command on any device using this API endpoint. For that, you need to send deviceUniqueId and command along with companyGuid in the request body. This command will be executed on a real device. Using this, you will be able to send data to devices from your UI.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command sent to device successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSendToDeviceUniqueIdResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device doesn''t exist and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandSendToDeviceUniqueIdRequest'
+        description: Json object
+      operationId: postApiV21DeviceCommandByUniqueIdSend
+      x-operation-id-source: derived
+  /api/v2.1/template-command/CommandSchedule/{commandScheduleGuid}:
+    put:
+      tags:
+      - Command
+      summary: Update a scheduled command
+      description: This API endpoint allows you to delete a scheduled command along with recurring job associated with that command. For that, you need to send commandScheduleGuid in request url.
+      parameters:
+      - name: commandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Comand not exists, command schedule not exists, parameter is required and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandScheduleUpdateRequest'
+        description: request
+      operationId: putApiV21TemplateCommandCommandScheduleByCommandScheduleGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Command
+      summary: Delete a scheduled command
+      description: This API endpoint allows you to delete a scheduled command along with recurring job associated with that command. For that, you need to send commandScheduleGuid in request url.
+      parameters:
+      - name: commandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleDeleteResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Command schedule not found and invalid logged user or company'
+      operationId: deleteApiV21TemplateCommandCommandScheduleByCommandScheduleGuid
+      x-operation-id-source: derived
+  /api/v2.1/template-command/CommandSchedule/{CommandScheduleGuid}:
+    get:
+      tags:
+      - Command
+      summary: Get scheduled command detail
+      description: This API endpoint provide you scheduled command detail. For that, you need to send CommandScheduleGuid in request url.
+      parameters:
+      - name: CommandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleDetailResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Comand not exists, command schedule not exists, parameter is required and invalid logged user or company'
+      operationId: getApiV21TemplateCommandCommandScheduleByCommandScheduleGuid
+      x-operation-id-source: derived
+  /api/v2.1/template-command/CommandSchedule:
+    get:
+      tags:
+      - Command
+      summary: Get scheduled command list
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'Sort by guid,templatename,commandname,companyGuid,commandGuid,applyTo,entityGuid,isRecursive,unit,unitValue,unitTime,parameterValue,isActive,createddate,createdby,updateddate,updatedby For example: name asc'
+        schema:
+          type: string
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge devices'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway devices'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low bandwidth devices'
+        schema:
+          type: boolean
+      - name: greenGrass
+        in: query
+        description: 'GreenGrass : Pass value as true to get only greengrass devices'
+        schema:
+          type: boolean
+      - name: wireless
+        in: query
+        description: 'Wireless : Pass value as true to get only wireless devices'
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleListResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company'
+      operationId: getApiV21TemplateCommandCommandSchedule
+      x-operation-id-source: derived
+  /api/v2.1/template-command/CommandSchedule/{commandScheduleGuid}/status:
+    put:
+      tags:
+      - Command
+      summary: Update scheduled command Status
+      description: This API endpoint allows you to change the status of your scheduled command along with recurring job associated with that command. For that, you need to send commandScheduleGuid in request url and isActive in the request body. In isActive, send true to activate your scheduled command and false to deactivate your scheduled command.
+      parameters:
+      - name: commandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleUpdateStatusResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Command schedule not found and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandScheduleUpdateStatusRequest'
+        description: Json object
+      operationId: putApiV21TemplateCommandCommandScheduleByCommandScheduleGuidStatus
+      x-operation-id-source: derived
+  /api/v2.1/template-command/history:
+    get:
+      tags:
+      - Command
+      summary: Get device command history
+      description: 'This API endpoint provides you the list of command execution histories for all devices. This also gives you the status of whether the command was successfully executed or not.
+
+
+        You can also add the filters as given in the parameters. You can fetch the history of a single device by sending deviceGuid in filter parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceGuid
+        in: query
+        description: Device Guid
+        schema:
+          type: string
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: uniqueId asc, uniqueId desc, uniqueId'
+        schema:
+          type: string
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge devices'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway devices'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low bandwidth devices'
+        schema:
+          type: boolean
+      - name: greenGrass
+        in: query
+        description: 'GreenGrass : Pass value as true to get only greengrass devices'
+        schema:
+          type: boolean
+      - name: wireless
+        in: query
+        description: 'Wireless : Pass value as true to get only wireless devices'
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command history list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company'
+      operationId: getApiV21TemplateCommandHistory
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Command
+      summary: Get device command history
+      description: 'This API endpoint provides you the list of command execution histories for all devices. This also gives you the status of whether the command was successfully executed or not.
+
+
+        You can also add the filters as given in the parameters. You can fetch the history of a single device by sending deviceGuid in filter parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command history list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryDynamoListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandHistoryDynamoListRequest'
+        description: Json object with filter criteria
+      operationId: postApiV21TemplateCommandHistory
+      x-operation-id-source: derived
+  /api/v2.1/template-command/{deviceGuid}/status:
+    put:
+      tags:
+      - Command
+      summary: Update command history status
+      description: This API endpoint allows you to update the template command sent status for any device. For that, you need to send deviceGuid in request url along with ackId, status and statusText in the request body.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device command status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device command history doesn''t exist, device doesn''t exist, device is not connected, waiting to connect device and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandHistoryUpdateRequest'
+        description: Json object
+      operationId: putApiV21TemplateCommandByDeviceGuidStatus
+      x-operation-id-source: derived
+  /api/v2.1/template-command/history/{commandHistoryGuid}/re-send:
+    put:
+      tags:
+      - Command
+      summary: Resend commands
+      description: This API endpoint will re-execute all commands which are having failed status
+      parameters:
+      - name: commandHistoryGuid
+        in: path
+        description: Command History Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device command resend successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandReSendResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device command history doesn''t exist, device doesn''t exist, device is not connected, waiting to connect device and invalid logged user or company'
+      operationId: putApiV21TemplateCommandHistoryByCommandHistoryGuidReSend
+      x-operation-id-source: derived
+  /api/v2.1/template-command/batch/{batchGuid}:
+    get:
+      tags:
+      - Command
+      summary: Get executed command list by batch
+      description: This API endpoint provides you the list of executed commands in one batch. For that, you need to send batchGuid in request url.
+      parameters:
+      - name: batchGuid
+        in: path
+        description: Executed Batch Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that command list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchCommandListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist and invalid logged user or company'
+      operationId: getApiV21TemplateCommandBatchByBatchGuid
+      x-operation-id-source: derived
+  /api/v2.1/template-command/Command-history/device/{deviceGuid}/from/{fromDate}/to/{toDate}:
+    delete:
+      tags:
+      - Command
+      summary: Delete a command-history
+      description: This API endpoint allows you to delete a command-history in request url.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: fromDate
+        in: path
+        description: 'From date (format: yyyy-MM-dd or yyyy-MM-dd HH:mm:ss)'
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        description: 'To date (format: yyyy-MM-dd or yyyy-MM-dd HH:mm:ss)'
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command-history deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryDeleteResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            command-history not found and invalid logged user or company'
+      operationId: deleteApiV21TemplateCommandCommandHistoryDeviceByDeviceGuidFromByFromDateToByToDate
+      x-operation-id-source: derived
+  /api/v2.1/template-command/Command-history/from/{fromDate}/to/{toDate}/Capability/{capability}:
+    delete:
+      tags:
+      - Command
+      summary: Delete a command-history by company
+      description: This API endpoint allows you to delete command-history for all devices within a date range and capability.
+      parameters:
+      - name: fromDate
+        in: path
+        description: 'From date (format: yyyy-MM-dd or yyyy-MM-dd HH:mm:ss)'
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        description: 'To date (format: yyyy-MM-dd or yyyy-MM-dd HH:mm:ss)'
+        required: true
+        schema:
+          type: string
+      - name: capability
+        in: path
+        description: Capability type
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command-history deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryDeleteResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            command-history not found and invalid logged user or company'
+      operationId: deleteApiV21TemplateCommandCommandHistoryFromByFromDateToByToDateCapabilityByCapability
+      x-operation-id-source: derived
+  /api/v2/template-command:
+    post:
+      tags:
+      - Command
+      summary: Add new template command
+      description: 'Commands are used to manage a device remotely. You can add multiple commands to your device template. You can use commands to run a command on the device remotely, instantly, from IoTConnect.
+
+
+        This API endpoint allows you to create device template commands. These commands will be defined in your device template and will be a part of your device template. A template can have one or more commands.
+
+
+        Here, name and command are mandatory for any template command.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command created successfully and returns created template command guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist, command already exists, tag is required for gateway template, invalid tag and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandCreateRequest_2'
+        description: Json object
+      operationId: postApiV2TemplateCommand
+      x-operation-id-source: derived
+  /api/v2/template-command/{commandGuid}:
+    put:
+      tags:
+      - Command
+      summary: Update template command
+      description: This API endpoint lets you update a command. For that, you need to send commandGuid in request url and command update details in the request body.
+      parameters:
+      - name: commandGuid
+        in: path
+        description: Template Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist, command not found, command already exists, tag is required for gateway template, invalid tag and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandUpdateRequest_2'
+        description: Json object
+      operationId: putApiV2TemplateCommandByCommandGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Command
+      summary: Delete a command
+      description: This API endpoint allows you to delete a command. For that, you need to send commandGuid in request url.
+      parameters:
+      - name: commandGuid
+        in: path
+        description: Template Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandDeleteResponse_2'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist, command not found and invalid logged user or company'
+      operationId: deleteApiV2TemplateCommandByCommandGuid
+      x-operation-id-source: derived
+  /api/v2/template-command/{deviceTemplateGuid}:
+    get:
+      tags:
+      - Command
+      summary: Get device template command list
+      description: 'This API endpoint gives you the list of available commands in your device template. For that, you need to send deviceTemplateGuid in request url.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: name asc, name desc, name'
+        schema:
+          type: string
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist and invalid logged user or company'
+      operationId: getApiV2TemplateCommandByDeviceTemplateGuid
+      x-operation-id-source: derived
+  /api/v2/template-command/{deviceTemplateGuid}/lookup:
+    get:
+      tags:
+      - Command
+      summary: Get device template command lookup
+      description: This API endpoint provides you the lookup list of available commands in your device template. For that, you need to send deviceTemplateGuid in request url.
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: tag
+        in: query
+        description: Tag
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that template command lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandLookupResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist and invalid logged user or company'
+      operationId: getApiV2TemplateCommandByDeviceTemplateGuidLookup
+      x-operation-id-source: derived
+  /api/v2/template-command/device/{deviceGuid}/send:
+    post:
+      tags:
+      - Command
+      summary: Execute a command on device
+      description: Run a command on any device using this API endpoint. For that, you need to send deviceGuid in request url along with commandGuid and parameterValue in the request body. This command will be executed on a real device. Using this, you will be able to send data to devices from your UI.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command sent to device successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSendToDeviceResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device doesn''t exist, not allowed to send the device command as the device is shared device with read permission only,
+
+            command doesn''t exist and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandSendToDeviceRequest_2'
+        description: Json object
+      operationId: postApiV2TemplateCommandDeviceByDeviceGuidSend
+      x-operation-id-source: derived
+  /api/v2/template-command/send:
+    post:
+      tags:
+      - Command
+      summary: Execute a command on multiple devices
+      description: 'Run a command on multiple devices using this API endpoint. For that, you need to send either entityGuid or deviceGuid list along with commandGuid and parameterValue in the request body.
+
+
+        If you wish to send entityGuid, send value “1” in the applyTo parameter and entity guid in entityGuid parameter. This will send commands to all the devices available in the given entity. You can also send these commands to child devices of a given entity. For that, you need to send value “true” in isRecursive parameter.
+
+
+        If you wish to send deviceGuid list, send value “2” in the applyTo parameter and list of device guids in devices parameter. This will send commands to selected devices only.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command sent to devices successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandSendResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device doesn''t exist and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandSendRequest_2'
+        description: Json object
+      operationId: postApiV2TemplateCommandSend
+      x-operation-id-source: derived
+  /api/v2/template-command/CommandSchedule/{commandScheduleGuid}:
+    put:
+      tags:
+      - Command
+      summary: Update a scheduled command
+      description: This API endpoint allows you to delete a scheduled command along with recurring job associated with that command. For that, you need to send commandScheduleGuid in request url.
+      parameters:
+      - name: commandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Comand not exists, command schedule not exists, parameter is required and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandScheduleUpdateRequest_2'
+        description: request
+      operationId: putApiV2TemplateCommandCommandScheduleByCommandScheduleGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Command
+      summary: Delete a scheduled command
+      description: This API endpoint allows you to delete a scheduled command along with recurring job associated with that command. For that, you need to send commandScheduleGuid in request url.
+      parameters:
+      - name: commandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleDeleteResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Command schedule not found and invalid logged user or company'
+      operationId: deleteApiV2TemplateCommandCommandScheduleByCommandScheduleGuid
+      x-operation-id-source: derived
+  /api/v2/template-command/CommandSchedule/{CommandScheduleGuid}:
+    get:
+      tags:
+      - Command
+      summary: Get scheduled command detail
+      description: This API endpoint provide you scheduled command detail. For that, you need to send CommandScheduleGuid in request url.
+      parameters:
+      - name: CommandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleDetailResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Comand not exists, command schedule not exists, parameter is required and invalid logged user or company'
+      operationId: getApiV2TemplateCommandCommandScheduleByCommandScheduleGuid
+      x-operation-id-source: derived
+  /api/v2/template-command/CommandSchedule:
+    get:
+      tags:
+      - Command
+      summary: Get scheduled command list
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'Sort by guid,templatename,commandname,companyGuid,commandGuid,applyTo,entityGuid,isRecursive,unit,unitValue,unitTime,parameterValue,isActive,createddate,createdby,updateddate,updatedby For example: name asc'
+        schema:
+          type: string
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge devices'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway devices'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low badnwidth devices'
+        schema:
+          type: boolean
+      - name: isIotEdgeEnable
+        in: query
+        description: 'IsIoTEdgeEnable : Pass value as true to get only Azure iot Edge devices'
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company'
+      operationId: getApiV2TemplateCommandCommandSchedule
+      x-operation-id-source: derived
+  /api/v2/template-command/CommandSchedule/{commandScheduleGuid}/status:
+    put:
+      tags:
+      - Command
+      summary: Update scheduled command Status
+      description: This API endpoint allows you to change the status of your scheduled command along with recurring job associated with that command. For that, you need to send commandScheduleGuid in request url and isActive in the request body. In isActive, send true to activate your scheduled command and false to deactivate your scheduled command.
+      parameters:
+      - name: commandScheduleGuid
+        in: path
+        description: Scheduled Command Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the scheduled command status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandScheduleUpdateStatusResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Command schedule not found and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandScheduleUpdateStatusRequest_2'
+        description: Json object
+      operationId: putApiV2TemplateCommandCommandScheduleByCommandScheduleGuidStatus
+      x-operation-id-source: derived
+  /api/v2/template-command/history:
+    get:
+      tags:
+      - Command
+      summary: Get device active commands
+      description: 'This API endpoint provides you the list of command execution histories for all devices. This also gives you the status of whether the command was successfully executed or not.
+
+
+        You can also add the filters as given in the parameters. You can fetch the history of a single device by sending deviceGuid in filter parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceGuid
+        in: query
+        description: Device Guid
+        schema:
+          type: string
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'To sort the list. To do that, Specify Field name to sort with and sorting order. Eg: uniqueId asc, uniqueId desc, uniqueId'
+        schema:
+          type: string
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge devices'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway devices'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low badnwidth devices'
+        schema:
+          type: boolean
+      - name: isIotEdgeEnable
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command history list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company'
+      operationId: getApiV2TemplateCommandHistory
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Command
+      summary: Get device command history
+      description: 'This API endpoint provides you the list of command execution histories for all devices. This also gives you the status of whether the command was successfully executed or not.
+
+
+        You can also add the filters as given in the parameters. You can fetch the history of a single device by sending deviceGuid in filter parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command history list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandHistoryBaseRequest'
+      operationId: postApiV2TemplateCommandHistory
+      x-operation-id-source: derived
+  /api/v2/template-command/{deviceGuid}/status:
+    put:
+      tags:
+      - Command
+      summary: Update command history status
+      description: This API endpoint allows you to update the template command sent status for any device. For that, you need to send deviceGuid in request url along with ackId, status and statusText in the request body.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device command status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device command history doesn''t exist, device doesn''t exist, device is not connected, waiting to connect device and invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandHistoryUpdateRequest_2'
+        description: Json object
+      operationId: putApiV2TemplateCommandByDeviceGuidStatus
+      x-operation-id-source: derived
+  /api/v2/template-command/history/{commandHistoryGuid}/re-send:
+    put:
+      tags:
+      - Command
+      summary: Resend commands
+      description: This API endpoint will re-execute all commands which are having failed status
+      parameters:
+      - name: commandHistoryGuid
+        in: path
+        description: Command History Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device command resend successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandReSendResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device command history doesn''t exist, device doesn''t exist, device is not connected, waiting to connect device and invalid logged user or company'
+      operationId: putApiV2TemplateCommandHistoryByCommandHistoryGuidReSend
+      x-operation-id-source: derived
+  /api/v2/template-command/batch/{batchGuid}:
+    get:
+      tags:
+      - Command
+      summary: Get executed command list by batch
+      description: This API endpoint provides you the list of executed commands in one batch. For that, you need to send batchGuid in request url.
+      parameters:
+      - name: batchGuid
+        in: path
+        description: Executed Batch Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that command list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchCommandListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist and invalid logged user or company'
+      operationId: getApiV2TemplateCommandBatchByBatchGuid
+      x-operation-id-source: derived
+  /api/v2/template-command/Command-history/device/{deviceGuid}/from/{fromDate}/to/{toDate}:
+    delete:
+      tags:
+      - Command
+      summary: Delete a command-history
+      description: This API endpoint allows you to delete a command-history in request url.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: fromDate
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command-history deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryDeleteResponse_2'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            command-history not found and invalid logged user or company'
+      operationId: deleteApiV2TemplateCommandCommandHistoryDeviceByDeviceGuidFromByFromDateToByToDate
+      x-operation-id-source: derived
+  ? /api/v2/template-command/Command-history/from/{fromDate}/to/{toDate}/Edge/{isEdgeSupport}/IotEdge/{iotEdgeEnable}/Gateway/{isGateway}/LowBandwidth/{isLowBandwidth}
+  : delete:
+      tags:
+      - Command
+      summary: Delete a command-history
+      description: This API endpoint allows you to delete a command-history in request url.
+      parameters:
+      - name: fromDate
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: toDate
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: isEdgeSupport
+        in: path
+        required: true
+        schema:
+          type: boolean
+      - name: iotEdgeEnable
+        in: path
+        required: true
+        schema:
+          type: boolean
+      - name: isGateway
+        in: path
+        required: true
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: path
+        required: true
+        schema:
+          type: boolean
+      - name: isSphere
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command-history deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryDeleteResponse_2'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            command-history not found and invalid logged user or company'
+      operationId: deleteApiV2TemplateCommandCommandHistoryFromByFromDateToByToDateEdgeByIsEdgeSupportIotEdgeByIotEdgeEnableGatewayByIsGatewayLowBandwidthByIsLowBandwidth
+      x-operation-id-source: derived
+  /api/v2/template-command/commandFeedback/{commandHistoryGuid}:
+    post:
+      tags:
+      - Command
+      summary: Get device command feedback
+      description: This API endpoint provides you the feedback of command. This also gives you the status of whether the command feedback was successfully executed or not.
+      parameters:
+      - name: commandHistoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command feedback received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandFeedbackResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company'
+      operationId: postApiV2TemplateCommandCommandFeedbackByCommandHistoryGuid
+      x-operation-id-source: derived
+  /api/v2/template-command/device/{deviceGuid}/history:
+    post:
+      tags:
+      - Command
+      summary: Get device command history combined for dashboard
+      description: 'This API endpoint provides you the list of command execution histories for all devices. This also gives you the status of whether the command was successfully executed or not.
+
+
+        You can also add the filters as given in the parameters. You can fetch the history of a single device by sending deviceGuid in filter parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command history list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandHistoryCombinedRequest'
+      operationId: postApiV2TemplateCommandDeviceByDeviceGuidHistory
+      x-operation-id-source: derived
+components:
+  schemas:
+    CommandScheduleDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandScheduleDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryDynamoListResponse:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandScheduleDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandUpdateRequest:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set parameter as required
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        requiredParam:
+          type: boolean
+        isBytesCommand:
+          type: boolean
+        wireless:
+          type: boolean
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CommandCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandSendResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandScheduleUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    BatchCommandListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandSendToDeviceRequest:
+      required:
+      - commandGuid
+      - gatewayGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        commandText:
+          type:
+          - string
+          - 'null'
+          description: Command Text
+        gatewayGuid:
+          minLength: 1
+          type: string
+          description: Gateway Guid
+        fPort:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        transmissionInterval:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        downlinkMode:
+          type:
+          - string
+          - 'null'
+        downlinkFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        transmissionMode:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isBytesCommand:
+          type: boolean
+      additionalProperties: false
+    CommandScheduleUpdateStatusResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandCreateRequest:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set parameter as required
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandScheduleUpdateStatusRequest:
+      required:
+      - isActive
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: 'Scheduled Command Active Status : true/false'
+        isCpidOptional:
+          type: boolean
+      additionalProperties: false
+    CommandListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+        isOTACommand:
+          type:
+          - boolean
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        isTemplateCommandUsed:
+          type: boolean
+        devices:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    ResendHistoryModel:
+      type: object
+      properties:
+        resendCount:
+          type: integer
+          format: int32
+        execTime:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: date-time
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    CommandScheduleUpdateRequest:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list. if applyTo is 2
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. if applyTo is 1
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: Send true to include child entity devices. if applyTo is 1
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+        isCpidOptional:
+          type: boolean
+      additionalProperties: false
+    CommandDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryList:
+      type: object
+      properties:
+        commandHistoryGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        cmdText:
+          type:
+          - string
+          - 'null'
+        statusDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdByName:
+          type:
+          - string
+          - 'null'
+        isResend:
+          type: boolean
+        resendHistory:
+          $ref: '#/components/schemas/ResendHistoryModel'
+        statusText:
+          type:
+          - string
+          - 'null'
+        messageId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandHistoryDynamoListRequest:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        capability:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        isCpIdOptional:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    CommandSendToDeviceUniqueIdResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandSendToDeviceResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandReSendResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandSendRequest:
+      required:
+      - commandGuid
+      - gatewayGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Template command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        commandText:
+          type:
+          - string
+          - 'null'
+          description: Command Text
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Device guid list. \n            Required if applyTo is 2"
+        entityGuid:
+          maxLength: 750
+          type:
+          - string
+          - 'null'
+          description: "Entity Guid. \n            Required if applyTo is 1"
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: 'Send true to include child entity devices.
+
+            Required if applyTo is 1'
+        isScheduledCommand:
+          type:
+          - boolean
+          - 'null'
+          description: 'Allows to schedule a command. <i>true</i>: To schedule a command, <i>false</i>: Doesn''t schedule and send command instantly.'
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+        isCpidOptional:
+          type: boolean
+        gatewayGuid:
+          minLength: 1
+          type: string
+          description: Gateway Guid
+        fPort:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        transmissionInterval:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        downlinkMode:
+          type:
+          - string
+          - 'null'
+        downlinkFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        transmissionMode:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isBytesCommand:
+          type: boolean
+        commandAsString:
+          type: boolean
+        dType:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandHistoryUpdateRequest:
+      required:
+      - ackId
+      - status
+      type: object
+      properties:
+        ackId:
+          type: string
+          description: Command History Guid
+          format: uuid
+        status:
+          type: integer
+          description: 'New Status Code. 0: In Queue, 1: In Transit, 2: Failed, 3: Executed'
+          format: int32
+        statusText:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: Status Text
+      additionalProperties: false
+    CommandSendToDeviceUniqueIdRequest:
+      type: object
+      properties:
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        commandName:
+          type:
+          - string
+          - 'null'
+          description: Command Text
+        commandAsString:
+          type: boolean
+        dType:
+          type:
+          - string
+          - 'null'
+        parentUniqueId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandScheduleList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandName:
+          type:
+          - string
+          - 'null'
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateName:
+          type:
+          - string
+          - 'null'
+        applyTo:
+          type: integer
+          format: int32
+        EntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isRecursive:
+          type: boolean
+        deviceXML:
+          type:
+          - string
+          - 'null'
+        unit:
+          type:
+          - string
+          - 'null'
+        unitValue:
+          type: integer
+          format: int32
+        unitTime:
+          type: string
+          format: date-span
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        nextExecutionDate:
+          type:
+          - string
+          - 'null'
+        wireless:
+          type: boolean
+      additionalProperties: false
+    CommandScheduleListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandScheduleList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandScheduleDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandName:
+          type:
+          - string
+          - 'null'
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateName:
+          type:
+          - string
+          - 'null'
+        applyTo:
+          type: integer
+          format: int32
+        EntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isRecursive:
+          type: boolean
+        selectedDevices:
+          readOnly: true
+        unit:
+          type:
+          - string
+          - 'null'
+        unitValue:
+          type: integer
+          format: int32
+        unitTime:
+          type: string
+          format: date-span
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        tagList:
+          readOnly: true
+        selectedTag:
+          type:
+          - string
+          - 'null'
+        commandList:
+          readOnly: true
+        deviceList:
+          readOnly: true
+        nextExecutionDate:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandHistoryUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandUpdateRequest_2:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      - requiredAck
+      - requiredParam
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type: boolean
+          description: Pass true to set parameter as required
+        requiredAck:
+          type: boolean
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandLookup_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        requiredParam:
+          type: boolean
+      additionalProperties: false
+    CommandHistoryBaseRequest:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isEdge:
+          type: boolean
+        isGateway:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSphere:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        searchText:
+          type:
+          - string
+          - 'null'
+        sortBy:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandSendToDeviceRequest_2:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+      additionalProperties: false
+    CommandCreateRequest_2:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      - requiredAck
+      - requiredParam
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type: boolean
+          description: Pass true to set parameter as required
+        requiredAck:
+          type: boolean
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandScheduleUpdateStatusRequest_2:
+      required:
+      - isActive
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: 'Scheduled Command Active Status : true/false'
+      additionalProperties: false
+    CommandList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+        isOTACommand:
+          type:
+          - boolean
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        isTemplateCommandUsed:
+          type: boolean
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BatchCommandDevice'
+      additionalProperties: false
+    CommandScheduleUpdateRequest_2:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list. if applyTo is 2
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. if applyTo is 1
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: Send true to include child entity devices. if applyTo is 1
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+      additionalProperties: false
+    CommandDeleteResponse_2:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandDeleteModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandDeleteModel:
+      type: object
+      properties:
+        deviceTemplateGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    CommandHistoryList_2:
+      type: object
+      properties:
+        commandHistoryGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        cmdText:
+          type:
+          - string
+          - 'null'
+        statusDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdByName:
+          type:
+          - string
+          - 'null'
+        isResend:
+          type: boolean
+        resendHistory:
+          $ref: '#/components/schemas/ResendHistoryModel'
+        statusText:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandFeedbackResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryDeleteResponse_2:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    BatchCommandDevice:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        commandText:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandSendRequest_2:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Template command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Device guid list. \n            Required if applyTo is 2"
+        entityGuid:
+          maxLength: 750
+          type:
+          - string
+          - 'null'
+          description: "Entity Guid. \n            Required if applyTo is 1"
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: 'Send true to include child entity devices.
+
+            Required if applyTo is 1'
+        isScheduledCommand:
+          type:
+          - boolean
+          - 'null'
+          description: 'Allows to schedule a command. <i>true</i>: To schedule a command, <i>false</i>: Doesn''t schedule and send command instantly.'
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+      additionalProperties: false
+    CommandHistoryUpdateRequest_2:
+      required:
+      - ackId
+      - status
+      type: object
+      properties:
+        ackId:
+          minLength: 1
+          type: string
+          description: Command History Guid
+        status:
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          type: integer
+          description: 'New Status Code. 0: In Queue, 1: In Transit, 2: Failed, 3: Executed'
+          format: int32
+        statusText:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: Status Text
+      additionalProperties: false
+    CommandScheduleList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandName:
+          type:
+          - string
+          - 'null'
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateName:
+          type:
+          - string
+          - 'null'
+        applyTo:
+          type: integer
+          format: int32
+        EntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isRecursive:
+          type: boolean
+        deviceXML:
+          type:
+          - string
+          - 'null'
+        unit:
+          type:
+          - string
+          - 'null'
+        unitValue:
+          type: integer
+          format: int32
+        unitTime:
+          type: string
+          format: date-span
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        nextExecutionDate:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandHistoryCombinedRequest:
+      type: object
+      properties:
+        pageSize:
+          type: integer
+          format: int32
+        isEdge:
+          type: boolean
+        isGateway:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSphere:
+          type: boolean
+      additionalProperties: false
+    CommandUpdateRequest_3:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      - requiredAck
+      - requiredParam
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type: boolean
+          description: Pass true to set parameter as required
+        requiredAck:
+          type: boolean
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandLookup_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        requiredParam:
+          type: boolean
+      additionalProperties: false
+    CommandSendToDeviceRequest_3:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+      additionalProperties: false
+    CommandCreateRequest_3:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      - requiredAck
+      - requiredParam
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type: boolean
+          description: Pass true to set parameter as required
+        requiredAck:
+          type: boolean
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandScheduleUpdateStatusRequest_3:
+      required:
+      - isActive
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: 'Scheduled Command Active Status : true/false'
+      additionalProperties: false
+    CommandList_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+        isOTACommand:
+          type:
+          - boolean
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        isTemplateCommandUsed:
+          type: boolean
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BatchCommandDevice'
+      additionalProperties: false
+    CommandScheduleUpdateRequest_3:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list. if applyTo is 2
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. if applyTo is 1
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: Send true to include child entity devices. if applyTo is 1
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+      additionalProperties: false
+    CommandDeleteResponse_3:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandDeleteModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryList_3:
+      type: object
+      properties:
+        commandHistoryGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        cmdText:
+          type:
+          - string
+          - 'null'
+        statusDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdByName:
+          type:
+          - string
+          - 'null'
+        isResend:
+          type: boolean
+        resendHistory:
+          $ref: '#/components/schemas/ResendHistoryModel'
+        statusText:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandHistoryDeleteResponse_3:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandSendRequest_3:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Template command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Device guid list. \n            Required if applyTo is 2"
+        entityGuid:
+          maxLength: 750
+          type:
+          - string
+          - 'null'
+          description: "Entity Guid. \n            Required if applyTo is 1"
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: 'Send true to include child entity devices.
+
+            Required if applyTo is 1'
+        isScheduledCommand:
+          type:
+          - boolean
+          - 'null'
+          description: 'Allows to schedule a command. <i>true</i>: To schedule a command, <i>false</i>: Doesn''t schedule and send command instantly.'
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+      additionalProperties: false
+    CommandHistoryUpdateRequest_3:
+      required:
+      - ackId
+      - status
+      type: object
+      properties:
+        ackId:
+          minLength: 1
+          type: string
+          description: Command History Guid
+        status:
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          type: integer
+          description: 'New Status Code. 0: In Queue, 1: In Transit, 2: Failed, 3: Executed'
+          format: int32
+        statusText:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: Status Text
+      additionalProperties: false
+    CommandScheduleList_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandName:
+          type:
+          - string
+          - 'null'
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateName:
+          type:
+          - string
+          - 'null'
+        applyTo:
+          type: integer
+          format: int32
+        EntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isRecursive:
+          type: boolean
+        deviceXML:
+          type:
+          - string
+          - 'null'
+        unit:
+          type:
+          - string
+          - 'null'
+        unitValue:
+          type: integer
+          format: int32
+        unitTime:
+          type: string
+          format: date-span
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        nextExecutionDate:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-aws-prod-swagger.json
+- avnet-iotconnect-device-azure-prod-swagger.json
+- avnet-iotconnect-device-openapi.yml

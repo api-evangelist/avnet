@@ -1,0 +1,1084 @@
+openapi: 3.2.0
+info:
+  title: /IOTCONNECT™ Device Jitp Rule API
+  description: 'Device REST API contains information of Device modules.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
+  version: '2.1'
+security:
+- Bearer: []
+tags:
+- name: JitpRule
+  description: Jitp Rule Api List
+paths:
+  /api/v2.1/JitpRule:
+    post:
+      tags:
+      - JitpRule
+      summary: Add new jitp rule
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device is created successfully and returns created device guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitpRuleCreateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JitpRuleCreateRequest'
+        description: Json object with jitp rule details.
+      operationId: postApiV21JitpRule
+      x-operation-id-source: derived
+    get:
+      tags:
+      - JitpRule
+      summary: Get list of jitp rules
+      description: 'This API endpoint provides you the list of available jitp rules
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the jitp rule list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitpRuleListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      operationId: getApiV21JitpRule
+      x-operation-id-source: derived
+  /api/v2.1/JitpRule/{jitpRuleGuid}:
+    get:
+      tags:
+      - JitpRule
+      summary: Get all the details of jitp rule
+      description: Getting all the details of a jitp rule
+      parameters:
+      - name: jitpRuleGuid
+        in: path
+        description: Jitp Rule Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the jitp rule information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitpRuleDetailResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      operationId: getApiV21JitpRuleByJitpRuleGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - JitpRule
+      summary: Delete a jitp rule
+      description: This API endpoint allows you to delete a jitp rule. For that, you need to send jitpRuleGuid in request url.
+      parameters:
+      - name: jitpRuleGuid
+        in: path
+        description: Jitp Rule Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that jitp rule deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitpRuleDeleteResponse'
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      operationId: deleteApiV21JitpRuleByJitpRuleGuid
+      x-operation-id-source: derived
+  /api/v2.1/JitpRule/{jitpRuleguid}/update-rule-sequence:
+    put:
+      tags:
+      - JitpRule
+      summary: Update jitp rule sequence
+      description: This API endpoint lets you update jitp rule sequence.
+      parameters:
+      - name: jitpRuleguid
+        in: path
+        description: Jitp Rule Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that jitp rule sequence updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '204':
+          description: Indicates that jitp rule doesn't exist or jitp rule sequence already updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\n            invalid logged user or company."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JitpRuleUpdateSequenceRequest'
+        description: Json object
+      operationId: putApiV21JitpRuleByJitpRuleguidUpdateRuleSequence
+      x-operation-id-source: derived
+  /api/v2.1/JitpRule/{jitpRuleRegexguid}/update-rule-regex-sequence:
+    put:
+      tags:
+      - JitpRule
+      summary: Update jitp rule regex sequence
+      description: This API endpoint lets you update jitp rule regex sequence.
+      parameters:
+      - name: jitpRuleRegexguid
+        in: path
+        description: Jitp Rule Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that jitp rule regex sequence updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '204':
+          description: Indicates that jitp rule regex doesn't exist or jitp rule regex sequence already updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\n            invalid logged user or company."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JitpRuleRegexUpdateSequenceRequest'
+        description: Json object
+      operationId: putApiV21JitpRuleByJitpRuleRegexguidUpdateRuleRegexSequence
+      x-operation-id-source: derived
+  /api/v2.1/JitpRule/regextype-lookup:
+    get:
+      tags:
+      - JitpRule
+      summary: Get RegexType lookup
+      description: This API endpoint provides you the lookup of all available regex types.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the regex type lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegexTypeLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+      operationId: getApiV21JitpRuleRegextypeLookup
+      x-operation-id-source: derived
+  /api/v2.1/JitpRule/{jitpRuleGuid}/{jitpRuleRegexGuid}:
+    delete:
+      tags:
+      - JitpRule
+      summary: Delete a jitp rule regex
+      description: This API endpoint allows you to delete a jitp rule regex. For that, you need to send jitpRuleRegexGuid in request url.
+      parameters:
+      - name: jitpRuleGuid
+        in: path
+        description: Jitp Rule Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: jitpRuleRegexGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that jitp rule regex deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitpRuleRegexDeleteResponse'
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      operationId: deleteApiV21JitpRuleByJitpRuleGuidByJitpRuleRegexGuid
+      x-operation-id-source: derived
+components:
+  schemas:
+    JitpRule:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    JitpRuleUpdateSequenceRequest:
+      required:
+      - seqNo
+      type: object
+      properties:
+        seqNo:
+          type: integer
+          format: int32
+      additionalProperties: false
+    JitpRuleCreateRequest:
+      required:
+      - entityGuid
+      - regexdata
+      - ruleName
+      - ruleType
+      - templateGuid
+      type: object
+      properties:
+        ruleType:
+          type: integer
+          description: Rule Type
+          format: int32
+        ruleName:
+          minLength: 1
+          type: string
+          description: Rule Name
+        certificateGuid:
+          type:
+          - string
+          - 'null'
+          description: CertificateGuid
+          format: uuid
+        entityGuid:
+          type: string
+          description: EntityGuid
+          format: uuid
+        templateGuid:
+          type: string
+          description: TemplateGuid
+          format: uuid
+        regexdata:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegexDetail'
+        solutionGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    RegexTypeLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RegexTypeLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    JitpRuleDetailResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/JitpRuleDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    JitpRuleRegexDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    JitpRuleCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/JitpRule'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    JitpRuleRegexUpdateSequenceRequest:
+      required:
+      - seqNo
+      type: object
+      properties:
+        JITPRuleGuid:
+          type: string
+          format: uuid
+        seqNo:
+          type: integer
+          format: int32
+      additionalProperties: false
+    RegexTypeLookup:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        applyOn:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    JitpRuleDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    JitpRuleListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/JitpRuleList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    JitpRuleDetail:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        ruleName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ruleType:
+          type: integer
+          format: int32
+        certificateGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        seqNo:
+          type: integer
+          format: int32
+        entityGuid:
+          type: string
+          format: uuid
+        templateGuid:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+        regexDetail:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RegexDetail'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    JitpRuleList:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        ruleType:
+          type:
+          - string
+          - 'null'
+        certName:
+          type:
+          - string
+          - 'null'
+        seqNo:
+          type: integer
+          format: int32
+        entityName:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        solutionGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    RegexDetail:
+      required:
+      - expression
+      - guid
+      - regexappguid
+      - seqNo
+      type: object
+      properties:
+        expression:
+          minLength: 1
+          type: string
+        regexappguid:
+          type: string
+          format: uuid
+        seqNo:
+          minLength: 1
+          type: string
+        applyOn:
+          type:
+          - string
+          - 'null'
+        guid:
+          type: string
+          format: uuid
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header

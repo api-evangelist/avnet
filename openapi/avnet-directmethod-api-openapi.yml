@@ -1,0 +1,757 @@
+openapi: 3.2.0
+info:
+  title: Avnet Direct Method API
+  version: '2.0'
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged DirectMethod across 2 of this provider''s published API definitions: avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://device.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: DirectMethod
+  description: Direct Method Api List
+paths:
+  /api/v2/template-direct-method:
+    post:
+      tags:
+      - DirectMethod
+      summary: Add new direct method
+      description: This API endpoint allows you to Add new Direct Method for given template.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the direct method created successfully and returns created direct method guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectMethodCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device template doesn''t exist, invalid data type, direct method name already exists and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectMethodCreateRequest'
+        description: Json object
+      operationId: postApiV2TemplateDirectMethod
+      x-operation-id-source: derived
+  /api/v2/template-direct-method/{directMethodGuid}:
+    put:
+      tags:
+      - DirectMethod
+      summary: Update a direct method
+      description: This API endpoint allows you to update a direct method. For that, you need to send directMethodGuid in request url along with the direct method update details in the request body.
+      parameters:
+      - name: directMethodGuid
+        in: path
+        description: Direct Method Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the direct method updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectMethodUpdateResponse'
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\n            The device template doesn't exist, direct method doesn't exist, invalid data type, \n            direct method name already exists and invalid logged user or company."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectMethodUpdateRequest'
+        description: Json object
+      operationId: putApiV2TemplateDirectMethodByDirectMethodGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - DirectMethod
+      summary: Delete a direct method
+      description: You can delete a direct method using this API endpoint. For that, you need to send directMethodGuid in request url.
+      parameters:
+      - name: directMethodGuid
+        in: path
+        description: Direct Method Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the direct method deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectMethodDeleteResponse'
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\n            The direct method doesn't exist and invalid logged user or company."
+      operationId: deleteApiV2TemplateDirectMethodByDirectMethodGuid
+      x-operation-id-source: derived
+  /api/v2/template-direct-method/{deviceTemplateGuid}:
+    get:
+      tags:
+      - DirectMethod
+      summary: Get device template direct methods list
+      description: 'This API endpoint gives you the list of available direct methods in your device template. For that, you need to send deviceTemplateGuid in request url.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the direct method list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectMethodListResponse'
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\n            The device template doesn't exist and invalid logged user or company."
+      operationId: getApiV2TemplateDirectMethodByDeviceTemplateGuid
+      x-operation-id-source: derived
+  /api/v2/template-direct-method/{deviceTemplateGuid}/lookup:
+    get:
+      tags:
+      - DirectMethod
+      summary: Get device template direct methods lookup
+      description: This API endpoint gives you the lookup list of available direct methods in your device template. For that, you need to send deviceTemplateGuid in request url.
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the direct method lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectMethodLookupResponse'
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\n            The device doesn't exist and invalid logged user or company."
+      operationId: getApiV2TemplateDirectMethodByDeviceTemplateGuidLookup
+      x-operation-id-source: derived
+components:
+  schemas:
+    DirectMethodUpdateRequest:
+      required:
+      - methodName
+      - responseTimeoutInSeconds
+      - templateGuid
+      type: object
+      properties:
+        templateGuid:
+          minLength: 1
+          type: string
+          description: Template Guid
+        methodName:
+          minLength: 1
+          type: string
+          description: Method Name
+        responseTimeoutInSeconds:
+          type: integer
+          description: Response timeout seconds
+          format: int32
+      additionalProperties: false
+    DirectMethodCreateRequest:
+      required:
+      - methodName
+      - responseTimeoutInSeconds
+      - templateGuid
+      type: object
+      properties:
+        templateGuid:
+          minLength: 1
+          type: string
+          description: Template Guid
+        methodName:
+          minLength: 1
+          type: string
+          description: Method Name
+        responseTimeoutInSeconds:
+          type: integer
+          description: Response timeout seconds
+          format: int32
+      additionalProperties: false
+    DirectMethodDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DirectMethodLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        methodName:
+          type:
+          - string
+          - 'null'
+        responseTimeoutSecond:
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    DirectMethodList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        methodName:
+          type:
+          - string
+          - 'null'
+        responseTimeoutSecond:
+          type: integer
+          format: int32
+        createdDate:
+          type: string
+          format: date-time
+        createBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    DirectMethodUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DirectMethodLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DirectMethodLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DirectMethodCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    DirectMethodListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DirectMethodList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-azure-prod-swagger.json
+- avnet-iotconnect-device-openapi.yml

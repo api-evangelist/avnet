@@ -1,0 +1,5593 @@
+openapi: 3.2.0
+info:
+  title: Avnet Template API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Template across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://device.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Template
+  description: Template Api List
+paths:
+  /api/v2.1/device-template:
+    post:
+      tags:
+      - Template
+      summary: Add new Device Template
+      description: 'To manage devices and their associated properties, one needs a pre-defined structure. A device template provides that structure by allowing you to create attributes, settings, properties, rules, commands and much more – all to help you to monitor and manage your device management system efficiently.
+
+
+        By using the API endpoint of the device template, you can also create gateway supported device templates. To do that, enter tag parameter value in the request body. You can manage gateways in the same way as any other device of your device management system. you can also create lowbandwidth supported device templates. To do that, enter datalength parameter value in the request body.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is created successfully and returns created device template guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateCreateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\nDevice template name already exists, device template code already exists, firmware not exists, firmware not released \nand invalid logged user or company."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateCreateRequest'
+        description: Json object used as input
+      operationId: postApiV21DeviceTemplate
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Template
+      summary: Get device template list
+      description: 'Get the list of available device templates of your company using this API endpoint.
+
+
+        Though filters are optional, you can add them as given in the parameters. To apply the filters, you need to pass these filters in query string.'
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'Sort by name and order, Eg: name asc'
+        schema:
+          type: string
+      - name: AuthType
+        in: query
+        description: 'Authentication Type - 1: Key, 2: CA Signed Certificate, 3: Self Signed Certificate, 4: TPM, 5: Symmetric Key'
+        schema:
+          type: string
+      - name: EdgeSupport
+        in: query
+        description: Pass value as true to get only edge templates
+        schema:
+          type: string
+      - name: GatewaySupport
+        in: query
+        description: Pass value as true to get only gateway templates
+        schema:
+          type: string
+      - name: DeviceCount
+        in: query
+        description: Filter for device count
+        schema:
+          type: string
+      - name: RuleCount
+        in: query
+        description: Filter for rule count
+        schema:
+          type: string
+      - name: AttributeCount
+        in: query
+        description: Filter for attribute count
+        schema:
+          type: string
+      - name: TwinPropertyCount
+        in: query
+        description: Filter for twin property count
+        schema:
+          type: string
+      - name: CommandCount
+        in: query
+        description: Filter for Command count
+        schema:
+          type: string
+      - name: BytesCommandCnt
+        in: query
+        description: Filter for Command count
+        schema:
+          type: string
+      - name: DeviceTemplateName
+        in: query
+        description: Search with device template name
+        schema:
+          type: string
+      - name: IsLowBandwidth
+        in: query
+        description: Pass value as true to get only low bandwidth templates
+        schema:
+          type: boolean
+      - name: MessageVersion
+        in: query
+        description: Filter for Message Type
+        schema:
+          type: string
+      - name: greenGrass
+        in: query
+        schema:
+          type: boolean
+      - name: wireless
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplate
+      x-operation-id-source: derived
+  /api/v2.1/device-template/quick:
+    post:
+      tags:
+      - Template
+      summary: Add quick Device Template
+      description: To create a device template with attributes, use this API endpoint. By using provided JSON format in request format, you can add a device template quickly.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is created successfully and returns created device template guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateCreateQuickResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template code already exists, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                File:
+                  type: string
+                  format: binary
+                TemplateJSON:
+                  type: string
+      operationId: postApiV21DeviceTemplateQuick
+      x-operation-id-source: derived
+  /api/v2.1/device-template/{templateGuid}:
+    put:
+      tags:
+      - Template
+      summary: Update device template
+      description: To update a device template, use this API endpoint. You can only update name, description and firmware hardware version of the device template.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template not found, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateUpdateRequest'
+        description: Template update detail in json object
+      operationId: putApiV21DeviceTemplateByTemplateGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Template
+      summary: Delete device template
+      description: To delete a device template, use this API endpoint. To do that, you need to pass a device template guid that you want to delete.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDeleteResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\nDevice template not found, device template can not delete due to device template associated with device or rule or firmware \nand invalid logged user or company."
+      operationId: deleteApiV21DeviceTemplateByTemplateGuid
+      x-operation-id-source: derived
+  /api/v2.1/device-template/{deviceTemplateGuid}:
+    get:
+      tags:
+      - Template
+      summary: Get all the details of single device template
+      description: By using this API endpoint, get all the details for given device template guid along with attribute, command and setting details.
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: attrTree
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template details received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetailResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateByDeviceTemplateGuid
+      x-operation-id-source: derived
+  /api/v2.1/device-template/{deviceTemplateGuid}/lookup:
+    get:
+      tags:
+      - Template
+      summary: Get JSON view of the device template
+      description: This API endpoint will give you the JSON view lookup of attribute, command and setting details for given device template guid.
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetailLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateByDeviceTemplateGuidLookup
+      x-operation-id-source: derived
+  /api/v2.1/device-template/{deviceTemplate}/tag-lookup:
+    get:
+      tags:
+      - Template
+      summary: Get all the tags of a device template
+      description: Get the list of all available tags in template for given device template guid using this API endpoint.
+      parameters:
+      - name: deviceTemplate
+        in: path
+        description: Device Template Guid/Code
+        required: true
+        schema:
+          type: string
+      - name: isSolutionTemplate
+        in: query
+        description: Pass true if code for solution template
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template's tag lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateTagListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateByDeviceTemplateTagLookup
+      x-operation-id-source: derived
+  /api/v2.1/device-template/lookup:
+    get:
+      tags:
+      - Template
+      summary: Get device template list lookup
+      description: This API endpoint will also give you the list of available device templates in your company. However, it provides an option to filter the list based on attributes availability. If you pass true in hasAttribute parameter, it will give you the list of device templates with at least one attribute.
+      parameters:
+      - name: hasAttribute
+        in: query
+        description: For templates with at least one attribute, Pass true
+        schema:
+          type: boolean
+      - name: excludePushUrl
+        in: query
+        description: For templates without pushUrl, Pass true
+        schema:
+          type: boolean
+      - name: hasFirmware
+        in: query
+        description: For templates which are associated with firmware, Pass true
+        schema:
+          type: boolean
+      - name: firmwareGuid
+        in: query
+        description: For firmware's template detail, Pass firmware guid
+        schema:
+          type: string
+          format: uuid
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge templates'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway templates'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low bandwidth templates'
+        schema:
+          type: boolean
+      - name: greenGrass
+        in: query
+        schema:
+          type: boolean
+      - name: authType
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: wireless
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateLookup
+      x-operation-id-source: derived
+  /api/v2.1/device-template/datatype:
+    get:
+      tags:
+      - Template
+      summary: Get datatype list
+      description: This API endpoint will give you the list of valid datatypes for attributes.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template data type received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDataTypeResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateDatatype
+      x-operation-id-source: derived
+  /api/v2.1/device-template/datatype/{templateGuid}:
+    get:
+      tags:
+      - Template
+      summary: Get datatype list
+      description: This API endpoint will give you the list of valid datatypes for attributes.
+      parameters:
+      - name: templateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: hasBytesSupport
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template data type received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDataTypeResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateDatatypeByTemplateGuid
+      x-operation-id-source: derived
+  /api/v2.1/device-template/{templateGuid}/export:
+    get:
+      tags:
+      - Template
+      summary: Export Template
+      description: This API endpoint will export the template details along with template attributes in JSON format for given device template guid. This can be used for adding quick device template API endpoint.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template data exported successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateExportResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateByTemplateGuidExport
+      x-operation-id-source: derived
+  /api/v2.1/device-template/device/notification:
+    get:
+      tags:
+      - Template
+      summary: Get device notification list
+      description: This API endpoint will give you the device notification list. Whenever a rule matches for the device, the notifications will be generated.
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: uniqueId
+        in: query
+        description: Device UniqueId
+        schema:
+          type: string
+      - name: entityGuid
+        in: query
+        description: Entity Guid
+        schema:
+          type: string
+          format: uuid
+      - name: startDate
+        in: query
+        description: Start Date, format should be yyyy-MM-dd
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        description: End Date, format should be yyyy-MM-dd
+        schema:
+          type: string
+      - name: parentDeviceUniqueId
+        in: query
+        description: Gateway Device UniqueId
+        schema:
+          type: string
+      - name: continuationToken
+        in: query
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device notification list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDeviceNotificationResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateDeviceNotification
+      x-operation-id-source: derived
+  /api/v2.1/device-template/lookup/twin:
+    get:
+      tags:
+      - Template
+      summary: Get Templates which have shadows
+      description: This API endpoint returns template list which have shadows.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateTwinResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateLookupTwin
+      x-operation-id-source: derived
+  /api/v2.1/device-template/template-code/{templateCode}:
+    get:
+      tags:
+      - Template
+      summary: Get all the details of single device template using template code
+      description: By using this API endpoint, get all the details for given device template code along with attribute, command and setting details.
+      parameters:
+      - name: templateCode
+        in: path
+        description: Device Template Code
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template details received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetailResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateTemplateCodeByTemplateCode
+      x-operation-id-source: derived
+  /api/v2.1/device-template/auth-type:
+    get:
+      tags:
+      - Template
+      summary: Get Auth Type
+      description: This API endpoint returns auth type.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the auth type list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrustedPartnerLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      operationId: getApiV21DeviceTemplateAuthType
+      x-operation-id-source: derived
+  /api/v2.1/device-template/{templateGuid}/property:
+    put:
+      tags:
+      - Template
+      summary: Add/Update device template property
+      description: To add/update a device template property, use this API endpoint. You can only update description, data frequency and file support device template.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template not found, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplatePropertyRequest'
+        description: Template update detail in json object
+      operationId: putApiV21DeviceTemplateByTemplateGuidProperty
+      x-operation-id-source: derived
+  /api/v2.1/device-template/{deviceGuid}/updatedevicetemplate:
+    put:
+      tags:
+      - Template
+      summary: Update created device template
+      description: To update a device template, use this API endpoint.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceTemplateUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template not found, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTemplateUpdateRequest'
+        description: Template update detail in json object
+      operationId: putApiV21DeviceTemplateByDeviceGuidUpdatedevicetemplate
+      x-operation-id-source: derived
+  /api/v2.1/device-template/devicetemplatechange-lookup:
+    get:
+      tags:
+      - Template
+      summary: Get device template change list lookup
+      description: This API endpoint will also give you the list of available device templates in your company. However, it provides an option to filter the list based on attributes availability. If you pass true in hasAttribute parameter, it will give you the list of device templates with at least one attribute.
+      parameters:
+      - name: hasAttribute
+        in: query
+        description: For templates with at least one attribute, Pass true
+        schema:
+          type: boolean
+      - name: excludePushUrl
+        in: query
+        description: For templates without pushUrl, Pass true
+        schema:
+          type: boolean
+      - name: hasFirmware
+        in: query
+        description: For templates which are associated with firmware, Pass true
+        schema:
+          type: boolean
+      - name: firmwareGuid
+        in: query
+        description: For firmware's template detail, Pass firmware guid
+        schema:
+          type: string
+          format: uuid
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge templates'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway templates'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low bandwidth templates'
+        schema:
+          type: boolean
+      - name: authType
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: deviceTemplateGuid
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: wireless
+        in: query
+        schema:
+          type: boolean
+      - name: hasVideoStream
+        in: query
+        schema:
+          type: boolean
+      - name: greenGrass
+        in: query
+        schema:
+          type: boolean
+      - name: ggDeviceType
+        in: query
+        description: 'ggDeviceType : Pass value as 1 to get classic device and 2 to get lite device'
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceTemplateDevicetemplatechangeLookup
+      x-operation-id-source: derived
+  /api/v2/device-template:
+    post:
+      tags:
+      - Template
+      summary: Add new Device Template
+      description: 'To manage devices and their associated properties, one needs a pre-defined structure. A device template provides that structure by allowing you to create attributes, settings, properties, rules, commands and much more – all to help you to monitor and manage your device management system efficiently.
+
+
+        By using the API endpoint of the device template, you can also create gateway supported device templates. To do that, enter tag parameter value in the request body. You can manage gateways in the same way as any other device of your device management system. you can also create lowbandwidth supported device templates. To do that, enter datalength parameter value in the request body.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is created successfully and returns created device template guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateCreateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\nDevice template name already exists, device template code already exists, firmware not exists, firmware not released \nand invalid logged user or company."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateCreateRequest_2'
+        description: Json object used as input
+      operationId: postApiV2DeviceTemplate
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Template
+      summary: Get device template list
+      description: 'Get the list of available device templates of your company using this API endpoint.
+
+
+        Though filters are optional, you can add them as given in the parameters. To apply the filters, you need to pass these filters in query string.'
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: 'Sort by name and order, Eg: name asc'
+        schema:
+          type: string
+      - name: AuthType
+        in: query
+        description: 'Authentication Type - 1: Token, 2: CA Signed Certificate, 3: Self Signed Certificate, 4: TPM, 5: Symmetric Key'
+        schema:
+          type: string
+      - name: EdgeSupport
+        in: query
+        description: Pass value as true to get only edge templates
+        schema:
+          type: string
+      - name: GatewaySupport
+        in: query
+        description: Pass value as true to get only gateway templates
+        schema:
+          type: string
+      - name: DeviceCount
+        in: query
+        description: Filter for device count
+        schema:
+          type: string
+      - name: RuleCount
+        in: query
+        description: Filter for rule count
+        schema:
+          type: string
+      - name: AttributeCount
+        in: query
+        description: Filter for attribute count
+        schema:
+          type: string
+      - name: TwinPropertyCount
+        in: query
+        description: Filter for twin property count
+        schema:
+          type: string
+      - name: CommandCount
+        in: query
+        description: Filter for Command count
+        schema:
+          type: string
+      - name: DeviceTemplateName
+        in: query
+        description: Search with device template name
+        schema:
+          type: string
+      - name: IsLowBandwidth
+        in: query
+        description: Pass value as true to get only low bandwidth templates
+        schema:
+          type: boolean
+      - name: IsLowBandwidthSpecified
+        in: query
+        schema:
+          type: boolean
+      - name: isIotEdgeEnable
+        in: query
+        description: Pass value as true to get only iotedgeenable templates
+        schema:
+          type: boolean
+      - name: isIotEdgeEnableSpecified
+        in: query
+        schema:
+          type: boolean
+      - name: DirectMethodCount
+        in: query
+        description: Filter for direct method count
+        schema:
+          type: string
+      - name: IsSphere
+        in: query
+        description: Pass value as true to get only sphere templates
+        schema:
+          type: boolean
+      - name: IsSphereSpecified
+        in: query
+        schema:
+          type: boolean
+      - name: MessageVersion
+        in: query
+        description: Filter for Message Type
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplate
+      x-operation-id-source: derived
+  /api/v2/device-template/quick:
+    post:
+      tags:
+      - Template
+      summary: Add quick Device Template
+      description: To create a device template with attributes, use this API endpoint. By using provided JSON format in request format, you can add a device template quickly.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is created successfully and returns created device template guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateCreateQuickResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template code already exists, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                File:
+                  type: string
+                  format: binary
+                TemplateJSON:
+                  type: string
+      operationId: postApiV2DeviceTemplateQuick
+      x-operation-id-source: derived
+  /api/v2/device-template/{templateGuid}:
+    put:
+      tags:
+      - Template
+      summary: Update device template
+      description: To update a device template, use this API endpoint. You can only update name, description and firmware hardware version of the device template.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template not found, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateUpdateRequest'
+        description: Template update detail in json object
+      operationId: putApiV2DeviceTemplateByTemplateGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Template
+      summary: Delete device template
+      description: To delete a device template, use this API endpoint. To do that, you need to pass a device template guid that you want to delete.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDeleteResponse_2'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: "Indicates that the request could not be carried out because of one of the below or other conflicts on the server.\nDevice template not found, device template can not delete due to device template associated with device or rule or firmware \nand invalid logged user or company."
+      operationId: deleteApiV2DeviceTemplateByTemplateGuid
+      x-operation-id-source: derived
+  /api/v2/device-template/{deviceTemplateGuid}:
+    get:
+      tags:
+      - Template
+      summary: Get all the details of single device template
+      description: By using this API endpoint, get all the details for given device template guid along with attribute, command and setting details.
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: attrTree
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template details received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetailResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateByDeviceTemplateGuid
+      x-operation-id-source: derived
+  /api/v2/device-template/{deviceTemplateGuid}/lookup:
+    get:
+      tags:
+      - Template
+      summary: Get JSON view of the device template
+      description: This API endpoint will give you the JSON view lookup of attribute, command and setting details for given device template guid.
+      parameters:
+      - name: deviceTemplateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetailLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateByDeviceTemplateGuidLookup
+      x-operation-id-source: derived
+  /api/v2/device-template/{deviceTemplate}/tag-lookup:
+    get:
+      tags:
+      - Template
+      summary: Get all the tags of a device template
+      description: Get the list of all available tags in template for given device template guid using this API endpoint.
+      parameters:
+      - name: deviceTemplate
+        in: path
+        description: Device Template Guid/Code
+        required: true
+        schema:
+          type: string
+      - name: isSolutionTemplate
+        in: query
+        description: Pass true if code for solution template
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template's tag lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateTagListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateByDeviceTemplateTagLookup
+      x-operation-id-source: derived
+  /api/v2/device-template/lookup:
+    get:
+      tags:
+      - Template
+      summary: Get device template list lookup
+      description: This API endpoint will also give you the list of available device templates in your company. However, it provides an option to filter the list based on attributes availability. If you pass true in hasAttribute parameter, it will give you the list of device templates with at least one attribute.
+      parameters:
+      - name: hasAttribute
+        in: query
+        description: For templates with at least one attribute, Pass true
+        schema:
+          type: boolean
+      - name: excludePushUrl
+        in: query
+        description: For templates without pushUrl, Pass true
+        schema:
+          type: boolean
+      - name: hasFirmware
+        in: query
+        description: For templates which are associated with firmware, Pass true
+        schema:
+          type: boolean
+      - name: hasCommand
+        in: query
+        description: For templates with at least one command, Pass true
+        schema:
+          type: boolean
+      - name: firmwareGuid
+        in: query
+        description: For firmware's template detail, Pass firmware guid
+        schema:
+          type: string
+          format: uuid
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge templates'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway templates'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low bandwidth templates'
+        schema:
+          type: boolean
+      - name: isIotEdgeEnable
+        in: query
+        description: 'iotEdgeEnable : Pass value as true to get only iotedge templates'
+        schema:
+          type: boolean
+      - name: isSphere
+        in: query
+        schema:
+          type: boolean
+      - name: isUnAssociatedDevice
+        in: query
+        schema:
+          type: boolean
+      - name: authType
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: importType
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateLookup
+      x-operation-id-source: derived
+  /api/v2/device-template/spherelookup:
+    get:
+      tags:
+      - Template
+      summary: Get unassociate device template list lookup
+      description: This API endpoint will also give you the list of available device templates in your company. However, it provides an option to filter the list based on attributes availability. If you pass true in hasAttribute parameter, it will give you the list of device templates with at least one attribute.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SphereTemplateLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateSpherelookup
+      x-operation-id-source: derived
+  /api/v2/device-template/{solutionGuid}/spherelookup:
+    get:
+      tags:
+      - Template
+      summary: Get unassociate device template list lookup using solutionguid
+      description: This API endpoint will also give you the list of available device templates in your company. However, it provides an option to filter the list based on attributes availability. If you pass true in hasAttribute parameter, it will give you the list of device templates with at least one attribute.
+      parameters:
+      - name: solutionGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SphereTemplateLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateBySolutionGuidSpherelookup
+      x-operation-id-source: derived
+  /api/v2/device-template/datatype:
+    get:
+      tags:
+      - Template
+      summary: Get datatype list
+      description: This API endpoint will give you the list of valid datatypes for attributes.
+      parameters:
+      - name: messageVersion
+        in: query
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template data type received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDataTypeResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateDatatype
+      x-operation-id-source: derived
+  /api/v2/device-template/datatype/{templateGuid}:
+    get:
+      tags:
+      - Template
+      summary: Get datatype list
+      description: This API endpoint will give you the list of valid datatypes for attributes.
+      parameters:
+      - name: templateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template data type received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDataTypeResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateDatatypeByTemplateGuid
+      x-operation-id-source: derived
+  /api/v2/device-template/{templateGuid}/export:
+    get:
+      tags:
+      - Template
+      summary: Export template
+      description: This API endpoint will export the template details along with template attributes in JSON format for given device template guid. This can be used for adding quick device template API endpoint.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template data exported successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateExportResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateByTemplateGuidExport
+      x-operation-id-source: derived
+  /api/v2/device-template/device/notification:
+    get:
+      tags:
+      - Template
+      summary: Get device notification list
+      description: This API endpoint will give you the device notification list. Whenever a rule matches for the device, the notifications will be generated.
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: uniqueId
+        in: query
+        description: Device UniqueId
+        schema:
+          type: string
+      - name: entityGuid
+        in: query
+        description: Entity Guid
+        schema:
+          type: string
+          format: uuid
+      - name: startDate
+        in: query
+        description: Start Date, format should be yyyy-MM-dd
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        description: End Date, format should be yyyy-MM-dd
+        schema:
+          type: string
+      - name: parentDeviceUniqueId
+        in: query
+        description: Gateway Device UniqueId
+        schema:
+          type: string
+      - name: continuationToken
+        in: query
+        description: To get next data from cosmos
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device notification list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDeviceNotificationResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateDeviceNotification
+      x-operation-id-source: derived
+  /api/v2/device-template/lookup/twin:
+    get:
+      tags:
+      - Template
+      summary: Get templates which have twins
+      description: This API endpoint returns template list which have twins.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateTwinResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateLookupTwin
+      x-operation-id-source: derived
+  /api/v2/device-template/template-code/{templateCode}:
+    get:
+      tags:
+      - Template
+      summary: Get all the details of single device template using template code
+      description: By using this API endpoint, get all the details for given device template code along with attribute, command and setting details.
+      parameters:
+      - name: templateCode
+        in: path
+        description: Device Template Code
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template details received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDetailResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template not found, invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateTemplateCodeByTemplateCode
+      x-operation-id-source: derived
+  /api/v2/device-template/lookup/trusted-partners:
+    get:
+      tags:
+      - Template
+      summary: Get trusted partner
+      description: This API endpoint returns trusted partner.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the trusted partner list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrustedPartnerLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      operationId: getApiV2DeviceTemplateLookupTrustedPartners
+      x-operation-id-source: derived
+  /api/v2/device-template/auth-type:
+    get:
+      tags:
+      - Template
+      summary: Get Auth Type
+      description: This API endpoint returns auth type.
+      parameters:
+      - name: allAuthType
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the auth type list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationTypeResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      operationId: getApiV2DeviceTemplateAuthType
+      x-operation-id-source: derived
+  /api/v2/device-template/{templateGuid}/property:
+    put:
+      tags:
+      - Template
+      summary: Add/Update device template property
+      description: To add/update a device template property, use this API endpoint. You can only update description, data frequency and file support device template.
+      parameters:
+      - name: templateGuid
+        in: path
+        description: Device Template Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template not found, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplatePropertyRequest_2'
+        description: Template update detail in json object
+      operationId: putApiV2DeviceTemplateByTemplateGuidProperty
+      x-operation-id-source: derived
+  /api/v2/device-template/{deviceGuid}/updatedevicetemplate:
+    put:
+      tags:
+      - Template
+      summary: Update created device template
+      description: To update a device template, use this API endpoint.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceTemplateUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template name already exists, device template not found, data type not found
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTemplateUpdateRequest'
+        description: Template update detail in json object
+      operationId: putApiV2DeviceTemplateByDeviceGuidUpdatedevicetemplate
+      x-operation-id-source: derived
+  /api/v2/device-template/devicetemplatechange-lookup:
+    get:
+      tags:
+      - Template
+      summary: Get device template list lookup
+      description: This API endpoint will also give you the list of available device templates in your company. However, it provides an option to filter the list based on attributes availability. If you pass true in hasAttribute parameter, it will give you the list of device templates with at least one attribute.
+      parameters:
+      - name: hasAttribute
+        in: query
+        description: For templates with at least one attribute, Pass true
+        schema:
+          type: boolean
+      - name: excludePushUrl
+        in: query
+        description: For templates without pushUrl, Pass true
+        schema:
+          type: boolean
+      - name: hasFirmware
+        in: query
+        description: For templates which are associated with firmware, Pass true
+        schema:
+          type: boolean
+      - name: hasCommand
+        in: query
+        description: For templates with at least one command, Pass true
+        schema:
+          type: boolean
+      - name: firmwareGuid
+        in: query
+        description: For firmware's template detail, Pass firmware guid
+        schema:
+          type: string
+          format: uuid
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only edge templates'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only gateway templates'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only low bandwidth templates'
+        schema:
+          type: boolean
+      - name: isIotEdgeEnable
+        in: query
+        schema:
+          type: boolean
+      - name: isSphere
+        in: query
+        schema:
+          type: boolean
+      - name: isUnAssociatedDevice
+        in: query
+        schema:
+          type: boolean
+      - name: authType
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: deviceTemplateGuid
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device template lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateLookupResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2DeviceTemplateDevicetemplatechangeLookup
+      x-operation-id-source: derived
+components:
+  schemas:
+    DeviceTemplateUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TrustedPartnerLookup:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateExportResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateDetailResponse:
+      type: object
+      properties:
+        template-auto-push:
+          type: boolean
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateTwinResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateTwinLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        isEdgeSupport:
+          type: boolean
+        authType:
+          type: integer
+          format: int32
+        code:
+          type:
+          - string
+          - 'null'
+        isType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        greenGrass:
+          type: boolean
+        wirelessDevice:
+          type: boolean
+        wirelessType:
+          type:
+          - string
+          - 'null'
+        c2dOnDemand:
+          type: integer
+          format: int32
+        videoStreamResource:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        videoStreamType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        autoStartVideoStream:
+          type: boolean
+          readOnly: true
+        ggDeviceType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    TemplatePropertyRequest:
+      type: object
+      properties:
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          description: DataFrequency. Default value is 60.
+          format: int32
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Description.
+        fileSupport:
+          type: boolean
+          description: File support. Default value is false.
+          default: false
+        onDemandCmd:
+          type: integer
+          description: OnDemandCmd. Default value is false.
+          format: int32
+          default: false
+        isCpidOptional:
+          type: boolean
+        videoStreamResource:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        videoStreamType:
+          type:
+          - integer
+          - 'null'
+          description: Template Video Stream Type.
+          format: int32
+        autoStartVideoStream:
+          type: boolean
+        certRenewalDay:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        enableCSR:
+          type:
+          - boolean
+          - 'null'
+        enableGeoLocation:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    DeviceTemplateUpdateRequest:
+      type: object
+      properties:
+        templateGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    TemplateDetailLookup:
+      type: object
+      properties:
+        attributes:
+          type:
+          - object
+          - 'null'
+        commands:
+          type:
+          - object
+          - 'null'
+        wirelessType:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDelete'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateUpdateRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Device template name
+        firmwareguid:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version guid
+      additionalProperties: false
+    TemplateCreateRequest:
+      required:
+      - authType
+      - code
+      - isEdgeSupport
+      - name
+      type: object
+      properties:
+        code:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: Unique device template code. Template code must be alphanumeric and must start with the alphabet .
+        isEdgeSupport:
+          type: boolean
+          description: For devices with edge support
+        authType:
+          type: integer
+          description: 'Authentication Type - 2: CA Signed Certificate, 3: Self Signed Certificate, 7: CA Signed Individual'
+          format: int32
+        tag:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: "For Gateway supported Devices. \nIt should be alphanumeric with allowed two consecutive '_' and must be started with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        trustedPartnerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        greenGrass:
+          type: boolean
+        wireless:
+          type: boolean
+        wirelessType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        videoStreamResource:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        videoStreamType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        autoStartVideoStream:
+          type: boolean
+        c2dOnDemand:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        dataLength:
+          type:
+          - integer
+          - 'null'
+          description: For devices with low bandwidth support
+          format: int32
+        certRenewalDay:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        enableCSR:
+          type:
+          - boolean
+          - 'null'
+        enableGeoLocation:
+          type:
+          - boolean
+          - 'null'
+        fileSupport:
+          type:
+          - boolean
+          - 'null'
+        ggDeviceType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Device template name
+        firmwareguid:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version guid
+      additionalProperties: false
+    TemplateDelete:
+      type: object
+      properties:
+        isGreenGrass:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TemplateTagListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateTagList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    TemplateDataTypeResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDataType'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateProperty:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        fileSupport:
+          type: boolean
+          default: false
+        videoStreamResource:
+          type:
+          - string
+          - 'null'
+        SupportVideoStream:
+          type:
+          - string
+          - 'null'
+        autoStartVideoStream:
+          type: boolean
+          default: false
+        certRenewalDay:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        enableCSR:
+          type:
+          - boolean
+          - 'null'
+        enableGeoLocation:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    TemplateCreateQuickResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateDeviceNotificationResponse:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDeviceNotification'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateTwinLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateDetailLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDetailLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateUpdate:
+      type: object
+      additionalProperties: false
+    TemplateTagList:
+      type: object
+      properties:
+        tag:
+          type:
+          - string
+          - 'null'
+        templateTag:
+          type: boolean
+      additionalProperties: false
+    TrustedPartnerLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TrustedPartnerLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateCode:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        isEdgeSupport:
+          type:
+          - boolean
+          - 'null'
+        reqAttrPush:
+          type:
+          - boolean
+          - 'null'
+        reqSettingPush:
+          type:
+          - object
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        msgCode:
+          type:
+          - string
+          - 'null'
+        attrXml:
+          type:
+          - string
+          - 'null'
+        attributes:
+          type:
+          - object
+          - 'null'
+        settingXml:
+          type:
+          - string
+          - 'null'
+        commandXml:
+          type:
+          - string
+          - 'null'
+        commands:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateCommandData'
+        isValidateTemplate:
+          type: integer
+          format: int32
+        isValidEdgeSupport:
+          type: integer
+          format: int32
+        isValidType2Support:
+          type: integer
+          format: int32
+        isAttachedWithDevice:
+          type:
+          - boolean
+          - 'null'
+        isLowBandwidth:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        c2dOnDemand:
+          type: integer
+          format: int32
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        property:
+          $ref: '#/components/schemas/TemplateProperty'
+        greenGrass:
+          type:
+          - boolean
+          - 'null'
+        wireless:
+          type:
+          - boolean
+          - 'null'
+        wirelessType:
+          type:
+          - string
+          - 'null'
+        commandFormat:
+          enum:
+          - 1
+          - 2
+          type: integer
+          format: int32
+        bytesJson:
+          type:
+          - string
+          - 'null'
+        byteCommand:
+          type:
+          - object
+          - 'null'
+        supportVideoStream:
+          type:
+          - string
+          - 'null'
+        supportStream:
+          type: boolean
+          readOnly: true
+        capability:
+          type: integer
+          format: int32
+        certRenewalDay:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        enableCSR:
+          type:
+          - boolean
+          - 'null'
+        enableGeoLocation:
+          type:
+          - boolean
+          - 'null'
+        ggDeviceType:
+          type: integer
+          format: int32
+          readOnly: true
+      additionalProperties: false
+    TemplateDataType:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        target:
+          type: integer
+          format: int32
+        conditionBitValue:
+          type: integer
+          format: int32
+        description:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateDeviceNotification:
+      type: object
+      properties:
+        condition:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        notificationText:
+          type:
+          - string
+          - 'null'
+        ruleName:
+          type:
+          - string
+          - 'null'
+        severityLevel:
+          type:
+          - string
+          - 'null'
+        telemetry:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateCommandData:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+        isOTACommand:
+          type:
+          - boolean
+          - 'null'
+        isTemplateCommandUsed:
+          type:
+          - boolean
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        code:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        attributeCount:
+          type: integer
+          format: int32
+        settingCount:
+          type: integer
+          format: int32
+        commandCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+        ruleCount:
+          type: integer
+          format: int32
+        isValidateTemplate:
+          type: boolean
+        isValidEdgeSupport:
+          type: boolean
+        isValidType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        isEdgeSupport:
+          type: boolean
+        gatewaySupport:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        fileSupport:
+          type: boolean
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        greenGrass:
+          type: boolean
+        wireless:
+          type: boolean
+        onDemandCmd:
+          type: boolean
+        bytesCommandCnt:
+          type: integer
+          format: int32
+        capability:
+          type: integer
+          format: int32
+        c2dOnDemand:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TemplateLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AuthenticationTypeList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        authTypeId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TemplateDirecteMethodData:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        methodName:
+          type:
+          - string
+          - 'null'
+        responseTimeoutSecond:
+          type: integer
+          format: int32
+        createdBy:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    TemplateLookup_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        isEdgeSupport:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        authType:
+          type: integer
+          format: int32
+        code:
+          type:
+          - string
+          - 'null'
+        isType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        sendOfflineCommand:
+          type:
+          - boolean
+          - 'null'
+        c2dOnDemand:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TemplatePropertyRequest_2:
+      type: object
+      properties:
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          description: DataFrequency. Default value is 60.
+          format: int32
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Description.
+        fileSupport:
+          type: boolean
+          description: File support. Default value is false.
+          default: false
+      additionalProperties: false
+    TemplateDetailLookup_2:
+      type: object
+      properties:
+        attributes:
+          type:
+          - object
+          - 'null'
+        settings:
+          type:
+          - object
+          - 'null'
+        commands:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    TemplateDeleteResponse_2:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateCreateRequest_2:
+      required:
+      - authType
+      - code
+      - isEdgeSupport
+      - name
+      type: object
+      properties:
+        code:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: Unique device template code. Template code must be alphanumeric and must start with the alphabet .
+        isEdgeSupport:
+          type: boolean
+          description: For devices with edge support
+        authType:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          type: integer
+          description: 'Authentication Type - 1: Key, 2: CA Signed Certificate, 3: Self Signed Certificate, 4: TPM, 5: Symmetric Key,6: DDKG,7: BootstrapCertificate, 8: PKISignature'
+          format: int32
+        tag:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: "For Gateway supported Devices. \nIt should be alphanumeric with allowed two consecutive '_' and must be started with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        dataLength:
+          type:
+          - integer
+          - 'null'
+          description: For devices with low bandwidth support
+          format: int32
+        isIotEdgeEnable:
+          type: boolean
+          description: True to devices is Azure IoTEdge.
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        trustedPartnerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        c2dOnDemand:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Device template name
+        firmwareguid:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version guid
+      additionalProperties: false
+    TemplateProperty_2:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        fileSupport:
+          type: boolean
+          default: false
+      additionalProperties: false
+    AuthenticationTypeResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AuthenticationTypeList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateDetail_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateCode:
+          type:
+          - string
+          - 'null'
+        msgCode:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        isEdgeSupport:
+          type:
+          - boolean
+          - 'null'
+        reqAttrPush:
+          type:
+          - boolean
+          - 'null'
+        reqSettingPush:
+          type:
+          - object
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        attrXml:
+          type:
+          - string
+          - 'null'
+        attributes:
+          type:
+          - object
+          - 'null'
+        settingXml:
+          type:
+          - string
+          - 'null'
+        settings:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateSettingData'
+        commandXml:
+          type:
+          - string
+          - 'null'
+        commands:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateCommandData'
+        directMethodXml:
+          type:
+          - string
+          - 'null'
+        directMethods:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDirecteMethodData'
+        isValidateTemplate:
+          type: integer
+          format: int32
+        isValidEdgeSupport:
+          type: integer
+          format: int32
+        isValidType2Support:
+          type: integer
+          format: int32
+        isAttachedWithDevice:
+          type:
+          - boolean
+          - 'null'
+        dataLength:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        c2dOnDemand:
+          type: integer
+          format: int32
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        property:
+          $ref: '#/components/schemas/TemplateProperty_2'
+        sendOfflineCommand:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    TemplateDataType_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        target:
+          type: integer
+          format: int32
+        conditionBitValue:
+          type: integer
+          format: int32
+        aggregateBitValue:
+          type: integer
+          format: int32
+        aggregates:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateDeviceNotification_2:
+      type: object
+      properties:
+        condition:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isAllottedDevice:
+          type: integer
+          format: int32
+        notificationText:
+          type:
+          - string
+          - 'null'
+        ruleName:
+          type:
+          - string
+          - 'null'
+        severityLevel:
+          type:
+          - string
+          - 'null'
+        telemetry:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    TemplateList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        code:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        attributeCount:
+          type: integer
+          format: int32
+        settingCount:
+          type: integer
+          format: int32
+        commandCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+        ruleCount:
+          type: integer
+          format: int32
+        isValidateTemplate:
+          type: boolean
+        isValidEdgeSupport:
+          type: boolean
+        isValidType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        isEdgeSupport:
+          type: boolean
+        gatewaySupport:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        fileSupport:
+          type: boolean
+        directMethodCount:
+          type: integer
+          format: int32
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        templateType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        c2dOnDemand:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TemplateSettingData:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        datatypeGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        dataType:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        localName:
+          type:
+          - string
+          - 'null'
+        defaultValue:
+          type:
+          - object
+          - 'null'
+        dataValidation:
+          type:
+          - string
+          - 'null'
+        isReadOnly:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    SphereTemplateLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateLookup_2'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateLookup_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        isEdgeSupport:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        authType:
+          type: integer
+          format: int32
+        code:
+          type:
+          - string
+          - 'null'
+        isType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        sendOfflineCommand:
+          type:
+          - boolean
+          - 'null'
+        c2dOnDemand:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TemplatePropertyRequest_3:
+      type: object
+      properties:
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          description: DataFrequency. Default value is 60.
+          format: int32
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Description.
+        fileSupport:
+          type: boolean
+          description: File support. Default value is false.
+          default: false
+      additionalProperties: false
+    TemplateDetailLookup_3:
+      type: object
+      properties:
+        attributes:
+          type:
+          - object
+          - 'null'
+        settings:
+          type:
+          - object
+          - 'null'
+        commands:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    TemplateDeleteResponse_3:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateCreateRequest_3:
+      required:
+      - authType
+      - code
+      - isEdgeSupport
+      - name
+      type: object
+      properties:
+        code:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: Unique device template code. Template code must be alphanumeric and must start with the alphabet .
+        isEdgeSupport:
+          type: boolean
+          description: For devices with edge support
+        authType:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          type: integer
+          description: 'Authentication Type - 1: Key, 2: CA Signed Certificate, 3: Self Signed Certificate, 4: TPM, 5: Symmetric Key,6: DDKG,7: BootstrapCertificate, 8: PKISignature'
+          format: int32
+        tag:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: "For Gateway supported Devices. \nIt should be alphanumeric with allowed two consecutive '_' and must be started with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        dataLength:
+          type:
+          - integer
+          - 'null'
+          description: For devices with low bandwidth support
+          format: int32
+        isIotEdgeEnable:
+          type: boolean
+          description: True to devices is Azure IoTEdge.
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        trustedPartnerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        c2dOnDemand:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Device template name
+        firmwareguid:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version guid
+      additionalProperties: false
+    TemplateProperty_3:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        fileSupport:
+          type: boolean
+          default: false
+      additionalProperties: false
+    TemplateDetail_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateCode:
+          type:
+          - string
+          - 'null'
+        msgCode:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        isEdgeSupport:
+          type:
+          - boolean
+          - 'null'
+        reqAttrPush:
+          type:
+          - boolean
+          - 'null'
+        reqSettingPush:
+          type:
+          - object
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        attrXml:
+          type:
+          - string
+          - 'null'
+        attributes:
+          type:
+          - object
+          - 'null'
+        settingXml:
+          type:
+          - string
+          - 'null'
+        settings:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateSettingData'
+        commandXml:
+          type:
+          - string
+          - 'null'
+        commands:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateCommandData'
+        directMethodXml:
+          type:
+          - string
+          - 'null'
+        directMethods:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDirecteMethodData'
+        isValidateTemplate:
+          type: integer
+          format: int32
+        isValidEdgeSupport:
+          type: integer
+          format: int32
+        isValidType2Support:
+          type: integer
+          format: int32
+        isAttachedWithDevice:
+          type:
+          - boolean
+          - 'null'
+        dataLength:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        c2dOnDemand:
+          type: integer
+          format: int32
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        property:
+          $ref: '#/components/schemas/TemplateProperty_3'
+        sendOfflineCommand:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    TemplateDataType_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        target:
+          type: integer
+          format: int32
+        conditionBitValue:
+          type: integer
+          format: int32
+        aggregateBitValue:
+          type: integer
+          format: int32
+        aggregates:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateDeviceNotification_3:
+      type: object
+      properties:
+        condition:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isAllottedDevice:
+          type: integer
+          format: int32
+        notificationText:
+          type:
+          - string
+          - 'null'
+        ruleName:
+          type:
+          - string
+          - 'null'
+        severityLevel:
+          type:
+          - string
+          - 'null'
+        telemetry:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    TemplateList_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        code:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        attributeCount:
+          type: integer
+          format: int32
+        settingCount:
+          type: integer
+          format: int32
+        commandCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+        ruleCount:
+          type: integer
+          format: int32
+        isValidateTemplate:
+          type: boolean
+        isValidEdgeSupport:
+          type: boolean
+        isValidType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        isEdgeSupport:
+          type: boolean
+        gatewaySupport:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        fileSupport:
+          type: boolean
+        directMethodCount:
+          type: integer
+          format: int32
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        templateType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        c2dOnDemand:
+          type: integer
+          format: int32
+      additionalProperties: false
+    SphereTemplateLookupResponse_2:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateLookup_3'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-aws-prod-swagger.json
+- avnet-iotconnect-device-azure-prod-swagger.json
+- avnet-iotconnect-device-openapi.yml

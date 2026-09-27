@@ -26,11 +26,13 @@ accessModel:
 modified: '2026-09-18'
 apis:
 - name: Avnet API Portal (Procurement APIs)
-  description: 'Avnet''s distribution-business API programme, relaunched in June 2025 on a global Azure API Management
-    portal: real-time price and availability (getPriceAndQty), inventory and product information for the Avnet,
-    Avnet Abacus, Avnet Silica and EBV Elektronik trading companies. Access is per API Product by approved subscription
-    (Ocp-Apim-Subscription-Key) plus an OAuth 2.0 client-credentials bearer token; the product list and downloadable
-    API definitions are only visible after sign-in, so no machine-readable contract is publicly reachable.'
+  description: >-
+    Avnet's distribution-business API programme, relaunched in June 2025 on a global Azure API Management
+    portal: real-time price and availability (getPriceAndQty), inventory and product information for the
+    Avnet, Avnet Abacus, Avnet Silica and EBV Elektronik trading companies. Access is per API Product
+    by approved subscription (Ocp-Apim-Subscription-Key) plus an OAuth 2.0 client-credentials bearer token;
+    the product list and downloadable API definitions are only visible after sign-in, so no machine-readable
+    contract is publicly reachable.
   humanURL: https://apiportal.avnet.com/
   baseURL: https://apigw.avnet.com
   tags:
@@ -58,317 +60,1283 @@ apis:
   - type: Plans
     url: plans/avnet-plans-pricing.yml
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT Master API
-  description: FAQs, country/state reference data and property types — the reference-data module behind the /IOTCONNECT
-    console. Part of Avnet's /IOTCONNECT IoT platform REST API (27 operations, API version 2); every request carries
-    a JWT bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per
-    module, environment and cloud platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
-  baseURL: https://master.iotconnect.io
+- aid: avnet:avnet-adugroup-api
+  name: Avnet ADU Group API
+  description: ADU Groups API List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
   tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Cloud Platform
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Cloud Platform
+  - ADUGroup
   properties:
+  - type: OpenAPI
+    url: openapi/avnet-adugroup-api-openapi.yml
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
-  - type: OpenAPI
-    url: openapi/avnet-iotconnect-master-openapi.yml
-  - type: OpenAPI
-    url: https://master.iotconnect.io/api/v2/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: OpenAPI
-    url: https://masterconsole.iotconnect.io/api/v2.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
   - type: Authentication
     url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-master-overlay.yaml
   - type: Conventions
     url: conventions/avnet-conventions.yml
   - type: ErrorCatalog
     url: errors/avnet-problem-types.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT Authenticate API
-  description: Login with a solution-key header to obtain the JWT bearer token every other /IOTCONNECT module requires;
-    refresh, verify and mobile-login methods. Part of Avnet's /IOTCONNECT IoT platform REST API (5 operations, API
-    version 2); every request carries a JWT bearer token issued by the Authenticate API and the docs page serves
-    the live Swagger 2.0 definition per module, environment and cloud platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
-  baseURL: https://auth.iotconnect.io
-  tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Cloud Platform
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Cloud Platform
-  properties:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
-  - type: OpenAPI
-    url: openapi/avnet-iotconnect-auth-openapi.yml
-  - type: OpenAPI
-    url: https://auth.iotconnect.io/api/v2/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: OpenAPI
-    url: https://authconsole.iotconnect.io/api/v2.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
-  - type: Authentication
-    url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-auth-overlay.yaml
-  - type: Conventions
-    url: conventions/avnet-conventions.yml
-  - type: ErrorCatalog
-    url: errors/avnet-problem-types.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT User API
-  description: Users, roles and the entity hierarchy that scopes devices and permissions inside an /IOTCONNECT tenant.
-    Part of Avnet's /IOTCONNECT IoT platform REST API (50 operations, API version 2); every request carries a JWT
-    bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module,
-    environment and cloud platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
-  baseURL: https://user.iotconnect.io
-  tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Cloud Platform
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Cloud Platform
-  properties:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
-  - type: OpenAPI
-    url: openapi/avnet-iotconnect-user-openapi.yml
-  - type: OpenAPI
-    url: https://user.iotconnect.io/api/v2/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: OpenAPI
-    url: https://userconsole.iotconnect.io/api/v2.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
-  - type: Authentication
-    url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-user-overlay.yaml
-  - type: Conventions
-    url: conventions/avnet-conventions.yml
-  - type: ErrorCatalog
-    url: errors/avnet-problem-types.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT Device API
-  description: Device templates, attributes, commands, certificates, groups, rules, settings, direct methods, telemetry
-    export, Azure Device Update groups and deployments — the largest module (158 paths). Part of Avnet's /IOTCONNECT
-    IoT platform REST API (190 operations, API version 2); every request carries a JWT bearer token issued by the
-    Authenticate API and the docs page serves the live Swagger 2.0 definition per module, environment and cloud
-    platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
-  baseURL: https://device.iotconnect.io
-  tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Cloud Platform
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Cloud Platform
-  properties:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
-  - type: OpenAPI
-    url: openapi/avnet-iotconnect-device-openapi.yml
-  - type: OpenAPI
-    url: https://device.iotconnect.io/api/v2/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: OpenAPI
-    url: https://deviceconsole.iotconnect.io/api/v2.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
-  - type: Authentication
-    url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-device-overlay.yaml
-  - type: Conventions
-    url: conventions/avnet-conventions.yml
-  - type: ErrorCatalog
-    url: errors/avnet-problem-types.yml
   - type: DataModel
     url: data-model/avnet-data-model.yml
-  - type: AgentSkill
-    url: skills/_index.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT Firmware API
-  description: Firmware packages, OTA upgrade scheduling and cancellation, module library and IoT Edge deployments.
-    Part of Avnet's /IOTCONNECT IoT platform REST API (40 operations, API version 2); every request carries a JWT
-    bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module,
-    environment and cloud platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
-  baseURL: https://firmware.iotconnect.io
-  tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Firmware
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Firmware
-  properties:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
-  - type: OpenAPI
-    url: openapi/avnet-iotconnect-firmware-openapi.yml
-  - type: OpenAPI
-    url: https://firmware.iotconnect.io/api/v2/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: Authentication
-    url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-firmware-overlay.yaml
-  - type: Conventions
-    url: conventions/avnet-conventions.yml
-  - type: ErrorCatalog
-    url: errors/avnet-problem-types.yml
-  - type: AgentSkill
-    url: skills/_index.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT Event API
-  description: Event topics, subscriptions and delivery methods (including webhook URL + headers), event templates,
-    user device registration and email send. Part of Avnet's /IOTCONNECT IoT platform REST API (23 operations, API
-    version 1.1); every request carries a JWT bearer token issued by the Authenticate API and the docs page serves
-    the live Swagger 2.0 definition per module, environment and cloud platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
-  baseURL: https://event.iotconnect.io
-  tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Cloud Platform
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Cloud Platform
-  properties:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
-  - type: OpenAPI
-    url: openapi/avnet-iotconnect-event-openapi.yml
-  - type: OpenAPI
-    url: https://event.iotconnect.io/api/v1.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: OpenAPI
-    url: https://eventconsole.iotconnect.io/api/v2.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
-  - type: Authentication
-    url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-event-overlay.yaml
-  - type: Conventions
-    url: conventions/avnet-conventions.yml
-  - type: ErrorCatalog
-    url: errors/avnet-problem-types.yml
   - type: Webhooks
     url: asyncapi/avnet-iotconnect-webhooks.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT Telemetry API
-  description: Device sensor data, telemetry history, attribute history and MQTT/STOMP reader credentials over HTTP(S).
-    Part of Avnet's /IOTCONNECT IoT platform REST API (15 operations, API version 2); every request carries a JWT
-    bearer token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module,
-    environment and cloud platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
-  baseURL: https://telemetry.iotconnect.io
-  tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Cloud Platform
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Cloud Platform
-  properties:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
-  - type: OpenAPI
-    url: openapi/avnet-iotconnect-telemetry-openapi.yml
-  - type: OpenAPI
-    url: https://telemetry.iotconnect.io/api/v2/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: OpenAPI
-    url: https://telemetryconsole.iotconnect.io/api/v2.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
-  - type: Authentication
-    url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-telemetry-overlay.yaml
-  - type: Conventions
-    url: conventions/avnet-conventions.yml
-  - type: ErrorCatalog
-    url: errors/avnet-problem-types.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
-- name: Avnet /IOTCONNECT File API
-  description: Upload, update, delete and bulk-upload files and resolve file URLs used by device telemetry. Part
-    of Avnet's /IOTCONNECT IoT platform REST API (6 operations, API version 1.1); every request carries a JWT bearer
-    token issued by the Authenticate API and the docs page serves the live Swagger 2.0 definition per module, environment
-    and cloud platform (Azure or AWS).
-  humanURL: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
-  baseURL: https://file.iotconnect.io
-  tags:
-  - IoT
-  - Device Management
-  - Telemetry
-  - Cloud Platform
-  tags_raw:
-  - IoT
-  - Device Management
-  - Internet of Things
-  - Telemetry
-  - Cloud Platform
-  properties:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-attribute-api
+  name: Avnet Attribute API
+  description: Attribute Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Attribute
+  properties:
   - type: OpenAPI
-    url: openapi/avnet-iotconnect-file-openapi.yml
-  - type: OpenAPI
-    url: https://file.iotconnect.io/api/v1.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (Azure production)
-  - type: OpenAPI
-    url: https://fileconsole.iotconnect.io/api/v2.1/swagger-json
-    name: Provider-hosted Swagger 2.0 (AWS production, API v2.1)
+    url: openapi/avnet-attribute-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
   - type: Authentication
     url: authentication/avnet-authentication.yml
-  - type: Overlay
-    url: overlays/avnet-iotconnect-file-overlay.yaml
   - type: Conventions
     url: conventions/avnet-conventions.yml
   - type: ErrorCatalog
     url: errors/avnet-problem-types.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/avnet.png
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-auth-api
+  name: Avnet Auth API
+  description: Auth Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-auth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-azuresphere-api
+  name: Avnet Azure Sphere API
+  description: Azure Sphere Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - AzureSphere
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-azuresphere-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-certificate-api
+  name: Avnet Certificate API
+  description: Certificate Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Certificate
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-certificate-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-cloudtemplate-api
+  name: Avnet Cloud Template API
+  description: CloudTemplate Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - CloudTemplate
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-cloudtemplate-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-command-api
+  name: Avnet Command API
+  description: Command Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Command
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-command-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-deployment-api
+  name: Avnet Deployment API
+  description: Deployment API List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Deployment
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-deployment-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-device-api
+  name: Avnet Device API
+  description: Device Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Device
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-device-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-deviceoperation-api
+  name: Avnet Device Operation API
+  description: Device Operation Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - DeviceOperation
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-deviceoperation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-deviceupdate-api
+  name: Avnet Device Update API
+  description: Device update API List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - DeviceUpdate
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-deviceupdate-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-directmethod-api
+  name: Avnet Direct Method API
+  description: Direct Method Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - DirectMethod
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-directmethod-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-entity-api
+  name: Avnet Entity API
+  description: Entity Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Entity
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-entity-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-event-api
+  name: Avnet Event API
+  description: Event Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Event
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-event-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-faq-api
+  name: Avnet Faq API
+  description: FAQ Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Faq
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-faq-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-file-api
+  name: Avnet File API
+  description: File Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - File
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-file-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-firmware-api
+  name: Avnet Firmware API
+  description: Firmware Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Firmware
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-firmware-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-firmwareupgrade-api
+  name: Avnet Firmware Upgrade API
+  description: FirmwareUpgrade Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - FirmwareUpgrade
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-firmwareupgrade-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-group-api
+  name: Avnet Group API
+  description: Group Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Group
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-group-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-iotedgedeployment-api
+  name: Avnet Io T Edge Deployment API
+  description: IoTEdge Deployments Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - IoTEdgeDeployment
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-iotedgedeployment-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-jitprule-api
+  name: Avnet Jitp Rule API
+  description: Jitp Rule Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - JitpRule
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-jitprule-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-managedintegration-api
+  name: Avnet Managed Integration API
+  description: Managed Integration Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - ManagedIntegration
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-managedintegration-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-master-api
+  name: Avnet Master API
+  description: Master Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Master
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-master-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-module-api
+  name: Avnet Module API
+  description: Module Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Module
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-module-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-ota-api
+  name: Avnet OTA API
+  description: OTA Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - OTA
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-ota-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-property-api
+  name: Avnet Property API
+  description: Property Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Property
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-property-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-role-api
+  name: Avnet Role API
+  description: Role Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Role
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-role-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-rule-api
+  name: Avnet Rule API
+  description: Rule Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Rule
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-rule-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-setting-api
+  name: Avnet Setting API
+  description: Setting Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Setting
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-setting-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-shorten-api
+  name: Avnet Shorten API
+  description: The Shorten API from Avnet — 1 operation(s) for shorten.
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Shorten
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-shorten-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-telemetry-api
+  name: Avnet Telemetry API
+  description: Telemetry Module Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-telemetry-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-template-api
+  name: Avnet Template API
+  description: Template Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Template
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-template-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-user-api
+  name: Avnet User API
+  description: User Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-user-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-wirelessdevice-api
+  name: Avnet Wireless Device API
+  description: Wireless Device Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - WirelessDevice
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-wirelessdevice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
+- aid: avnet:avnet-data-export-api
+  name: Avnet Data Export API
+  description: Data export Api List
+  humanURL: https://apiportal.avnet.com/
+  baseURL: https://apigw.avnet.com
+  tags:
+  - Data Export
+  properties:
+  - type: OpenAPI
+    url: openapi/avnet-data-export-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/master/?env=prod&pf=az
+  - type: Authentication
+    url: authentication/avnet-authentication.yml
+  - type: Conventions
+    url: conventions/avnet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/avnet-problem-types.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/auth/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/user/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/device/?env=prod&pf=az
+  - type: DataModel
+    url: data-model/avnet-data-model.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/firmware/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/event/?env=prod&pf=az
+  - type: Webhooks
+    url: asyncapi/avnet-iotconnect-webhooks.yml
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/telemetry/?env=prod&pf=az
+  - type: Documentation
+    url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
 common:
+- type: Overlay
+  url: overlays/avnet-iotconnect-master-overlay.yaml
+- type: Overlay
+  url: overlays/avnet-iotconnect-auth-overlay.yaml
+- type: Overlay
+  url: overlays/avnet-iotconnect-user-overlay.yaml
+- type: Overlay
+  url: overlays/avnet-iotconnect-device-overlay.yaml
+- type: Overlay
+  url: overlays/avnet-iotconnect-firmware-overlay.yaml
+- type: Overlay
+  url: overlays/avnet-iotconnect-event-overlay.yaml
+- type: Overlay
+  url: overlays/avnet-iotconnect-telemetry-overlay.yaml
+- type: Overlay
+  url: overlays/avnet-iotconnect-file-overlay.yaml
 - type: DomainSecurity
   url: security/avnet-domain-security.yml
 - type: Website

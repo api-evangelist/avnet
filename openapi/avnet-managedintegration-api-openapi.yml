@@ -1,0 +1,865 @@
+openapi: 3.2.0
+info:
+  title: /IOTCONNECT™ Master Managed Integration API
+  description: 'Master REST API contains information of Dashboard, FAQ, Property (Custom Fields) Methods and other lockups data.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
+  version: '2.1'
+security:
+- Bearer: []
+tags:
+- name: ManagedIntegration
+  description: Managed Integration Api List
+paths:
+  /api/v2.1/ManagedIntegration/check-association:
+    get:
+      tags:
+      - ManagedIntegration
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckAssociationResponse'
+      summary: Get api managed integration check association
+      x-summary-source: derived
+      operationId: getApiV21ManagedIntegrationCheckAssociation
+      x-operation-id-source: derived
+  /api/v2.1/ManagedIntegration/create-association:
+    post:
+      tags:
+      - ManagedIntegration
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAssociationResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssociationRequest'
+      summary: Create api managed integration create association
+      x-summary-source: derived
+      operationId: postApiV21ManagedIntegrationCreateAssociation
+      x-operation-id-source: derived
+  /api/v2.1/ManagedIntegration/device-list:
+    get:
+      tags:
+      - ManagedIntegration
+      parameters:
+      - name: connectorType
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceListResponse'
+      summary: Get api managed integration device list
+      x-summary-source: derived
+      operationId: getApiV21ManagedIntegrationDeviceList
+      x-operation-id-source: derived
+  /api/v2.1/ManagedIntegration/send-command:
+    post:
+      tags:
+      - ManagedIntegration
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendCommandResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendCommandRequest'
+      summary: Create api managed integration send command
+      x-summary-source: derived
+      operationId: postApiV21ManagedIntegrationSendCommand
+      x-operation-id-source: derived
+  /api/v2.1/ManagedIntegration/alexa-command:
+    post:
+      tags:
+      - ManagedIntegration
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlexaCommandResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlexaCommandRequest'
+      summary: Create api managed integration alexa command
+      x-summary-source: derived
+      operationId: postApiV21ManagedIntegrationAlexaCommand
+      x-operation-id-source: derived
+  /api/v2.1/ManagedIntegration/command-history:
+    get:
+      tags:
+      - ManagedIntegration
+      parameters:
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandHistoryListResponse'
+      summary: Get api managed integration command history
+      x-summary-source: derived
+      operationId: getApiV21ManagedIntegrationCommandHistory
+      x-operation-id-source: derived
+components:
+  schemas:
+    SendCommandRequest:
+      type: object
+      properties:
+        connectorDevice:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        level:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        rateX:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        rateY:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        maskExecuteIfOff:
+          type:
+          - boolean
+          - 'null'
+        overrideExecuteIfOff:
+          type:
+          - boolean
+          - 'null'
+        connectorType:
+          type: integer
+          format: int32
+        sdpOffer:
+          type:
+          - string
+          - 'null'
+        sessionID:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AlexaCommandRequest:
+      type: object
+      properties:
+        connectorDevice:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        connectorType:
+          type: integer
+          format: int32
+        id:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AssociationDevice:
+      type: object
+      properties:
+        connectorDeviceId:
+          type:
+          - string
+          - 'null'
+        id:
+          type:
+          - string
+          - 'null'
+        connectorDeviceName:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    SendCommandResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ManageSendCommand'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CheckAssociationResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CheckAssociationModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ManageSendCommand:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CreateAssociationRequest:
+      type: object
+      properties:
+        isReCreate:
+          type: boolean
+        isRemove:
+          type: boolean
+        connectorType:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CommandHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CreateAssociationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ConnectorAssociationResponse'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CheckAssociationModel:
+      type: object
+      properties:
+        connectorName:
+          type:
+          - string
+          - 'null'
+        accountAssociationId:
+          type:
+          - string
+          - 'null'
+        associationState:
+          type:
+          - string
+          - 'null'
+        associationStateCode:
+          type: integer
+          format: int32
+          readOnly: true
+      additionalProperties: false
+    CommandHistory:
+      type: object
+      properties:
+        commandHistoryGuid:
+          type: string
+          format: uuid
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        cmdName:
+          type:
+          - string
+          - 'null'
+        executedDate:
+          type: string
+          format: date-time
+        executedBy:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        statusText:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AssociationDeviceResponse:
+      type: object
+      properties:
+        Items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AssociationDevice'
+        NextToken:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AlexaCommandResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ManageSendCommand'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AccountAuthorizationInfo:
+      type: object
+      properties:
+        OAuthAuthorizationUrl:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ConnectorAssociationResponse:
+      type: object
+      properties:
+        AccountAuthorizationInfo:
+          $ref: '#/components/schemas/AccountAuthorizationInfo'
+        OAuthAuthorizationUrl:
+          type:
+          - string
+          - 'null'
+        AssociationArn:
+          type:
+          - string
+          - 'null'
+        AccountAssociationId:
+          type:
+          - string
+          - 'null'
+        AssociationState:
+          type:
+          - string
+          - 'null'
+        ConnectorPolicyArn:
+          type:
+          - string
+          - 'null'
+        discoveryId:
+          type:
+          - string
+          - 'null'
+        connector:
+          type:
+          - string
+          - 'null'
+        DestinationId:
+          type:
+          - string
+          - 'null'
+        AssociationStateCode:
+          type: integer
+          format: int32
+          readOnly: true
+      additionalProperties: false
+    DeviceListResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AssociationDeviceResponse'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header

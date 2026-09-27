@@ -1,0 +1,2257 @@
+openapi: 3.2.0
+info:
+  title: Avnet OTA API
+  version: '2.0'
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged OTA across 2 of this provider''s published API definitions: avnet-iotconnect-firmware-azure-prod-swagger.json, avnet-iotconnect-firmware-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://firmware.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: OTA
+  description: OTA Api List
+paths:
+  /api/v2/ota-update:
+    post:
+      tags:
+      - OTA
+      summary: Send OTA update
+      description: 'This API endpoint allows you to send OTA updates to devices.
+
+
+        Here, firmwareUpgradeGuid is a firmware software version guid. The entityGuid defines this software update will be available for which entity devices. Send true in isForceUpdate parameter, if you wish devices to update this software forcefully. If you want to send this software update to devices at some particular time, send the date in scheduledOn parameter.
+
+
+        target value should be 1,2 or 3'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that OTA update process started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            firmware not found, firmware upgrade file not found, firmware upgrade not found, invalid entity, schedule on is past datetime,
+
+            device template not found and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OTAUpdateRequest'
+        description: scheduledOn should be on format - YYYY-MM-DD HH:mm:ss.
+      operationId: postApiV2OtaUpdate
+      x-operation-id-source: derived
+    get:
+      tags:
+      - OTA
+      summary: Get OTA update sent list
+      description: 'This API endpoint gives you the list of OTA updates that you have sent to devices. This also gives you the OTA update status, indicating that in how many devices it is updated, or still pending or failed to update.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order/ex:hardware,software,forceupdate,updatedDate,updatedBy,entity asc
+        schema:
+          type: string
+      - name: Software
+        in: query
+        description: Software version for search
+        schema:
+          type: string
+      - name: Hardware
+        in: query
+        description: Hardware version for search
+        schema:
+          type: string
+      - name: IsForceUpdate
+        in: query
+        description: Send true to get only those OTA updates which are enabled force update
+        schema:
+          type: string
+      - name: Entity
+        in: query
+        description: Entity name for search
+        schema:
+          type: string
+      - name: IsScheduled
+        in: query
+        description: Send true to get scheduled OTA updates
+        schema:
+          type: string
+      - name: Status
+        in: query
+        description: Search with status, Eg. pending, success, failed, sent, skipped, executed etc.
+        schema:
+          type: string
+      - name: TemplateName
+        in: query
+        description: Search with template name.
+        schema:
+          type: string
+      - name: Cancelled
+        in: query
+        schema:
+          type: string
+      - name: isTrialDraft
+        in: query
+        schema:
+          type: boolean
+      - name: includeDeprecated
+        in: query
+        description: To include deprecated firmware's ota updates
+        schema:
+          type: boolean
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only those ota updates which are associated with edge templates'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only those ota updates which are associated with gateway templates'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only those ota updates which are associated with lowbandwidth templates'
+        schema:
+          type: boolean
+      - name: isSphere
+        in: query
+        description: 'IsSphere : Pass value as true to get only sphere ota updates'
+        schema:
+          type: boolean
+      - name: isOTASchedule
+        in: query
+        schema:
+          type: boolean
+      - name: firmwareUpgradeGuid
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that OTA update list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateListResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2OtaUpdate
+      x-operation-id-source: derived
+  /api/v2/ota-update/{otaUpdateGuid}:
+    get:
+      tags:
+      - OTA
+      summary: Get device list for OTA update
+      description: 'This API endpoint provides you the list of devices, which are going to receive OTA updates. For that, you need to send otaUpdateGuid in request url.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: otaUpdateGuid
+        in: path
+        description: OTA update guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: status
+        in: query
+        description: Search with status, Eg. pending, success, failed, sent, skipped, executed etc.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: To sort the list. To do that, Specify Field name to sort with and sorting order. Eg. entityName asc, entityName desc, entityName etc
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device list for OTA update received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateDetailResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2OtaUpdateByOtaUpdateGuid
+      x-operation-id-source: derived
+  /api/v2/ota-update/{otaUpdateGuid}/status/{status}:
+    get:
+      tags:
+      - OTA
+      summary: Get device list for OTA update with update status
+      description: 'This API endpoint gives you the list of devices, which are going to receive OTA update for given status only. For that, you need to send otaUpdateGuid and status in request url.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: otaUpdateGuid
+        in: path
+        description: OTA update guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: status
+        in: path
+        description: Status, Eg. pending, success, failed, sent, skipped, executed, cancelled etc.
+        required: true
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: To sort the list. To do that, Specify Field name to sort with and sorting order. Eg. status asc, status desc, status etc
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device list for OTA update received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateDetailResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2OtaUpdateByOtaUpdateGuidStatusByStatus
+      x-operation-id-source: derived
+  /api/v2/ota-update/device-update-history:
+    post:
+      tags:
+      - OTA
+      summary: Get OTA update history for devices
+      description: 'This API endpoint provides you the list of OTA updates that you have sent to devices. For that, you need to send the device guid list in device parameter in the request body.
+
+
+        You can also add the filters as given in the parameters. These filters are optional.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that device OTA update history list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateHistoryListResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OTAUpdateHistoryDeviceList'
+        description: Json object
+      operationId: postApiV2OtaUpdateDeviceUpdateHistory
+      x-operation-id-source: derived
+  /api/v2/ota-update/device/{deviceGuid}/recent:
+    get:
+      tags:
+      - OTA
+      summary: Get recent OTA update list for a single device
+      description: 'This API endpoint lets you access the list of recently sent OTA updates to a single device. For that, you need to send a device guid in request url.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: To sort the list. To do that, Specify Field name to sort with and sorting order. Eg. status asc, status desc, status etc
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that recent OTA update list for single device received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateRecentListResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            OTA update item not found, device not found, entity not found and invalid logged user or company.'
+      operationId: getApiV2OtaUpdateDeviceByDeviceGuidRecent
+      x-operation-id-source: derived
+  /api/v2/ota-update/device/{deviceGuid}/otaupdateItem/{otaUpdateItemGuid}/status/{status}:
+    put:
+      tags:
+      - OTA
+      summary: Update device OTA update status using device guid
+      description: This API endpoint allows you to update the status of device OTA update. For that, you need to send device guid, OTA update item guid and new update status in request url. OTA update item guid is a unique combination for each device and otaUpdate.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: otaUpdateItemGuid
+        in: path
+        description: OTA update item guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: status
+        in: path
+        description: Status, Eg. pending, success, failed, sent, skipped, executed, cancelled etc.
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that OTA update item status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateFirmwareStatusUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            OTA update item not found, device not found and invalid logged user or company.'
+      operationId: putApiV2OtaUpdateDeviceByDeviceGuidOtaupdateItemByOtaUpdateItemGuidStatusByStatus
+      x-operation-id-source: derived
+  /api/v2/ota-update/device/{uniqueId}/otaupdate-item/{otaUpdateItemGuid}/status/{status}:
+    put:
+      tags:
+      - OTA
+      summary: Update device OTA update status using device unique id
+      description: This API endpoint allows you to update the status of device OTA update. For that, you need to send device unique id, OTA update item guid and new update status in request url. OTA update item guid is a unique combination for each device and otaUpdate.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device unique id
+        required: true
+        schema:
+          type: string
+      - name: otaUpdateItemGuid
+        in: path
+        description: OTA update item guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: status
+        in: path
+        description: Status, Eg. pending, success, failed, sent, skipped, executed, cancelled etc.
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that OTA update item status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateFirmwareStatusUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            OTA update item not found, device not found and invalid logged user or company.'
+      operationId: putApiV2OtaUpdateDeviceByUniqueIdOtaupdateItemByOtaUpdateItemGuidStatusByStatus
+      x-operation-id-source: derived
+  /api/v2/device/{deviceGuid}/ota-update:
+    get:
+      tags:
+      - OTA
+      summary: Get recent pending or failed OTA update list for a single device
+      description: This API endpoint gives you the list of recently sent OTA updates to a device that is pending. For that, you need to send a device guid in request url.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that recent pending or failed OTA update list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateDeviceDetailResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            OTA update item not found, device not found and invalid logged user or company.'
+      operationId: getApiV2DeviceByDeviceGuidOtaUpdate
+      x-operation-id-source: derived
+  /api/v2/ota-update/recent:
+    get:
+      tags:
+      - OTA
+      summary: Get recent OTA updates list
+      description: 'This API endpoint gives you the list of recently sent OTA updates.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: isRecursive
+        in: query
+        description: Send true to get only recursive OTA updates
+        schema:
+          type: boolean
+      - name: entityGuid
+        in: query
+        description: Entity guid
+        schema:
+          type: string
+          format: uuid
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: To search for specific texts in the list.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: To sort the list. To do that, Specify Field name to sort with and sorting order. Eg. status asc, status desc, status etc
+        schema:
+          type: string
+      - name: Entries
+        in: query
+        description: 'To get top records from available items Eg: 10'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that recent OTA update list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateRecentListResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            OTA update item not found, device not found, entity not found and invalid logged user or company.'
+      operationId: getApiV2OtaUpdateRecent
+      x-operation-id-source: derived
+  /api/v2/ota-update/recent-activity:
+    get:
+      tags:
+      - OTA
+      summary: Get recent OTA updates list for all devices
+      description: 'This API endpoint gives you the list of recently sent OTA updates to devices.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: status
+        in: query
+        description: Status, Eg. pending, success, failed, sent, skipped, executed, cancelled etc.
+        schema:
+          type: string
+      - name: count
+        in: query
+        description: Number of ota updates statistics to display
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that recent OTA update list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateRecentActivityListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2OtaUpdateRecentActivity
+      x-operation-id-source: derived
+  /api/v2/ota-update/cancel-scheduled-otaupdate:
+    put:
+      tags:
+      - OTA
+      summary: Update device OTA update cancel status
+      description: This API endpoint allows you to update the cancel status of device OTA update.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that OTA update item status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateFirmwareCancelStatusUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            OTA update item not found, device not found and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OTAUpdateFirmwareCancelStatusUpdateRequest'
+        description: request model contain either otaUpdateItemGuid or otaUpdateGuid
+      operationId: putApiV2OtaUpdateCancelScheduledOtaupdate
+      x-operation-id-source: derived
+  /api/v2/ota-update/otaUpdateFeedback/{otaUpdateItemGuid}:
+    post:
+      tags:
+      - OTA
+      summary: Get ota update command feedback
+      description: This API endpoint provides you the feedback of command. This also gives you the status of whether the command feedback was successfully executed or not.
+      parameters:
+      - name: otaUpdateItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the command feedback received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateCommandFeedbackResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company'
+      operationId: postApiV2OtaUpdateOtaUpdateFeedbackByOtaUpdateItemGuid
+      x-operation-id-source: derived
+  /api/v2/ota-update/device/{deviceGuid}/ota-update:
+    get:
+      tags:
+      - OTA
+      summary: Get OTA update list according a device
+      description: 'This API endpoint lets you access the list of devices . For that, you need to send a device guid in request url.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that OTA update list according a device received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OTAUpdateDeviceResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            OTA update item not found, device not found, entity not found and invalid logged user or company.'
+      operationId: getApiV2OtaUpdateDeviceByDeviceGuidOtaUpdate
+      x-operation-id-source: derived
+components:
+  schemas:
+    OTAUpdateRecentActivity:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type: string
+          format: date-time
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        type2Support:
+          type: boolean
+        edgeSupport:
+          type: boolean
+        lowbandWidth:
+          type: boolean
+        iotEdgeEnable:
+          type: boolean
+      additionalProperties: false
+    OTAUpdateDetail:
+      type: object
+      properties:
+        otaUpdateItemGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        statusText:
+          type:
+          - string
+          - 'null'
+        availableDate:
+          type: string
+          format: date-time
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        isDisplayLink:
+          type: boolean
+        templateName:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateFirmwareCancelStatusUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateDeviceDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateDeviceDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateFirmwareCancelStatusUpdateRequest:
+      type: object
+      properties:
+        otaUpdateGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        otaUpdateItemGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    Device:
+      type: object
+      properties:
+        deviceguid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    FileUrl:
+      type: object
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateRequest:
+      required:
+      - firmwareUpgradeGuid
+      - isForceUpdate
+      type: object
+      properties:
+        firmwareUpgradeGuid:
+          minLength: 1
+          type: string
+          description: Firmware Upgrade Guid
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. Required when 'target' value is 1 or 2.
+        isForceUpdate:
+          type: boolean
+          description: true/false. To OTA force update
+        scheduledOn:
+          type:
+          - string
+          - 'null'
+          description: To send ota update on scheduled time
+        deviceGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list for trial draft OTA update. Required when 'target' value is 3.
+        isTrialDraft:
+          type: boolean
+          description: true for trial draft OTA update
+          default: false
+        target:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          description: target should be Entity=1, EntityWithSibling=2, Device=3 or ReportingGroup=4
+          format: int32
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          description: Device reporting group guid
+          format: uuid
+        isSphere:
+          type:
+          - boolean
+          - 'null'
+          description: To check if it is sphere OTA
+      additionalProperties: false
+    OTAUpdateDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateCommandFeedbackResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    OTAUpdateRecentActivityListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateRecentActivity'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdate:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        availableDate:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+        otaUpdateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        messageVersion:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        isRecursive:
+          type: boolean
+        scheduledOn:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isforceUpdate:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityName:
+          type:
+          - string
+          - 'null'
+        updatedByName:
+          type:
+          - string
+          - 'null'
+        success:
+          type:
+          - string
+          - 'null'
+        pending:
+          type:
+          - string
+          - 'null'
+        failed:
+          type:
+          - string
+          - 'null'
+        executed:
+          type:
+          - string
+          - 'null'
+        isDeprecated:
+          type: boolean
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        hasCancel:
+          type: boolean
+        canceled:
+          type: integer
+          format: int32
+        templateName:
+          type:
+          - string
+          - 'null'
+        targetName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateRecentListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateRecentList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateDeviceDetail:
+      type: object
+      properties:
+        otaUpdateItemGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileName:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileUrl:
+          type:
+          - string
+          - 'null'
+        statusText:
+          type:
+          - string
+          - 'null'
+        availableDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+        ackId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        solutionGuid:
+          type: string
+          format: uuid
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
+      additionalProperties: false
+    OTAUpdateDeviceResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateRecentList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateRecentList:
+      type: object
+      properties:
+        otaUpdateItemGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        hardware:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type: string
+          format: date-time
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        type2Support:
+          type: boolean
+        lowbandWidth:
+          type: boolean
+        iotEdgeEnable:
+          type: boolean
+        edgeSupport:
+          type: boolean
+        firmwareName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateHistoryList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        otaGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type: string
+          format: date-time
+      additionalProperties: false
+    OTAUpdateHistoryDeviceList:
+      type: object
+      properties:
+        device:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Device'
+          description: List of device guids for search to specific devices
+      additionalProperties: false
+    OTAUpdateFirmwareStatusUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-firmware-azure-prod-swagger.json
+- avnet-iotconnect-firmware-openapi.yml

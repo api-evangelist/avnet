@@ -1,0 +1,1295 @@
+openapi: 3.2.0
+info:
+  title: Avnet Firmware API
+  version: '2.0'
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Firmware across 2 of this provider''s published API definitions: avnet-iotconnect-firmware-azure-prod-swagger.json, avnet-iotconnect-firmware-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://firmware.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Firmware
+  description: Firmware Api List
+paths:
+  /api/v2/Firmware:
+    post:
+      tags:
+      - Firmware
+      summary: Add new firmware
+      description: 'Firmware on the devices connected to the IoT hub needs to be updated as per the requirements. For example, you may need to add new features to the firmware or make your security patches stronger. You can update firmware remotely.
+
+
+        This API endpoint allows you to create new firmware for your devices.
+
+
+        Here, the hardware is a firmware hardware version. software is a firmware software version. firmwareFile requires a firmware file.
+
+
+        Note : Once firmware created successfully API returns firmware details with firmwareUpgradeGuid and
+
+        you must required to upload firmware file in file service with firmwareUpgradeGuid, for gateway device requires to send tag in file request body.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that firmware created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmwareCreateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Firmware name already exists, firmware software version already exists, firmware hardware version already exists
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmwareCreateV2Request'
+      operationId: postApiV2Firmware
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Firmware
+      summary: Get firmware list
+      description: 'This API endpoint gives you a firmware list.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: searchText
+        in: query
+        description: Search Text
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: To sort the list. To do that, Specify Field name to sort with and sorting order. Eg. name asc, name desc, name etc
+        schema:
+          type: string
+      - name: Name
+        in: query
+        description: Firmware name for search
+        schema:
+          type: string
+      - name: Hardware
+        in: query
+        description: Hardware version for search
+        schema:
+          type: string
+      - name: ReleaseCount
+        in: query
+        description: Release count for search
+        schema:
+          type: string
+      - name: DraftCount
+        in: query
+        description: Draft count for search
+        schema:
+          type: string
+      - name: IsLowBandwidth
+        in: query
+        schema:
+          type: string
+      - name: IsEdge
+        in: query
+        schema:
+          type: string
+      - name: IsGateway
+        in: query
+        schema:
+          type: string
+      - name: isIotEdgeEnable
+        in: query
+        schema:
+          type: boolean
+      - name: IsSphere
+        in: query
+        schema:
+          type: string
+      - name: TemplateName
+        in: query
+        schema:
+          type: string
+      - name: includeDeprecated
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the firmware list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmwareGetListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2Firmware
+      x-operation-id-source: derived
+  /api/v2/Firmware/{firmwareGuid}:
+    put:
+      tags:
+      - Firmware
+      summary: Update Firmware
+      description: This API endpoint allows you to update the firmware. For that, you need to send firmwareGuid in request url and updated firmware details in the request body. Status should be draft or released.
+      parameters:
+      - name: firmwareGuid
+        in: path
+        description: firmwareGuid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that firmware updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmwareUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            firmware not found, firmware name already exists, firmware software version already exists, firmware hardware version already exists,
+
+            firmware status or firmware hardware version can not update if one or more firmware upgrade is released
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmwareUpdateV2Request'
+        description: Json object
+      operationId: putApiV2FirmwareByFirmwareGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Firmware
+      summary: Get firmware details
+      description: This API endpoint provides you a detailed description of firmware along with their upgrade details.
+      parameters:
+      - name: firmwareGuid
+        in: path
+        description: Firmware Guid. For multiple firmwareGuids send comma(,) separated list
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the firmware details received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmwareListResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2FirmwareByFirmwareGuid
+      x-operation-id-source: derived
+  /api/v2/Firmware/lookup:
+    get:
+      tags:
+      - Firmware
+      summary: Get firmware lookup list
+      description: This API endpoint gives you a firmware lookup list for devices.
+      parameters:
+      - name: isDraft
+        in: query
+        description: true for get draft firmwares.
+        schema:
+          type: boolean
+      - name: includeDeprecated
+        in: query
+        schema:
+          type: boolean
+      - name: isEdge
+        in: query
+        description: 'IsEdge : Pass value as true to get only those firmwares which are associated with edge templates'
+        schema:
+          type: boolean
+      - name: isGateway
+        in: query
+        description: 'IsGateway : Pass value as true to get only those firmwares which are associated with gateway templates'
+        schema:
+          type: boolean
+      - name: isLowBandwidth
+        in: query
+        description: 'IsLowBandwidth : Pass value as true to get only those firmwares which are associated with lowbandwidth templates'
+        schema:
+          type: boolean
+      - name: isIotEdgeEnable
+        in: query
+        description: 'IsIoTEdgeEnable : Pass value as true to get only those firmwares which are associated with IoTEdgeEnable templates'
+        schema:
+          type: boolean
+      - name: isSphere
+        in: query
+        description: 'isSphere : Pass value as true to get only those firmwares which are sphere firmwares'
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the firmware lookup received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmwareLookupResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2FirmwareLookup
+      x-operation-id-source: derived
+  /api/v2/firmware-validate:
+    post:
+      tags:
+      - Firmware
+      summary: Validate firmware
+      description: This API endpoint validates your firmware details.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the firmware validated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmwareValidateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            firmware code already exists, firmware version already exists,
+
+            invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirmwareValidateRequest'
+        description: Json object
+      operationId: postApiV2FirmwareValidate
+      x-operation-id-source: derived
+  /api/v2/Firmware/{firmwareGuid}/deprecate:
+    put:
+      tags:
+      - Firmware
+      summary: Deprecate Firmware
+      description: This API endpoint allows you to deprecate the firmware. For that, you need to send firmwareGuid in request url
+      parameters:
+      - name: firmwareGuid
+        in: path
+        description: firmwareGuid to deprecate firmware
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the firmware deprecated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirmwareUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            firmware not found, firmware is already deprecated and invalid logged user or company.'
+      operationId: putApiV2FirmwareByFirmwareGuidDeprecate
+      x-operation-id-source: derived
+components:
+  schemas:
+    FirmwareUpdate:
+      type: object
+      properties:
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FirmwareLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    FileUrl:
+      type: object
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Upgrade:
+      type: object
+      properties:
+        software:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+        fileName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        isDraft:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type:
+          - string
+          - 'null'
+        updatedBy:
+          type:
+          - string
+          - 'null'
+        fileUrl:
+          type:
+          - string
+          - 'null'
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
+      additionalProperties: false
+    FirmwareListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeDescription:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeprecated:
+          type: boolean
+        Upgrades:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Upgrade'
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateCode:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FirmwareLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        isDeprecated:
+          type: boolean
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    FirmwareDetail:
+      required:
+      - name
+      type: object
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: Firmware code
+        hardware:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version
+        software:
+          type:
+          - string
+          - 'null'
+          description: Firmware software version
+        name:
+          minLength: 1
+          type: string
+          description: Firmware name
+      additionalProperties: false
+    FirmwareValidateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareCreate:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    FirmwareCreateV2Request:
+      required:
+      - deviceTemplateGuid
+      - firmwareName
+      - hardware
+      - software
+      type: object
+      properties:
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Associated Device Template Guid
+        software:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Software Version
+        firmwareUpgradeDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        tag:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Tag of device template \nRequired if device template has enabled gateway support."
+        FirmwareDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        firmwareName:
+          maxLength: 10
+          minLength: 3
+          type: string
+          description: Firmware Name
+        hardware:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Hardware Version
+      additionalProperties: false
+    FirmwareGetListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareGetList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareUpdateV2Request:
+      required:
+      - firmwareName
+      - hardware
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+          description: Status should be draft or released.
+        FirmwareDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        firmwareName:
+          maxLength: 10
+          minLength: 3
+          type: string
+          description: Firmware Name
+        hardware:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Hardware Version
+      additionalProperties: false
+    FirmwareGetList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        releaseCount:
+          type: integer
+          format: int32
+        draftCount:
+          type: integer
+          format: int32
+        isDeprecated:
+          type: boolean
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateCode:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        firmwareDescription:
+          type:
+          - string
+          - 'null'
+        isSolutionTemplate:
+          type: boolean
+      additionalProperties: false
+    FirmwareValidateRequest:
+      type: object
+      properties:
+        firmware:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareDetail'
+          description: Firmware list
+      additionalProperties: false
+    FirmwareCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-firmware-azure-prod-swagger.json
+- avnet-iotconnect-firmware-openapi.yml

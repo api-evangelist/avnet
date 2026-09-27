@@ -1,0 +1,4267 @@
+openapi: 3.2.0
+info:
+  title: Avnet Cloud Template API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged CloudTemplate across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://device.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: CloudTemplate
+  description: CloudTemplate Api List
+paths:
+  /api/v2.1/CloudTemplate/device:
+    post:
+      tags:
+      - CloudTemplate
+      summary: Add new device
+      description: 'IoT device is a smart device that supports internet connectivity. Through connectivity, established using IoT communication protocols, these devices can interact with other devices. Not only that, it grants remote access to a user for managing the device as per their needs. These devices can be anything from consumer devices, wearables, home appliances, industrial monitoring systems to security systems.
+
+
+        Add any quantity and a variety of devices using this API endpoint for easy integration with IoTConnect.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device is created successfully and returns created device guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceCreateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudTemplateDeviceCreateRequest'
+        description: Json object with device details.
+      operationId: postApiV21CloudTemplateDevice
+      x-operation-id-source: derived
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get Device List
+      description: 'This API endpoint gives you the list of available devices in your company.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order, Eg. uniqueId asc, uniqueId desc etc.
+        schema:
+          type: string
+      - name: UniqueId
+        in: query
+        description: The unique id of device
+        schema:
+          type: string
+      - name: EntityGuid
+        in: query
+        schema:
+          type: string
+      - name: Status
+        in: query
+        description: The status of device, Eg. active or inactive
+        schema:
+          type: string
+      - name: Acquired
+        in: query
+        description: The device acquire status, Eg. acquired, released or inprogress
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21CloudTemplateDevice
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/{deviceGuid}:
+    put:
+      tags:
+      - CloudTemplate
+      summary: Update a device
+      description: Device details need to be updated anytime. Use this API endpoint to update your device details. Nevertheless, you can only update the display name, properties, notes and entity of a device. To update device details, you need to send deviceGuid in request url.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: The guid of the device.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device doesn''t exist, the device is shared device, the entity doesn''t exist, the child device entity can not update
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudTemplateDeviceUpdateRequest'
+        description: Json object with device update details.
+      operationId: putApiV21CloudTemplateByDeviceGuid
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/device/{uniqueId}:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get all the details of single device
+      description: Getting all the details of a device, including firmware update, device availability and when it was last connected, etc., is critical for any user. To get all the details of a device, you need to send the device uniqueId in request url. Moreover, if you wish to fetch child device details, send gateway device uniqueId in parentDeviceUniqueId parameter of a query string.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceInformationResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21CloudTemplateDeviceByUniqueId
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/device/{deviceGuid}:
+    delete:
+      tags:
+      - CloudTemplate
+      summary: Delete a device
+      description: To delete a device, use this API endpoint. To do that, you need to send a deviceGuid in request url that you want to delete. This will also release your device from Azure IoT Hub, even if the device is acquired.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceDeleteResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist, the device is shared device, an error occurred during delete a device from iothub
+
+            and invalid logged user or company.'
+      operationId: deleteApiV21CloudTemplateDeviceByDeviceGuid
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/device/bulk-delete:
+    post:
+      tags:
+      - CloudTemplate
+      summary: Delete multiple devices
+      description: This API endpoint allows you to delete multiple devices. For that, you need to send DeviceGuid in request url.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the devices deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultipleCloudTemplateDeviceDeleteResponse'
+        '201':
+          description: Indicates that the devices not found.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultipleCloudTemplateDeviceDeleteRequest'
+        description: Json object
+      operationId: postApiV21CloudTemplateDeviceBulkDelete
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/device/bulk-delete/{batchGuid}:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get deleted device list based on batchguid
+      description: This API endpoint allows you get all the details of deleted device list based on batchguid.For that, you need to send BatchGuid in request url
+      parameters:
+      - name: batchGuid
+        in: path
+        description: Batch Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: isDeleted
+        in: query
+        description: In <i>isActive</i>, send <i>true</i> to get device which are deleted successfully and <i>false</i>get device which are failed
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateBulkDeleteDeviceListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21CloudTemplateDeviceBulkDeleteByBatchGuid
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/device/bulk-delete-history:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get device delete historylist
+      description: 'This API endpoint gives you the list of bulk delete history devices based on devicetypes.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order, Eg. uniqueId asc, uniqueId desc, displayName etc.
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceDeleteHistoryListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21CloudTemplateDeviceBulkDeleteHistory
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/convert-template:
+    post:
+      tags:
+      - CloudTemplate
+      summary: Convert CloudTemplate to DeviceTemplate
+      description: This API endpoint allows you to convert CloudTemplate to DeviceTemplate. For that, you need to send CloudTemplateGuid in request url.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the cloudTemplate is convert to deviceTemplate successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceTemplateCreateResponse'
+        '201':
+          description: Indicates that the cloudTemplate not found.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTemplateCreateRequest'
+        description: Json object
+      operationId: postApiV21CloudTemplateConvertTemplate
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/device/{cloudTemplateDeviceGuid}/attribute-list:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get all the attribute of cloudTemplateDevice
+      description: Getting all the attibute of a cloudTemplate
+      parameters:
+      - name: cloudTemplateDeviceGuid
+        in: path
+        description: CloudTemplateDevice Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the cloudTemplateDevice attributes received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateAttributeListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21CloudTemplateDeviceByCloudTemplateDeviceGuidAttributeList
+      x-operation-id-source: derived
+  /api/v2.1/CloudTemplate/attribute/{attributeGuid}:
+    put:
+      tags:
+      - CloudTemplate
+      summary: Update a cloudTemplate attribute
+      description: CloudTemplate attribute need to be updated anytime. Use this API endpoint to update your cloudTemplate attribute. Nevertheless, you can only update the local name and dataType of a cloudTemplate attribute.
+      parameters:
+      - name: attributeGuid
+        in: path
+        description: The guid of the attribute.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the attribute is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateAttributeUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The attribute doesn''t exist
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudTemplateAttributeUpdateRequest'
+        description: Json object with attribute update details.
+      operationId: putApiV21CloudTemplateAttributeByAttributeGuid
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/device:
+    post:
+      tags:
+      - CloudTemplate
+      summary: Add new device
+      description: 'IoT device is a smart device that supports internet connectivity. Through connectivity, established using IoT communication protocols, these devices can interact with other devices. Not only that, it grants remote access to a user for managing the device as per their needs. These devices can be anything from consumer devices, wearables, home appliances, industrial monitoring systems to security systems.
+
+
+        Add any quantity and a variety of devices using this API endpoint for easy integration with IoTConnect.'
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device is created successfully and returns created device guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceCreateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudTemplateDeviceCreateRequest_2'
+        description: Json object with device details.
+      operationId: postApiV2CloudTemplateDevice
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/{deviceGuid}:
+    put:
+      tags:
+      - CloudTemplate
+      summary: Update a device
+      description: Device details need to be updated anytime. Use this API endpoint to update your device details. Nevertheless, you can only update the display name, properties, notes and entity of a device. To update device details, you need to send deviceGuid in request url.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: The guid of the device.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The device doesn''t exist, the device is shared device, the entity doesn''t exist, the child device entity can not update
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudTemplateDeviceUpdateRequest_2'
+        description: Json object with device update details.
+      operationId: putApiV2CloudTemplateByDeviceGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - CloudTemplate
+      summary: Delete a CloudTemplate device
+      description: To delete a device, use this API endpoint. To do that, you need to send a deviceGuid in request url that you want to delete. This will also release your device from Azure IoT Hub, even if the device is acquired.
+      parameters:
+      - name: deviceGuid
+        in: path
+        description: Device Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceDeleteResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist, the device is shared device, an error occurred during delete a device from iothub
+
+            and invalid logged user or company.'
+      operationId: deleteApiV2CloudTemplateByDeviceGuid
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/device/{uniqueId}:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get all the details of single device
+      description: Getting all the details of a device, including firmware update, device availability and when it was last connected, etc., is critical for any user. To get all the details of a device, you need to send the device uniqueId in request url. Moreover, if you wish to fetch child device details, send gateway device uniqueId in parentDeviceUniqueId parameter of a query string.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: Device Unique Id
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceInformationResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist and invalid logged user or company.'
+      operationId: getApiV2CloudTemplateDeviceByUniqueId
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get Device List
+      description: 'This API endpoint gives you the list of available devices in your company.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order, Eg. uniqueId asc, uniqueId desc, displayName etc.
+        schema:
+          type: string
+      - name: UniqueId
+        in: query
+        description: The unique id of device
+        schema:
+          type: string
+      - name: Name
+        in: query
+        description: The display name of device
+        schema:
+          type: string
+      - name: AuthType
+        in: query
+        description: 'Authentication Type - 1: Token, 2: CA Signed Certificate, 3: Self Signed Certificate, 4: TPM, 5: Symmetric Key, 6: Bootstrap Certificate, 7: CA-Signed (individual)'
+        schema:
+          type: integer
+          format: int32
+      - name: EntityName
+        in: query
+        description: The entity name
+        schema:
+          type: string
+      - name: Status
+        in: query
+        description: The status of device, Eg. active or inactive
+        schema:
+          type: string
+      - name: Property
+        in: query
+        description: The custom property name of device
+        schema:
+          type: string
+      - name: Value
+        in: query
+        description: The custom property value of device
+        schema:
+          type: string
+      - name: Acquired
+        in: query
+        description: The device acquire status, Eg. acquired, released or inprogress
+        schema:
+          type: string
+      - name: EntityGuid
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateDeviceListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2CloudTemplate
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/convert-template:
+    post:
+      tags:
+      - CloudTemplate
+      summary: Convert CloudTemplate to DeviceTemplate
+      description: This API endpoint allows you to convert CloudTemplate to DeviceTemplate. For that, you need to send CloudTemplateGuid in request url.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the cloudTemplate is convert to deviceTemplate successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceTemplateCreateResponse'
+        '201':
+          description: Indicates that the cloudTemplate not found.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceTemplateCreateRequest'
+        description: Json object
+      operationId: postApiV2CloudTemplateConvertTemplate
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/device/{cloudTemplateDeviceGuid}/attribute-list:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get all the attribute of cloudTemplateDevice
+      description: Getting all the attibute of a cloudTemplate
+      parameters:
+      - name: cloudTemplateDeviceGuid
+        in: path
+        description: CloudTemplateDevice Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the cloudTemplateDevice attributes received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateAttributeListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist and invalid logged user or company.'
+      operationId: getApiV2CloudTemplateDeviceByCloudTemplateDeviceGuidAttributeList
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/attribute/{attributeGuid}:
+    put:
+      tags:
+      - CloudTemplate
+      summary: Update a cloudTemplate attribute
+      description: CloudTemplate attribute need to be updated anytime. Use this API endpoint to update your cloudTemplate attribute. Nevertheless, you can only update the local name and dataType of a cloudTemplate attribute.
+      parameters:
+      - name: attributeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the attribute is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudTemplateAttributeUpdateResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            The attribute doesn''t exist
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudTemplateAttributeUpdateRequest'
+      operationId: putApiV2CloudTemplateAttributeByAttributeGuid
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/bulk-delete:
+    put:
+      tags:
+      - CloudTemplate
+      summary: Delete multiple devices
+      description: This API endpoint allows you to delete multiple devices. For that, you need to send DeviceGuid in request url.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the devices deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultipleCloudDeviceDeleteResponse'
+        '201':
+          description: Indicates that the devices not found.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultipleCloudDeviceDeleteRequest'
+        description: Json object
+      operationId: putApiV2CloudTemplateBulkDelete
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/batch-bulk-delete/{batchGuid}/devices:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get deleted device list based on batchguid
+      description: This API endpoint allows you get all the details of deleted device list based on batchguid.For that, you need to send BatchGuid in request url
+      parameters:
+      - name: batchGuid
+        in: path
+        description: Batch Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: isDeleted
+        in: query
+        description: In <i>isActive</i>, send <i>true</i> to get device which are deleted successfully and <i>false</i>get device which are failed
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDeleteCloudDeviceListResponse'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            the device doesn''t exist and invalid logged user or company.'
+      operationId: getApiV2CloudTemplateBatchBulkDeleteByBatchGuidDevices
+      x-operation-id-source: derived
+  /api/v2/CloudTemplate/device-delete-history-list:
+    get:
+      tags:
+      - CloudTemplate
+      summary: Get device delete history list
+      description: 'This API endpoint gives you the list of bulk delete history devices based on devicetypes.
+
+
+        You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.'
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order, Eg. uniqueId asc, uniqueId desc, displayName etc.
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudDeviceDeleteHistoryListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2CloudTemplateDeviceDeleteHistoryList
+      x-operation-id-source: derived
+components:
+  schemas:
+    CloudTemplateDeviceCreateRequest:
+      required:
+      - displayName
+      - entityGuid
+      - uniqueId
+      type: object
+      properties:
+        uniqueId:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
+        deviceCertificateGuid:
+          type:
+          - string
+          - 'null'
+          description: The certificateGuid of devicetemplate.
+        deviceCertificate:
+          type:
+          - string
+          - 'null'
+          description: Byte array of device certificate file(Only .pfx file allowed).
+          format: byte
+        deviceCertificatePassword:
+          type:
+          - string
+          - 'null'
+          description: Password of device certificate
+        certificateText:
+          type:
+          - string
+          - 'null'
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceListByBroker:
+      type: object
+      properties:
+        uniquerId:
+          type:
+          - string
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        parentUniqueId:
+          type:
+          - string
+          - 'null'
+        isAcquired:
+          type: boolean
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        cpId:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        certificateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        authType:
+          type: integer
+          format: int32
+        iotEdgeEnable:
+          type: boolean
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+        brokerGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        selfSignPrimayThumbPrint:
+          type:
+          - string
+          - 'null'
+        selfSignSecondaryThumbprint:
+          type:
+          - string
+          - 'null'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        brokerInfo:
+          type:
+          - string
+          - 'null'
+        note:
+          type:
+          - string
+          - 'null'
+        solutionGuid:
+          type: string
+          format: uuid
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        certLocation:
+          type: integer
+          format: int32
+        ssCertificateType:
+          type: integer
+          format: int32
+        greenGrass:
+          type:
+          - boolean
+          - 'null'
+        wireless:
+          type:
+          - boolean
+          - 'null'
+        supportVideoStream:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CloudTemplateAttributeUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CloudTemplateDeviceCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CreateDevice'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CloudTemplateAttribute:
+      type: object
+      properties:
+        cloudAttributeGuid:
+          type: string
+          format: uuid
+        attributeName:
+          type:
+          - string
+          - 'null'
+        dataType:
+          type:
+          - string
+          - 'null'
+        attributeValue:
+          type:
+          - string
+          - 'null'
+        deviceUpdatedDate:
+          type: string
+          format: date-time
+        sdkUpdatedDate:
+          type: string
+          format: date-time
+        cloudTemplateGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    DeviceProperty:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        value:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        propertyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        options:
+          type:
+          - string
+          - 'null'
+        fieldType:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CloudTemplateDeviceInformationResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceInformation'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CloudTemplateBulkDeleteDeviceListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceListByBroker'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CloudTemplateDeviceListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CreateDevice:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ParentUniqueId:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        ggDeviceScript:
+          type:
+          - string
+          - 'null'
+        activeDeviceCount:
+          type: integer
+          format: int32
+        inActiveDeviceCount:
+          type: integer
+          format: int32
+        ggDeviceType:
+          type: integer
+          format: int32
+        fileSupport:
+          type: boolean
+      additionalProperties: false
+    CloudTemplateDeviceUpdateRequest:
+      required:
+      - displayName
+      - entityGuid
+      - uniqueId
+      type: object
+      properties:
+        uniqueId:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
+        deviceCertificateGuid:
+          type:
+          - string
+          - 'null'
+          description: The certificateGuid of devicetemplate.
+        deviceCertificate:
+          type:
+          - string
+          - 'null'
+          description: Byte array of device certificate file(Only .pfx file allowed).
+          format: byte
+        deviceCertificatePassword:
+          type:
+          - string
+          - 'null'
+          description: Password of device certificate
+        certificateText:
+          type:
+          - string
+          - 'null'
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    OutputparamListResponse:
+      type: object
+      properties:
+        fName:
+          type:
+          - string
+          - 'null'
+        dName:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    DeviceDeleteHistoryList:
+      type: object
+      properties:
+        fileName:
+          type:
+          - string
+          - 'null'
+        batchGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        status:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        success:
+          type: integer
+          format: int32
+        failed:
+          type: integer
+          format: int32
+        deletedDate:
+          type: string
+          format: date-time
+        deletedBy:
+          type:
+          - string
+          - 'null'
+        totalDevice:
+          type: integer
+          format: int32
+      additionalProperties: false
+    DeviceDelete:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type: boolean
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+        activeDeviceCount:
+          type: integer
+          format: int32
+        inActiveDeviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CloudTemplateDeviceDeleteHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceDeleteHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    MultipleCloudTemplateDeviceDeleteRequest:
+      type: object
+      properties:
+        deviceGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        capability:
+          type: integer
+          format: int32
+      additionalProperties: false
+    DeviceList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type: boolean
+        lastactivityDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        firmwareupgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        authType:
+          type: integer
+          format: int32
+        authTypeName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        deviceInfo:
+          type:
+          - object
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        reportingTo:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        IsAcquired:
+          type: boolean
+          readOnly: true
+        childDeviceCount:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        isAllottedDevice:
+          type: integer
+          format: int32
+          readOnly: true
+        allottedDevicePermission:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        count:
+          type: integer
+          format: int32
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceProperty'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+        recentAttrValue:
+          type:
+          - object
+          - 'null'
+        lastConnection:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lastCommunication:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        solutionGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        groupName:
+          type:
+          - string
+          - 'null'
+        productName:
+          type:
+          - string
+          - 'null'
+        parentCompanyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        certLocation:
+          type: integer
+          format: int32
+        Wireless:
+          type: boolean
+        wirelessDeviceType:
+          type: integer
+          format: int32
+        publicDevice:
+          type: boolean
+        certAvailable:
+          type: boolean
+        ggDeviceType:
+          type: integer
+          format: int32
+        cloudTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        attrEnable:
+          type: boolean
+        deviceCapability:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        info:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OutputparamListResponse'
+      additionalProperties: false
+    CloudTemplateDeviceDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceDelete'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceInformation:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type: boolean
+        lastActivityDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        certificateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        certificateName:
+          type:
+          - string
+          - 'null'
+        certificateType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        deviceTemplateAuthType:
+          type: integer
+          format: int32
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        note:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+        cpId:
+          type:
+          - string
+          - 'null'
+        isAcquired:
+          type: integer
+          format: int32
+        firmwareAvail:
+          type: integer
+          format: int32
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tag:
+          type:
+          - string
+          - 'null'
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        isParentAcquired:
+          type: integer
+          format: int32
+        isSimulatorOn:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        isEdgeSupport:
+          type: boolean
+        isAllottedDevice:
+          type: integer
+          format: int32
+        allottedDevicePermission:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        properties:
+          type:
+          - object
+          - 'null'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+        isLowBandwidth:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        fileSupport:
+          type: boolean
+        msgCode:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        authTypeName:
+          type:
+          - string
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        hasTwin:
+          type: boolean
+        parentCompanyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        lastConnection:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        cUrl:
+          type:
+          - string
+          - 'null'
+        ckUrl:
+          type:
+          - string
+          - 'null'
+        certLocation:
+          type: integer
+          format: int32
+        wireless:
+          type: boolean
+        wirelessDeviceType:
+          type: integer
+          format: int32
+        wirelessId:
+          type:
+          - string
+          - 'null'
+        parentAuthType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        parentAuthTypeName:
+          type:
+          - string
+          - 'null'
+        commandFormat:
+          enum:
+          - 1
+          - 2
+          type: integer
+          format: int32
+        rawTelemetry:
+          type: boolean
+          readOnly: true
+        ggDeviceType:
+          type: integer
+          format: int32
+        lorawanDeviceProfileGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        lorawanProfileName:
+          type:
+          - string
+          - 'null'
+        isExistLorawanProfile:
+          type: boolean
+        cloudTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        clientId:
+          type:
+          - string
+          - 'null'
+        c2dOnDemand:
+          type: integer
+          format: int32
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        videoStreamResource:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        videoStreamType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        supportStream:
+          type: boolean
+          readOnly: true
+        autoStartStream:
+          type: boolean
+          readOnly: true
+        availableSecondaryCert:
+          type: boolean
+        clientStreamingName:
+          type:
+          - string
+          - 'null'
+        networkType:
+          type:
+          - string
+          - 'null'
+        gatewayName:
+          type:
+          - string
+          - 'null'
+        networkCoverage:
+          type:
+          - string
+          - 'null'
+        decoderName:
+          type:
+          - string
+          - 'null'
+        appKey:
+          type:
+          - string
+          - 'null'
+        regionalParameterVersion:
+          type:
+          - string
+          - 'null'
+        macVersion:
+          type:
+          - string
+          - 'null'
+        appEui:
+          type:
+          - string
+          - 'null'
+        rfRegion:
+          type:
+          - string
+          - 'null'
+        capability:
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    DeviceTemplateCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    MultipleCloudTemplateDeviceDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceBatchGuidStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceBatchGuidStatus:
+      type: object
+      properties:
+        batchGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    CloudTemplateAttributeListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CloudTemplateAttribute'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CloudTemplateAttributeUpdateRequest:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        cloudTemplateGuid:
+          type: string
+          format: uuid
+        localName:
+          type:
+          - string
+          - 'null'
+        dataType:
+          type:
+          - string
+          - 'null'
+        dataTypeGuid:
+          type: string
+          format: uuid
+        attributes:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceTemplateCreateRequest:
+      type: object
+      properties:
+        cloudTemplateGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    CloudTemplateDeviceCreateRequest_2:
+      required:
+      - displayName
+      - entityGuid
+      - uniqueId
+      type: object
+      properties:
+        uniqueId:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
+        tag:
+          type:
+          - string
+          - 'null'
+          description: The tag of the device which must be exists in device template. This field is required if the request for child device create and gateway support enabled in device template.
+        endorsementKey:
+          maxLength: 2000
+          type:
+          - string
+          - 'null'
+          description: The endorsementKey of TPM device. This field is required if device template authentication type is TPM.
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          description: The gateway device guid. This field is required if the request for child device create and gateway support enabled in device template.
+        primaryThumbprint:
+          type:
+          - string
+          - 'null'
+          description: The primaryThumbprint of self signed device. This field is required if device template authentication type is self signed certificate.
+        secondaryThumbprint:
+          type:
+          - string
+          - 'null'
+          description: The secondaryThumbprint of self signed device.
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: The custom properties of device.
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+        deviceCertificateGuid:
+          type:
+          - string
+          - 'null'
+          description: The certificateGuid of devicetemplate.
+        deviceCertificate:
+          type:
+          - string
+          - 'null'
+          description: Byte array of device certificate file(Only .pfx file allowed).
+          format: byte
+        deviceCertificatePassword:
+          type:
+          - string
+          - 'null'
+          description: Password of device certificate
+        primaryKey:
+          type:
+          - string
+          - 'null'
+          description: The primaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
+        secondaryKey:
+          type:
+          - string
+          - 'null'
+          description: The secondaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
+        certificateText:
+          type:
+          - string
+          - 'null'
+        autoGenerate:
+          type: boolean
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
+      additionalProperties: false
+    MultipleCloudDeviceDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceBatchGuidStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    PropertyValue:
+      required:
+      - guid
+      type: object
+      properties:
+        guid:
+          minLength: 1
+          type: string
+          description: The custom property guid
+        value:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The custom property value
+      additionalProperties: false
+    CloudDeviceDeleteHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceDeleteHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CreateDevice_2:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentUniqueId:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CloudTemplateDeviceUpdateRequest_2:
+      required:
+      - displayName
+      - entityGuid
+      type: object
+      properties:
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: The custom properties of device.
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    BulkDeleteCloudDeviceListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceDelete_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type: boolean
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type: boolean
+        lastactivityDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        firmwareupgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        authType:
+          type: integer
+          format: int32
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        deviceInfo:
+          type:
+          - object
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        reportingTo:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        IsAcquired:
+          type: boolean
+          readOnly: true
+        childDeviceCount:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        isAllottedDevice:
+          type: integer
+          format: int32
+          readOnly: true
+        allottedDevicePermission:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        count:
+          type: integer
+          format: int32
+        isSharedDevice:
+          type:
+          - boolean
+          - 'null'
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceProperty'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+        recentAttrValue:
+          type:
+          - object
+          - 'null'
+        isDpsDevice:
+          type: boolean
+          readOnly: true
+        lastConnection:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lastCommunication:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        solutionGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        groupName:
+          type:
+          - string
+          - 'null'
+        productName:
+          type:
+          - string
+          - 'null'
+        parentCompanyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        cloudDeviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        attrEnable:
+          type: boolean
+        info:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OutputparamListResponse'
+      additionalProperties: false
+    DeviceInformation_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        solutionGuid:
+          type: string
+          format: uuid
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type: boolean
+        lastActivityDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        certificateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        certificateName:
+          type:
+          - string
+          - 'null'
+        certificateType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        deviceTemplateAuthType:
+          type: integer
+          format: int32
+        authType:
+          type: integer
+          format: int32
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        note:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+        cpId:
+          type:
+          - string
+          - 'null'
+        isAcquired:
+          type: integer
+          format: int32
+        firmwareAvail:
+          type: integer
+          format: int32
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tag:
+          type:
+          - string
+          - 'null'
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        isParentAcquired:
+          type: integer
+          format: int32
+        isSimulatorOn:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        isEdgeSupport:
+          type: boolean
+        isAllottedDevice:
+          type: integer
+          format: int32
+        isSphere:
+          type: boolean
+        allottedDevicePermission:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceProperty'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        fileSupport:
+          type: boolean
+        msgCode:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        hasTwin:
+          type: boolean
+        hasDirectMethod:
+          type: boolean
+        parentCompanyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        lastConnection:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isDpsDevice:
+          type: boolean
+          readOnly: true
+        sendOfflineCommand:
+          type:
+          - boolean
+          - 'null'
+        authTypeName:
+          type:
+          - string
+          - 'null'
+        parentAuthType:
+          type: integer
+          format: int32
+        parentAuthTypeName:
+          type:
+          - string
+          - 'null'
+        c2dOnDemand:
+          type: integer
+          format: int32
+        cloudDeviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+      additionalProperties: false
+    MultipleCloudDeviceDeleteRequest:
+      type: object
+      properties:
+        deviceGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    CloudTemplateDeviceCreateRequest_3:
+      required:
+      - displayName
+      - entityGuid
+      - uniqueId
+      type: object
+      properties:
+        uniqueId:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
+        tag:
+          type:
+          - string
+          - 'null'
+          description: The tag of the device which must be exists in device template. This field is required if the request for child device create and gateway support enabled in device template.
+        endorsementKey:
+          maxLength: 2000
+          type:
+          - string
+          - 'null'
+          description: The endorsementKey of TPM device. This field is required if device template authentication type is TPM.
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          description: The gateway device guid. This field is required if the request for child device create and gateway support enabled in device template.
+        primaryThumbprint:
+          type:
+          - string
+          - 'null'
+          description: The primaryThumbprint of self signed device. This field is required if device template authentication type is self signed certificate.
+        secondaryThumbprint:
+          type:
+          - string
+          - 'null'
+          description: The secondaryThumbprint of self signed device.
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: The custom properties of device.
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+        deviceCertificateGuid:
+          type:
+          - string
+          - 'null'
+          description: The certificateGuid of devicetemplate.
+        deviceCertificate:
+          type:
+          - string
+          - 'null'
+          description: Byte array of device certificate file(Only .pfx file allowed).
+          format: byte
+        deviceCertificatePassword:
+          type:
+          - string
+          - 'null'
+          description: Password of device certificate
+        primaryKey:
+          type:
+          - string
+          - 'null'
+          description: The primaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
+        secondaryKey:
+          type:
+          - string
+          - 'null'
+          description: The secondaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
+        certificateText:
+          type:
+          - string
+          - 'null'
+        autoGenerate:
+          type: boolean
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
+      additionalProperties: false
+    CreateDevice_3:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentUniqueId:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CloudTemplateDeviceUpdateRequest_3:
+      required:
+      - displayName
+      - entityGuid
+      type: object
+      properties:
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: The custom properties of device.
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    DeviceDelete_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type: boolean
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceList_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type: boolean
+        lastactivityDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        firmwareupgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        authType:
+          type: integer
+          format: int32
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        deviceInfo:
+          type:
+          - object
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        reportingTo:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        IsAcquired:
+          type: boolean
+          readOnly: true
+        childDeviceCount:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        isAllottedDevice:
+          type: integer
+          format: int32
+          readOnly: true
+        allottedDevicePermission:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        count:
+          type: integer
+          format: int32
+        isSharedDevice:
+          type:
+          - boolean
+          - 'null'
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceProperty'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+        recentAttrValue:
+          type:
+          - object
+          - 'null'
+        isDpsDevice:
+          type: boolean
+          readOnly: true
+        lastConnection:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lastCommunication:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        solutionGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        groupName:
+          type:
+          - string
+          - 'null'
+        productName:
+          type:
+          - string
+          - 'null'
+        parentCompanyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        cloudDeviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        attrEnable:
+          type: boolean
+        info:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OutputparamListResponse'
+      additionalProperties: false
+    DeviceInformation_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        solutionGuid:
+          type: string
+          format: uuid
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        isConnected:
+          type: boolean
+        lastActivityDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        certificateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        certificateName:
+          type:
+          - string
+          - 'null'
+        certificateType:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        deviceTemplateAuthType:
+          type: integer
+          format: int32
+        authType:
+          type: integer
+          format: int32
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        note:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+        cpId:
+          type:
+          - string
+          - 'null'
+        isAcquired:
+          type: integer
+          format: int32
+        firmwareAvail:
+          type: integer
+          format: int32
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        tag:
+          type:
+          - string
+          - 'null'
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        isParentAcquired:
+          type: integer
+          format: int32
+        isSimulatorOn:
+          type: integer
+          format: int32
+        isType2Support:
+          type: boolean
+        isEdgeSupport:
+          type: boolean
+        isAllottedDevice:
+          type: integer
+          format: int32
+        isSphere:
+          type: boolean
+        allottedDevicePermission:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceProperty'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        fileSupport:
+          type: boolean
+        msgCode:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        hasTwin:
+          type: boolean
+        hasDirectMethod:
+          type: boolean
+        parentCompanyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        lastConnection:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isDpsDevice:
+          type: boolean
+          readOnly: true
+        sendOfflineCommand:
+          type:
+          - boolean
+          - 'null'
+        authTypeName:
+          type:
+          - string
+          - 'null'
+        parentAuthType:
+          type: integer
+          format: int32
+        parentAuthTypeName:
+          type:
+          - string
+          - 'null'
+        c2dOnDemand:
+          type: integer
+          format: int32
+        cloudDeviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-aws-prod-swagger.json
+- avnet-iotconnect-device-azure-prod-swagger.json
+- avnet-iotconnect-device-openapi.yml

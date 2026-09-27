@@ -1,0 +1,3342 @@
+openapi: 3.2.0
+info:
+  title: Avnet Certificate API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Certificate across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://device.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Certificate
+  description: Certificate Api List
+paths:
+  /api/v2.1/Certificate:
+    post:
+      tags:
+      - Certificate
+      summary: Add new certificate
+      description: Certificate verifies identity when a device enters in an IoT ecosystem, encrypts in-transit communications and protects networks from exploits. Overall, certificates safeguard systems and transmit information privately. Using this API endpoint, you can add new certificates to mqtt broker.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate uploaded successfully and returns created certificate guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateCreateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate name already exist, invalid certificate, certificate upload not allowed, an error occurred while uploading certificate on azure
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                CertificateName:
+                  type: string
+                  description: Certificate Name
+                CertificateType:
+                  type: integer
+                  format: int32
+                CaCertificateFile:
+                  type: string
+                  format: binary
+                JITSupport:
+                  type: boolean
+                IsCpidOptional:
+                  type: boolean
+                InvokingUser:
+                  type: string
+                  format: uuid
+                Version:
+                  type: string
+                Culture:
+                  type: string
+                TokenCompanyGuid:
+                  type: string
+                  format: uuid
+                CpId:
+                  type: string
+                Token:
+                  type: string
+                DebugInfo:
+                  type: integer
+                  format: int32
+              required:
+              - CertificateName
+              - CertificateType
+              - CaCertificateFile
+      operationId: postApiV21Certificate
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Certificate
+      summary: Get device certificates list
+      description: Get an entire list of device certificates using this API endpoint. You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order. Eg. name, name asc, name desc etc
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Search with certifiate name
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Search with certifiate status, Eg: Expired, Verified and Pending'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the certificate list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateListResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Invalid logged user or company.'
+      operationId: getApiV21Certificate
+      x-operation-id-source: derived
+  /api/v2.1/Certificate/{certificateGuid}:
+    delete:
+      tags:
+      - Certificate
+      summary: Delete a certificate
+      description: This API endpoint allows you to delete a device certificate. For that, you need to send certificateGuid in request url.
+      parameters:
+      - name: certificateGuid
+        in: path
+        description: Certificate Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateDeleteResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate doesn''t exist, an error occurred while deleting certificate on azure and invalid logged user or company.'
+      operationId: deleteApiV21CertificateByCertificateGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Certificate
+      summary: Get single certificate detail
+      description: This API endpoint provides you the detailed description of single device certificate. For that, you need to send certificateGuid in request url.
+      parameters:
+      - name: certificateGuid
+        in: path
+        description: Certificate Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateDetailResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21CertificateByCertificateGuid
+      x-operation-id-source: derived
+  /api/v2.1/certificate/lookup/{authType}:
+    get:
+      tags:
+      - Certificate
+      summary: Get certificates lookup
+      description: This API endpoint provides you the lookup list of available device certificates for the given certificate auth type.
+      parameters:
+      - name: authType
+        in: path
+        description: To get certificate lookup by auth type
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: jitSupport
+        in: query
+        description: Set to true to filter certificates with JIT provisioning support
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateLookupResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21CertificateLookupByAuthType
+      x-operation-id-source: derived
+  /api/v2.1/device/{deviceId}/self-signed-certificate:
+    get:
+      tags:
+      - Certificate
+      summary: Get self signed certificate for your device
+      description: This API endpoint provides you certificate for communication with you self signed device. For that, you need to send deviceId (Eg.[CpId]-[uniqudId]) in request url.
+      parameters:
+      - name: deviceId
+        in: path
+        description: deviceId (Eg.[CpId]-[uniqudId])
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate files received successfully.
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            An error occurred while generating self signed certificate and invalid logged user or company.'
+      operationId: getApiV21DeviceByDeviceIdSelfSignedCertificate
+      x-operation-id-source: derived
+  /api/v2.1/Certificate/device/{uniqueId}:
+    get:
+      tags:
+      - Certificate
+      summary: Retrieve the certificate
+      description: This API endpoint allows you to Retrieve the device certificate.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: uniqueId.
+        required: true
+        schema:
+          type: string
+      - name: secondaryCert
+        in: query
+        description: secondaryCert.
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that Retrieve certificate information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateRetriveResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate doesn''t exist, an error occurred while deleting certificate on azure and invalid logged user or company.'
+      operationId: getApiV21CertificateDeviceByUniqueId
+      x-operation-id-source: derived
+  /api/v2.1/device/{uniqueId}/platform/{platformType}/certificate-bundle:
+    get:
+      tags:
+      - Certificate
+      summary: Get certificate for your device according to platformType
+      description: This API endpoint provides you certificate for your device according to platformType. For that, you need to send uniqueId in request url.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: uniqueId
+        required: true
+        schema:
+          type: string
+      - name: platformType
+        in: path
+        description: 'Platform type should be one of below items
+
+          <ul><li>1. IoTConnect</li><li>2. iOS</li><li>3. Android</li></ul>'
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate files received successfully.
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            An error occurred while generating self signed certificate and invalid logged user or company.'
+      operationId: getApiV21DeviceByUniqueIdPlatformByPlatformTypeCertificateBundle
+      x-operation-id-source: derived
+  /api/v2.1/device/certificate-import:
+    post:
+      tags:
+      - Certificate
+      summary: Device certificate import
+      description: This API endpoint helps to import certificate in bulk. For that, upload a JSON file in the file parameter.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the external certificate process validated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceCertificateImportResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: "The json file as per the file sample provided.Please download sample files form your IoTConnect Account.\n            <p><b>Notes :</b> File should be valid file, file content should be valid JSON, the device template code (dtCode) is required,\n            dtCode should be valid, the device uniqueId is required, not allowed duplicate uniqueId for parent devices,\n            uniqueId should be valid, not allowed duplicate child device uniqueId within parent device,\n            device tag should be valid, self or CA signed parent device uniqueId length should be less than or equal to 31 characters,\n            self or CA signed child device uniqueId length should be less than or equal to 64 characters,\n            TPM and Key device (parent/child) uniqueId length should be less than or equal to 128 characters,\n            device property key is required if passing properties of the device, not allowed duplicate property key, tag is required for gateway child device </p>"
+                  format: binary
+              required:
+              - file
+      operationId: postApiV21DeviceCertificateImport
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Certificate
+      summary: Get device certificate import list
+      description: This API endpoint provides you the list of all imported device certificate batches. This will give you the current status of all batch import along with the count of certificate insert success and failure.
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order. Eg. createdDate desc, createdDate asc, createdDate.
+        schema:
+          type: string
+      - name: isValidated
+        in: query
+        description: Set to true to get only validated certificate imports
+        schema:
+          type: boolean
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device batch import list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateImportListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21DeviceCertificateImport
+      x-operation-id-source: derived
+  /api/v2.1/device/certificate-import/{importBatchGuid}:
+    get:
+      tags:
+      - Certificate
+      summary: Get device certificate import file content
+      description: This API endpoint provides you the import file content of a specific certificate import batch. For that, you need to send importBatchGuid in request url.
+      parameters:
+      - name: importBatchGuid
+        in: path
+        description: Import batch guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the certificate import file content received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceConnectionResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Import batch doesn''t exist and invalid logged user or company.'
+      operationId: getApiV21DeviceCertificateImportByImportBatchGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Certificate
+      summary: Delete a device certificate import
+      description: To delete a device certificate import, use this API endpoint. To do that, you need to send a importBatchGuid in request url that you want to delete.
+      parameters:
+      - name: importBatchGuid
+        in: path
+        description: import Batch Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the certificate deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateImportDeleteResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: ''
+      operationId: deleteApiV21DeviceCertificateImportByImportBatchGuid
+      x-operation-id-source: derived
+  /api/v2.1/device/certificate-import-detail:
+    post:
+      tags:
+      - Certificate
+      summary: Get device certificate import list by guid
+      description: This API endpoint provides you the list of all imported device certificate batches. This will give you the current status of all batch import along with the count of certificate insert success and failure.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device batch import list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceCertificateImportDetailResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceCertificateImportDetailRequest'
+      operationId: postApiV21DeviceCertificateImportDetail
+      x-operation-id-source: derived
+  /api/v2.1/device/certificate-import-validate:
+    post:
+      tags:
+      - Certificate
+      summary: Device certificate import validate
+      description: This API endpoint helps to validate device certificate import validate. For that, upload a JSON file in the file parameter, containing a template code and list of devices that you want to create under a given template code. Along with that, you also need to send entity guid in entityGuid parameter under which you want to create devices. This also allows you to make gateway devices in bulk. To add child devices, you need to put them under your gateway device in a JSON file.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device batch import process has started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceCertificateValidateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceCertificateValidateRequest'
+      operationId: postApiV21DeviceCertificateImportValidate
+      x-operation-id-source: derived
+  /api/v2.1/device/certificate-import-init:
+    post:
+      tags:
+      - Certificate
+      summary: Device certificate import intialize
+      description: This API endpoint helps to Intialize device certificate import. For that, upload a JSON file in the file parameter, containing a template code and list of devices that you want to create under a given template code. Along with that, you also need to send entity guid in entityGuid parameter under which you want to create devices. This also allows you to make gateway devices in bulk. To add child devices, you need to put them under your gateway device in a JSON file.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the device batch import process has started successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateBatchImportResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Device template doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateBatchImportRequest'
+      operationId: postApiV21DeviceCertificateImportInit
+      x-operation-id-source: derived
+  /api/v2/Certificate:
+    post:
+      tags:
+      - Certificate
+      summary: Add new certificate
+      description: Certificate verifies identity when a device enters in an IoT ecosystem, encrypts in-transit communications and protects networks from exploits. Overall, certificates safeguard systems and transmit information privately. Using this API endpoint, you can add new certificates to Azure IoT Hub.
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate uploaded successfully and returns created certificate guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateCreateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate name already exist, invalid certificate, certificate upload not allowed, an error occurred while uploading certificate on azure
+
+            and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                CertificateName:
+                  type: string
+                  description: Certificate Name
+                certificateFile:
+                  type: string
+                  description: Certificate file. Only .pem and .cer files are allowed.
+                  format: binary
+                IsSphereCerti:
+                  type: boolean
+                CertificateType:
+                  type: integer
+                  format: int32
+                InvokingUser:
+                  type: string
+                  format: uuid
+                Version:
+                  type: string
+                Culture:
+                  type: string
+                TokenCompanyGuid:
+                  type: string
+                  format: uuid
+                CpId:
+                  type: string
+                Token:
+                  type: string
+                DebugInfo:
+                  type: integer
+                  format: int32
+              required:
+              - CertificateName
+              - certificateFile
+      operationId: postApiV2Certificate
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Certificate
+      summary: Get device certificates list
+      description: Get an entire list of device certificates using this API endpoint. You can also add the filters as given in the parameters. Though the filters are optional, to apply them, you need to send these filter parameters in a query string.
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order. Eg. name, name asc, name desc etc
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Search with certifiate name
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: 'Search with certifiate status, Eg: Expired, Verified and Pending'
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateListResponse'
+      operationId: getApiV2Certificate
+      x-operation-id-source: derived
+  /api/v2/Certificate/{certificateGuid}:
+    put:
+      tags:
+      - Certificate
+      summary: Update certificate detail
+      description: If you need to update the certificate name or certificate file, use this API endpoint. For that, you need to send certificateGuid in request url and certificate update details in the request body.
+      parameters:
+      - name: certificateGuid
+        in: path
+        description: Certificate Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateUpdateResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate name already exist, invalid certificate, certificate upload not allowed, the verified certificate can not update,
+
+            an error occurred while uploading certificate on azure and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                CertificateName:
+                  type: string
+                  description: Certificate Name
+                certificateFile:
+                  type: string
+                  description: Certificate file. Only .pem and .cer files are allowed.
+                  format: binary
+                IsSphereCerti:
+                  type: boolean
+                CertificateType:
+                  type: integer
+                  format: int32
+                InvokingUser:
+                  type: string
+                  format: uuid
+                Version:
+                  type: string
+                Culture:
+                  type: string
+                TokenCompanyGuid:
+                  type: string
+                  format: uuid
+                CpId:
+                  type: string
+                Token:
+                  type: string
+                DebugInfo:
+                  type: integer
+                  format: int32
+              required:
+              - CertificateName
+              - certificateFile
+      operationId: putApiV2CertificateByCertificateGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Certificate
+      summary: Delete a certificate
+      description: This API endpoint allows you to delete a device certificate. For that, you need to send certificateGuid in request url.
+      parameters:
+      - name: certificateGuid
+        in: path
+        description: Certificate Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateDeleteResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate doesn''t exist, an error occurred while deleting certificate on azure and invalid logged user or company.'
+      operationId: deleteApiV2CertificateByCertificateGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Certificate
+      summary: Get single certificate detail
+      description: This API endpoint provides you the detailed description of single device certificate. For that, you need to send certificateGuid in request url.
+      parameters:
+      - name: certificateGuid
+        in: path
+        description: Certificate Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateDetailResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate doesn''t exist and invalid logged user or company.'
+      operationId: getApiV2CertificateByCertificateGuid
+      x-operation-id-source: derived
+  /api/v2/Certificate/{certificateGuid}/verify:
+    put:
+      tags:
+      - Certificate
+      summary: Verify certificate
+      description: After adding a device certificate, one prefers to verify it. This API endpoint allows you to verify the certificate. For that, you need to upload a verification certificate which will validate your device certificate.
+      parameters:
+      - name: certificateGuid
+        in: path
+        description: Certificate Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate verified successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateVerifyResponse'
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Certificate name already exist, invalid certificate, certificate upload not allowed, the verified certificate can not update,
+
+            an error occurred while verifying certificate on azure and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                Etag:
+                  type: string
+                  description: Certificate Etag
+                certificateFile:
+                  type: string
+                  description: "Verification certificate file.\n            Only .per and .cer file allowed."
+                  format: binary
+              required:
+              - Etag
+              - certificateFile
+      operationId: putApiV2CertificateByCertificateGuidVerify
+      x-operation-id-source: derived
+  /api/v2/certificate/lookup/{authType}:
+    get:
+      tags:
+      - Certificate
+      summary: Get certificates lookup
+      description: This API endpoint provides you the lookup list of available device certificates for the given certificate auth type.
+      parameters:
+      - name: authType
+        in: path
+        description: To get certificate lookup by auth type
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate information received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateLookupResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2CertificateLookupByAuthType
+      x-operation-id-source: derived
+  /api/v2/device/{deviceId}/self-signed-certificate:
+    get:
+      tags:
+      - Certificate
+      summary: Get self signed certificate for your device
+      description: This API endpoint provides you certificate for communication with you self signed device. For that, you need to send deviceId (Eg.[CpId]-[uniqudId]) in request url.
+      parameters:
+      - name: deviceId
+        in: path
+        description: deviceId (Eg.[CpId]-[UniqueId])
+        required: true
+        schema:
+          type: string
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate files received successfully.
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            An error occurred while generating self signed certificate and invalid logged user or company.'
+      operationId: getApiV2DeviceByDeviceIdSelfSignedCertificate
+      x-operation-id-source: derived
+  /api/v2/certificate/count:
+    get:
+      tags:
+      - Certificate
+      summary: Get certificates count
+      description: This API endpoint provides you the certificate with its count.
+      parameters:
+      - name: authType
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate count received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTypeCertificateCountResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2CertificateCount
+      x-operation-id-source: derived
+  /api/v2/device/{uniqueId}/platform/{platformType}/certificate-bundle:
+    get:
+      tags:
+      - Certificate
+      summary: Get certificate for your device according to platformType
+      description: This API endpoint provides you certificate for your device according to platformType. For that, you need to send uniqueId in request url.
+      parameters:
+      - name: uniqueId
+        in: path
+        description: uniqueId
+        required: true
+        schema:
+          type: string
+      - name: platformType
+        in: path
+        description: 'Platform type should be one of below items
+
+          <ul><li>1. IoTConnect</li><li>2. iOS</li><li>3. Android</li></ul>'
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that certificate files received successfully.
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            An error occurred while generating self signed certificate and invalid logged user or company.'
+      operationId: getApiV2DeviceByUniqueIdPlatformByPlatformTypeCertificateBundle
+      x-operation-id-source: derived
+components:
+  schemas:
+    CertificateLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CertificateLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CertificateList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceCertificateImportDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceCertificateModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateRetriveResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CertificateRetrive'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    BulkCertificateUpdate:
+      type: object
+      properties:
+        batchGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    CertificateImportList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileName:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        success:
+          type: integer
+          format: int32
+        error:
+          type: integer
+          format: int32
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatebyName:
+          type:
+          - string
+          - 'null'
+        bsuccess:
+          type: integer
+          format: int32
+        bfailed:
+          type: integer
+          format: int32
+        pendingCert:
+          type: integer
+          format: int32
+        successCert:
+          type: integer
+          format: int32
+        totalCert:
+          type: integer
+          format: int32
+        isValidBatch:
+          type: boolean
+      additionalProperties: false
+    DeviceConnectionResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceConnectionStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CertificateList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        row_num:
+          type: integer
+          format: int32
+        origin:
+          type:
+          - string
+          - 'null'
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+        createdByUser:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        referenceId:
+          type:
+          - string
+          - 'null'
+        certificateType:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+        jitSupport:
+          type: boolean
+      additionalProperties: false
+    CertificateImportListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CertificateImportList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateBatchImportRequest:
+      type: object
+      properties:
+        importBatchGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    CertificateBatchImportResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ImportBatchStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceConnectionStatus:
+      type: object
+      properties:
+        isConnected:
+          type: boolean
+      additionalProperties: false
+    CertificateCreate:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    CertificateDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CertificateCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceCertificateModel:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CertificateImportDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceCertificateValidateRequest:
+      type: object
+      properties:
+        importBatchGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    CertificateLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        origin:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceCertificateImportDetailRequest:
+      type: object
+      properties:
+        importBatchGuid:
+          type: string
+          format: uuid
+        isValid:
+          type: boolean
+        pendingCert:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    DeviceCertificateValidateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BulkCertificateUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceCertificateImportResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BulkCertificateUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ImportBatchStatus:
+      type: object
+      properties:
+        importBatchGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CertificateRetrive:
+      type: object
+      properties:
+        certificatePemURL:
+          type:
+          - string
+          - 'null'
+        privateKeyURL:
+          type:
+          - string
+          - 'null'
+        configFile:
+          type:
+          - string
+          - 'null'
+        amazonRootCAURL:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CertificateDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CertificateDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        certPassword:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        origin:
+          type:
+          - string
+          - 'null'
+        isDeviceConnected:
+          type: boolean
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        brokerGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        iotHubInfoGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        jitSupport:
+          type: boolean
+        jitpRuleCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CertificateUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateVerifyResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateLookup_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        origin:
+          type:
+          - string
+          - 'null'
+        certificateType:
+          type:
+          - string
+          - 'null'
+        isSphereCerti:
+          type: boolean
+      additionalProperties: false
+    AuthTypeCertificateCount:
+      type: object
+      properties:
+        authenticationtype:
+          type:
+          - string
+          - 'null'
+        authTypeId:
+          type: integer
+          format: int32
+        certCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CertificateList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        row_num:
+          type: integer
+          format: int32
+        origin:
+          type:
+          - string
+          - 'null'
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+        serviceBrokerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isSphereCerti:
+          type: boolean
+        createdByUser:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        referenceId:
+          type:
+          - string
+          - 'null'
+        deviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CertificateDetail_2:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        certificateType:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        certPassword:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        isDeviceConnected:
+          type: boolean
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isSphereCerti:
+          type: boolean
+        origin:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        iotHubInfoGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        brokerGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    AuthTypeCertificateCountResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AuthTypeCertificateCount'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateLookup_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        origin:
+          type:
+          - string
+          - 'null'
+        certificateType:
+          type:
+          - string
+          - 'null'
+        isSphereCerti:
+          type: boolean
+      additionalProperties: false
+    CertificateList_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        row_num:
+          type: integer
+          format: int32
+        origin:
+          type:
+          - string
+          - 'null'
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+        serviceBrokerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isSphereCerti:
+          type: boolean
+        createdByUser:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        referenceId:
+          type:
+          - string
+          - 'null'
+        deviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CertificateDetail_3:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        certificateType:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        certPassword:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        isDeviceConnected:
+          type: boolean
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isSphereCerti:
+          type: boolean
+        origin:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        iotHubInfoGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        brokerGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+  requestBodies:
+    postApiV2Certificate:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              CertificateName:
+                description: Certificate Name
+                type: string
+              certificateFile:
+                description: Certificate file. Only .pem and .cer files are allowed.
+                type: string
+                format: binary
+              IsSphereCerti:
+                type: boolean
+              CertificateType:
+                type: integer
+                format: int32
+              InvokingUser:
+                type: string
+                format: uuid
+              Version:
+                type: string
+              Culture:
+                type: string
+              TokenCompanyGuid:
+                type: string
+                format: uuid
+              CpId:
+                type: string
+              Token:
+                type: string
+              DebugInfo:
+                type: integer
+                format: int32
+            required:
+            - CertificateName
+            - certificateFile
+      required: true
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-device-aws-prod-swagger.json
+- avnet-iotconnect-device-azure-prod-swagger.json
+- avnet-iotconnect-device-openapi.yml

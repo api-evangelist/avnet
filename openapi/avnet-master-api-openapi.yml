@@ -1,0 +1,2298 @@
+openapi: 3.2.0
+info:
+  title: Avnet Master API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Master across 3 of this provider''s published API definitions: avnet-iotconnect-master-aws-prod-swagger.json, avnet-iotconnect-master-azure-prod-swagger.json, avnet-iotconnect-master-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://master.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Master
+  description: Master Api List
+paths:
+  /api/v2.1/Master/country:
+    get:
+      tags:
+      - Master
+      summary: Get country list
+      description: This API endpoint provides you the list of all countries.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that country list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryListResponse'
+      operationId: getApiV21MasterCountry
+      x-operation-id-source: derived
+  /api/v2.1/Master/country/{countryGuid}/state:
+    get:
+      tags:
+      - Master
+      summary: Get country state list
+      description: This API endpoint gives you the list of all states for a given country. For that, you need to send countryGuid in request url.
+      parameters:
+      - name: countryGuid
+        in: path
+        description: Country id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that country state list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StateListResponse'
+      operationId: getApiV21MasterCountryByCountryGuidState
+      x-operation-id-source: derived
+  /api/v2.1/Master/timezone:
+    get:
+      tags:
+      - Master
+      summary: Get time zone list
+      description: This API endpoint provides you the time zone list.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that timezone list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeZoneListResponse'
+      operationId: getApiV21MasterTimezone
+      x-operation-id-source: derived
+  /api/v2.1/Master/connectionverify:
+    post:
+      tags:
+      - Master
+      summary: Verify connections
+      description: This API endpoint allows you to verify connections for SQLServer, RabbitMQ and ServiceBus.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that connection verified successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionVerifyRespoonse'
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionVerifyRequest'
+      operationId: postApiV21MasterConnectionverify
+      x-operation-id-source: derived
+  /api/v2.1/Master/ui-mqtt:
+    get:
+      tags:
+      - Master
+      summary: Get ui-alert or notification configuration information
+      description: This API endpoint provides you the information of notification or an ui-alert. For that, you need to send a notification or UI alert in the query string parameter type.
+      parameters:
+      - name: type
+        in: query
+        description: type should be notification or ui-alert or mqtt
+        schema:
+          type: string
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StompReaderResponse'
+      operationId: getApiV21MasterUiMqtt
+      x-operation-id-source: derived
+  /api/v2.1/Master/ui-signalr:
+    get:
+      tags:
+      - Master
+      summary: Get ui-alert or notification configuration information for signalr
+      description: This API endpoint provides you the information of notification or an ui-alert
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalRConfigResponse'
+      operationId: getApiV21MasterUiSignalr
+      x-operation-id-source: derived
+  /api/v2.1/Master/language:
+    get:
+      tags:
+      - Master
+      summary: Get language list
+      description: This API endpoint provides you the language list.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that language list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LanguageListResponse'
+      operationId: getApiV21MasterLanguage
+      x-operation-id-source: derived
+  /api/v2.1/Master/ui-protocol:
+    get:
+      tags:
+      - Master
+      summary: Get ui-protocol information
+      description: This API endpoint provides you the information of ui-protocolt
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UIProtocolReaderResponse'
+      operationId: getApiV21MasterUiProtocol
+      x-operation-id-source: derived
+  /api/v2.1/Master/gridPreferences:
+    post:
+      tags:
+      - Master
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGridPreferenceResponse'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                GridGuid:
+                  type: string
+                  format: uuid
+                UserGuid:
+                  type: string
+                  format: uuid
+                GridValue:
+                  type: integer
+                  format: int32
+                DefaultFilterVal:
+                  type: integer
+                  format: int32
+                InvokingUser:
+                  type: string
+                  format: uuid
+                Version:
+                  type: string
+                Culture:
+                  type: string
+                TokenCompanyGuid:
+                  type: string
+                  format: uuid
+                CpId:
+                  type: string
+                Token:
+                  type: string
+                DebugInfo:
+                  type: integer
+                  format: int32
+      summary: Create api master grid preferences
+      x-summary-source: derived
+      operationId: postApiV21MasterGridPreferences
+      x-operation-id-source: derived
+  /api/v2.1/Master/gridPreferences/{userGuid}:
+    get:
+      tags:
+      - Master
+      parameters:
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferenceGridResponse'
+      summary: Get api master grid preferences by user guid
+      x-summary-source: derived
+      operationId: getApiV21MasterGridPreferencesByUserGuid
+      x-operation-id-source: derived
+  /api/v2.1/Master/grid/gridPreference:
+    put:
+      tags:
+      - Master
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGridPreferenceUpdateResponse'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                GridGuid:
+                  type: string
+                  format: uuid
+                UserGuid:
+                  type: string
+                  format: uuid
+                GridValue:
+                  type: integer
+                  format: int32
+                DefaultFilterVal:
+                  type: integer
+                  format: int32
+                InvokingUser:
+                  type: string
+                  format: uuid
+                Version:
+                  type: string
+                Culture:
+                  type: string
+                TokenCompanyGuid:
+                  type: string
+                  format: uuid
+                CpId:
+                  type: string
+                Token:
+                  type: string
+                DebugInfo:
+                  type: integer
+                  format: int32
+                userGuid:
+                  type: string
+                  format: uuid
+      summary: Replace api master grid grid preference
+      x-summary-source: derived
+      operationId: putApiV21MasterGridGridPreference
+      x-operation-id-source: derived
+  /api/v2.1/Master/grid/preference/{userGuid}:
+    put:
+      tags:
+      - Master
+      parameters:
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreferenceGridResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreferenceGridRequest'
+      summary: Replace api master grid preference by user guid
+      x-summary-source: derived
+      operationId: putApiV21MasterGridPreferenceByUserGuid
+      x-operation-id-source: derived
+  /api/v2.1/Master/gridLookUp:
+    get:
+      tags:
+      - Master
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGridLookUpResponse'
+      summary: Get api master grid look up
+      x-summary-source: derived
+      operationId: getApiV21MasterGridLookUp
+      x-operation-id-source: derived
+  /api/v2/Master/country:
+    get:
+      tags:
+      - Master
+      summary: Get country list
+      description: This API endpoint provides you the list of all countries.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that country list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryListResponse'
+      operationId: getApiV2MasterCountry
+      x-operation-id-source: derived
+  /api/v2/Master/country/{countryGuid}/state:
+    get:
+      tags:
+      - Master
+      summary: Get country state list
+      description: This API endpoint gives you the list of all states for a given country. For that, you need to send countryGuid in request url.
+      parameters:
+      - name: countryGuid
+        in: path
+        description: Country id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that country state list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StateListResponse'
+      operationId: getApiV2MasterCountryByCountryGuidState
+      x-operation-id-source: derived
+  /api/v2/Master/timezone:
+    get:
+      tags:
+      - Master
+      summary: Get time zone list
+      description: This API endpoint provides you the time zone list.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that timezone list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeZoneListResponse'
+      operationId: getApiV2MasterTimezone
+      x-operation-id-source: derived
+  /api/v2/Master/connectionverify:
+    post:
+      tags:
+      - Master
+      summary: Verify connections
+      description: This API endpoint allows you to verify connections for SQLServer, RabbitMQ and ServiceBus.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that connection verified successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionVerifyRespoonse'
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionVerifyRequest'
+      operationId: postApiV2MasterConnectionverify
+      x-operation-id-source: derived
+  /api/v2/Master/ui-mqtt:
+    get:
+      tags:
+      - Master
+      summary: Get ui-alert or notification configuration information
+      description: This API endpoint provides you the information of notification or an ui-alert. For that, you need to send a notification or UI alert in the query string parameter type.
+      parameters:
+      - name: type
+        in: query
+        description: type should be notification or ui-alert or mqtt
+        schema:
+          type: string
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StompReaderResponse'
+      operationId: getApiV2MasterUiMqtt
+      x-operation-id-source: derived
+  /api/v2/Master/ui-signalr:
+    get:
+      tags:
+      - Master
+      summary: Get ui-alert or notification configuration information for signalr
+      description: This API endpoint provides you the information of notification or an ui-alert
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalRConfigResponse'
+      operationId: getApiV2MasterUiSignalr
+      x-operation-id-source: derived
+  /api/v2/Master/language:
+    get:
+      tags:
+      - Master
+      summary: Get language list
+      description: This API endpoint provides you the language list.
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: Indicates that language list loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LanguageListResponse'
+      operationId: getApiV2MasterLanguage
+      x-operation-id-source: derived
+  /api/v2/Master/ui-protocol:
+    get:
+      tags:
+      - Master
+      summary: Get ui-protocol information
+      description: This API endpoint provides you the information of ui-protocolt
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UIProtocolReaderResponse'
+      operationId: getApiV2MasterUiProtocol
+      x-operation-id-source: derived
+  /api/v2/Master/gridPreferences:
+    post:
+      tags:
+      - Master
+      summary: Add User Grid Preference
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGridPreferenceResponse'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                GridGuid:
+                  type: string
+                  format: uuid
+                UserGuid:
+                  type: string
+                  format: uuid
+                GridValue:
+                  type: integer
+                  format: int32
+                DefaultFilterVal:
+                  type: integer
+                  format: int32
+                InvokingUser:
+                  type: string
+                  format: uuid
+                Version:
+                  type: string
+                Culture:
+                  type: string
+                TokenCompanyGuid:
+                  type: string
+                  format: uuid
+                CpId:
+                  type: string
+                Token:
+                  type: string
+                DebugInfo:
+                  type: integer
+                  format: int32
+      operationId: postApiV2MasterGridPreferences
+      x-operation-id-source: derived
+  /api/v2/Master/gridPreferences/{userGuid}:
+    get:
+      tags:
+      - Master
+      summary: API to retrive user's all grid preference
+      parameters:
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferenceGridResponse'
+      operationId: getApiV2MasterGridPreferencesByUserGuid
+      x-operation-id-source: derived
+  /api/v2/Master/grid/gridPreference:
+    put:
+      tags:
+      - Master
+      summary: Update user grid preference
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGridPreferenceUpdateResponse'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                GridGuid:
+                  type: string
+                  format: uuid
+                UserGuid:
+                  type: string
+                  format: uuid
+                GridValue:
+                  type: integer
+                  format: int32
+                DefaultFilterVal:
+                  type: integer
+                  format: int32
+                InvokingUser:
+                  type: string
+                  format: uuid
+                Version:
+                  type: string
+                Culture:
+                  type: string
+                TokenCompanyGuid:
+                  type: string
+                  format: uuid
+                CpId:
+                  type: string
+                Token:
+                  type: string
+                DebugInfo:
+                  type: integer
+                  format: int32
+                userGuid:
+                  type: string
+                  format: uuid
+      operationId: putApiV2MasterGridGridPreference
+      x-operation-id-source: derived
+  /api/v2/Master/grid/preference/{userGuid}:
+    put:
+      tags:
+      - Master
+      parameters:
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreferenceGridResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreferenceGridRequest'
+      summary: Replace api master grid preference by user guid
+      x-summary-source: derived
+      operationId: putApiV2MasterGridPreferenceByUserGuid
+      x-operation-id-source: derived
+  /api/v2/Master/gridLookUp:
+    get:
+      tags:
+      - Master
+      responses:
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictErrorModel'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGridLookUpResponse'
+      summary: Get api master grid look up
+      x-summary-source: derived
+      operationId: getApiV2MasterGridLookUp
+      x-operation-id-source: derived
+components:
+  schemas:
+    SignalRConfigResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SignalRConfigData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    StompReaderResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StompReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UserGridPreferenceResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserGridLookUpResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserPrefrenceGridModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CloudUIReaderData:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UserGridPreferenceList:
+      type: object
+      properties:
+        gridValue:
+          type: integer
+          format: int32
+        gridCode:
+          type:
+          - string
+          - 'null'
+        alwaysShowFilter:
+          type: boolean
+        quickFilterVal:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        defaultFilterVal:
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    StateListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/StateList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Timezone:
+      type: object
+      properties:
+        utcName:
+          type:
+          - string
+          - 'null'
+        offset:
+          type:
+          - string
+          - 'null'
+        isdst:
+          type: boolean
+        isDeleted:
+          type: boolean
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ConnectionVerifyRequest:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+          description: Connection Type should be SQLServer, RabbitMQ or ServiceBus.
+        params:
+          type:
+          - object
+          - 'null'
+          description: Connection Parameters
+      additionalProperties: false
+    UserPrefrenceGridModel:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        maxValue:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PreferenceGridRequest:
+      type: object
+      properties:
+        gridValue:
+          type: integer
+          format: int32
+        gridCode:
+          type:
+          - string
+          - 'null'
+        alwaysShowFilter:
+          type: boolean
+          default: false
+        defaultFilterVal:
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    TimeZoneListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Timezone'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ConflictErrorModel:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    SignalRConfigData:
+      type: object
+      properties:
+        cpId:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ConnectionVerifyRespoonse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserGridPreferenceUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    LanguageListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Language'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    PreferenceGridResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    StateList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UIProtocolReaderResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CloudUIReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Language:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        cd:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CountryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Country'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    StompReaderData:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UserPreferenceGridResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserGridPreferenceList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Country:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        countryCode:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    StompReaderData_2:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    StompReaderData_3:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-master-aws-prod-swagger.json
+- avnet-iotconnect-master-azure-prod-swagger.json
+- avnet-iotconnect-master-openapi.yml

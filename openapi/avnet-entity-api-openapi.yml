@@ -1,0 +1,2810 @@
+openapi: 3.2.0
+info:
+  title: Avnet Entity API
+  x-refined-note:
+  - x-conversion differs across the merged source definitions and was not carried
+  - x-harvested differs across the merged source definitions and was not carried
+  - x-original differs across the merged source definitions and was not carried
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Entity across 3 of this provider''s published API definitions: avnet-iotconnect-user-aws-prod-swagger.json, avnet-iotconnect-user-azure-prod-swagger.json, avnet-iotconnect-user-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://user.iotconnect.io
+  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+security:
+- Bearer: []
+tags:
+- name: Entity
+  description: Entity Api List
+paths:
+  /api/v2.1/Entity:
+    post:
+      tags:
+      - Entity
+      summary: Add new entity
+      description: 'An entity in IoTConnect is the company/location-based hierarchy where users can manage different entities/companies under which several devices and users can be managed. The entity facilitates a user to control multiple sub-companies under a parent company. When you create a company, an entity gets created automatically, which is considered as a parent entity of your company.
+
+
+        This API endpoint allows you to add new entities for your company. Such new entities get their place under a parent entity. Here name, parentEntityGuid, address, city, countryGuid, stateGuid are mandatory. If you opt to create an entity owner, firstName, lastName, userId, roleGuid, timeZoneGuid are mandatory.'
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity is created successfully and returns created entity guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityCreateV2Request'
+        description: Json object
+      operationId: postApiV21Entity
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Entity
+      summary: Get entity list
+      description: Get a list of available entities of your company using this API endpoint.
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity list is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: getApiV21Entity
+      x-operation-id-source: derived
+  /api/v2.1/Entity/{entityGuid}:
+    put:
+      tags:
+      - Entity
+      summary: Update an entity
+      description: 'To update entity name, location details, or a parent-child architecture relationship, use this API endpoint. You need to send entityGuid in request url and updated entity details in the request body.
+
+
+        Here, you even have an option to set an existing user as the owner of the entity. For that, you need to send a user guid in ownerUserGuid parameter. To arrange a new user as an entity owner, you need to send user details in the userInfo parameter.'
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be updated
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityUpdateRequest'
+        description: Json object
+      operationId: putApiV21EntityByEntityGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Entity
+      summary: Delete an entity
+      description: This API endpoint allows you to delete an entity. For that, you need to send entityGuid in request url.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be deleted
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: deleteApiV21EntityByEntityGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Entity
+      summary: Get single entity detail
+      description: This API endpoint gives you a detailed description of any entity of your company. For that, you need to send entityGuid in request url.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Entity Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity details are loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityDetailResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: getApiV21EntityByEntityGuid
+      x-operation-id-source: derived
+  /api/v2.1/Entity/lookup:
+    get:
+      tags:
+      - Entity
+      summary: Get entity lookup list
+      description: This API endpoint allows you to get the lookup list of available entities in your company.
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity lookup list is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityLookupResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: getApiV21EntityLookup
+      x-operation-id-source: derived
+  /api/v2.1/Entity/{entityGuid}/properties:
+    put:
+      tags:
+      - Entity
+      summary: Update custom property value
+      description: This API endpoint allows you to update custom property values. For that, you need to send entityGuid in request url along with custom property guid and updated custom property value in the request body.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be updated
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that custom property is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityPropertiesUpdateRequest'
+        description: Json object
+      operationId: putApiV21EntityByEntityGuidProperties
+      x-operation-id-source: derived
+  /api/v2.1/Entity/{entityGuid}/property/{propertyGuid}:
+    delete:
+      tags:
+      - Entity
+      summary: Delete custom property value
+      description: This API endpoint allows you to delete a custom property value for an entity. For that, you need to send entityGuid and customPropertyGuid in request url.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be updated
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: propertyGuid
+        in: path
+        description: Guid of property which needs to be deleted from entity
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that custom property is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: deleteApiV21EntityByEntityGuidPropertyByPropertyGuid
+      x-operation-id-source: derived
+  /api/v2.1/Entity/bulk-import/history:
+    get:
+      tags:
+      - Entity
+      summary: Get entity bulk import list
+      description: This API endpoint provides you the list of all imported entities in bulk. This will give you the current status of all batch import along with the count of entities with validation status as success and failure.
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order. Eg. createdDate desc, createdDate asc, createdDate, entityName
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the entity bulk import list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityBulkImportListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV21EntityBulkImportHistory
+      x-operation-id-source: derived
+  /api/v2.1/Entity/bulk-import/{parentEntityGuid}/validate:
+    post:
+      tags:
+      - Entity
+      summary: Validate entities in batch
+      description: This API endpoint helps to validate entities along with users in bulk for the given parent entity guid. For that, upload a JSON file in the file parameter, containing list of entities and an optional respective user for respective entity along with children entities that you want to create under a given parent entity.
+      parameters:
+      - name: parentEntityGuid
+        in: path
+        description: A valid entity guid of parent
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the external device process validated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityBulkImportValidateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Entity doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+      operationId: postApiV21EntityBulkImportByParentEntityGuidValidate
+      x-operation-id-source: derived
+  /api/v2.1/Entity/bulk-import/{bulkImportGuid}/file:
+    get:
+      tags:
+      - Entity
+      summary: Get bulk entity import file content
+      parameters:
+      - name: bulkImportGuid
+        in: path
+        description: Bulk import guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: isSuccess
+        in: query
+        description: 'Nullable, if not passed. It will download user uploaded content. if true: it will download success data. if false: it will download failed entity data'
+        schema:
+          type: boolean
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      operationId: getApiV21EntityBulkImportByBulkImportGuidFile
+      x-operation-id-source: derived
+  /api/v2.1/Entity/bulk-import/{bulkImportGuid}:
+    delete:
+      tags:
+      - Entity
+      summary: Cancel bulk entity to import
+      parameters:
+      - name: bulkImportGuid
+        in: path
+        description: Bulk import guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityBulkImportCancelResponse'
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+      operationId: deleteApiV21EntityBulkImportByBulkImportGuid
+      x-operation-id-source: derived
+  /api/v2.1/Entity/bulk-import/{bulkImportGuid}/init:
+    post:
+      tags:
+      - Entity
+      summary: Initialize bulk entity to import
+      parameters:
+      - name: bulkImportGuid
+        in: path
+        description: Bulk import guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityBulkImportListResponse'
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+      operationId: postApiV21EntityBulkImportByBulkImportGuidInit
+      x-operation-id-source: derived
+  /api/v2/Entity:
+    post:
+      tags:
+      - Entity
+      summary: Add new entity
+      description: 'An entity in /IOTCONNECT™ is the company/location-based hierarchy where users can manage different entities/companies under which several devices and users can be managed. The entity facilitates a user to control multiple sub-companies under a parent company. When you create a company, an entity gets created automatically, which is considered as a parent entity of your company.
+
+
+        This API endpoint allows you to add new entities for your company. Such new entities get their place under a parent entity. Here name, parentEntityGuid, address, city, countryGuid, stateGuid are mandatory. If you opt to create an entity owner, firstName, lastName, userId, roleGuid, timeZoneGuid are mandatory.'
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity is created successfully and returns created entity guid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityCreateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityCreateV2Request'
+        description: Json object
+      operationId: postApiV2Entity
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Entity
+      summary: Get entity list with all details
+      description: Get a list of available entities of your company using this API endpoint.
+      parameters:
+      - name: treeView
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity list is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityListResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: getApiV2Entity
+      x-operation-id-source: derived
+  /api/v2/Entity/{entityGuid}:
+    put:
+      tags:
+      - Entity
+      summary: Update an entity
+      description: 'To update entity name, location details, or a parent-child architecture relationship, use this API endpoint. You need to send entityGuid in request url and updated entity details in the request body.
+
+
+        Here, you even have an option to set an existing user as the owner of the entity. For that, you need to send a user guid in ownerUserGuid parameter. To arrange a new user as an entity owner, you need to send user details in the userInfo parameter.'
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be updated
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityUpdateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityUpdateRequest'
+        description: Json object
+      operationId: putApiV2EntityByEntityGuid
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Entity
+      summary: Delete an entity
+      description: This API endpoint allows you to delete an entity. For that, you need to send entityGuid in request url.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be deleted
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: deleteApiV2EntityByEntityGuid
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Entity
+      summary: Get single entity detail
+      description: This API endpoint gives you a detailed description of any entity of your company. For that, you need to send entityGuid in request url.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Entity Guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity details are loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityDetailResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: getApiV2EntityByEntityGuid
+      x-operation-id-source: derived
+  /api/v2/Entity/lookup:
+    get:
+      tags:
+      - Entity
+      summary: Get entity lookup list
+      description: This API endpoint allows you to get the lookup list of available entities in your company.
+      parameters:
+      - name: treeView
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that entity lookup list is loaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityLookupResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: getApiV2EntityLookup
+      x-operation-id-source: derived
+  /api/v2/Entity/{entityGuid}/properties:
+    put:
+      tags:
+      - Entity
+      summary: Update custom property value
+      description: This API endpoint allows you to update custom property values. For that, you need to send entityGuid in request url along with custom property guid and updated custom property value in the request body.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be updated
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that custom property is updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityPropertiesUpdateRequest'
+        description: Json object
+      operationId: putApiV2EntityByEntityGuidProperties
+      x-operation-id-source: derived
+  /api/v2/Entity/{entityGuid}/property/{propertyGuid}:
+    delete:
+      tags:
+      - Entity
+      summary: Delete custom property value
+      description: This API endpoint allows you to delete a custom property value for an entity. For that, you need to send entityGuid and customPropertyGuid in request url.
+      parameters:
+      - name: entityGuid
+        in: path
+        description: Guid of Entity which needs to be updated
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: propertyGuid
+        in: path
+        description: Guid of property which needs to be deleted from entity
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that custom property is deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server
+
+            Company doesn''t exist, Logged in user is not valid etc.'
+      operationId: deleteApiV2EntityByEntityGuidPropertyByPropertyGuid
+      x-operation-id-source: derived
+  /api/v2/Entity/bulk-import/history:
+    get:
+      tags:
+      - Entity
+      summary: Get entity bulk import list
+      description: This API endpoint provides you the list of all imported entities in bulk. This will give you the current status of all batch import along with the count of entities with validation status as success and failure.
+      parameters:
+      - name: pageNumber
+        in: query
+        description: 'To fetch specific page data. Eg: 2'
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        description: 'To define number of records in single page. Eg: 25'
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        description: Sort by name and order. Eg. createdDate desc, createdDate asc, createdDate, entityName
+        schema:
+          type: string
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the entity bulk import list received successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityImportListResponse'
+        '204':
+          description: Indicates that the request has been successfully processed and no records found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            invalid logged user or company.'
+      operationId: getApiV2EntityBulkImportHistory
+      x-operation-id-source: derived
+  /api/v2/Entity/bulk-import/{parentEntityGuid}/validate:
+    post:
+      tags:
+      - Entity
+      summary: Validate entities in batch
+      description: This API endpoint helps to validate entities along with users in bulk for the given parent entity guid. For that, upload a JSON file in the file parameter, containing list of entities and an optional respective user for respective entity along with children entities that you want to create under a given parent entity.
+      parameters:
+      - name: parentEntityGuid
+        in: path
+        description: A valid entity guid of parent
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: Indicates that the external device process validated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityValidateResponse'
+        '409':
+          description: 'Indicates that the request could not be carried out because of one of the below or other conflicts on the server.
+
+            Entity doesn''t exist and invalid logged user or company.'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+      operationId: postApiV2EntityBulkImportByParentEntityGuidValidate
+      x-operation-id-source: derived
+  /api/v2/Entity/bulk-import/{bulkImportGuid}/init:
+    post:
+      tags:
+      - Entity
+      summary: Initialize bulk entity to import
+      parameters:
+      - name: bulkImportGuid
+        in: path
+        description: Bulk import guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityImportListResponse'
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+      operationId: postApiV2EntityBulkImportByBulkImportGuidInit
+      x-operation-id-source: derived
+  /api/v2/Entity/bulk-import/{bulkImportGuid}/file:
+    get:
+      tags:
+      - Entity
+      summary: Get bulk entity import file content
+      parameters:
+      - name: bulkImportGuid
+        in: path
+        description: Bulk import guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: isSuccess
+        in: query
+        description: 'Nullable, if not passed. It will download user uploaded content. if true: it will download success data. if false: it will download failed entity data'
+        schema:
+          type: boolean
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+      operationId: getApiV2EntityBulkImportByBulkImportGuidFile
+      x-operation-id-source: derived
+  /api/v2/Entity/bulk-import/{bulkImportGuid}:
+    delete:
+      tags:
+      - Entity
+      summary: Cancel bulk entity to import
+      parameters:
+      - name: bulkImportGuid
+        in: path
+        description: Bulk import guid
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '401':
+          description: Indicates that authentication is failed because of the token is invalid or expired or missing.
+        '403':
+          description: Indicates that the user is not authorized to access this section.
+        '412':
+          description: Indicates that a condition set for this request is failed, and the request cannot be carried out.
+        '500':
+          description: Indicates that the request could not be carried out because of some technical error on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityImportCancelResponse'
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContentResult'
+      operationId: deleteApiV2EntityBulkImportByBulkImportGuid
+      x-operation-id-source: derived
+components:
+  schemas:
+    EntityListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EntityPropertiesUpdateRequest:
+      type: object
+      properties:
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: Custom Properties
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PropertyValue:
+      required:
+      - guid
+      - value
+      type: object
+      properties:
+        guid:
+          minLength: 1
+          type: string
+          description: Custom Property Guid
+        value:
+          minLength: 1
+          type: string
+          description: Custom Property Value
+      additionalProperties: false
+    EntityImportBulkStatus:
+      type: object
+      properties:
+        importBatchGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isValid:
+          type: boolean
+      additionalProperties: false
+    EntityDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        address:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        stateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        countryGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        defaultuserGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        zipCode:
+          type:
+          - string
+          - 'null'
+        address2:
+          type:
+          - string
+          - 'null'
+        entityInfo:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    UserInfo:
+      type: object
+      properties:
+        firstName:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: User's first name
+        lastName:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: User's last name
+        userId:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: 'User''s login email id. eg: abc@gmail.com'
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          description: Timezone Guid. You can fetch timezone list from Master API
+        roleGuid:
+          type:
+          - string
+          - 'null'
+          description: Role Guid
+        contactNo:
+          type:
+          - string
+          - 'null'
+          description: 'User''s contact no. eg: 91-1234567890'
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Property'
+          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
+        isActive:
+          type:
+          - boolean
+          - 'null'
+          description: 'User''s active status. true: Active, false: Inactive'
+        sendInvitationEmail:
+          type:
+          - boolean
+          - 'null'
+          description: To receive invitation email from IDS
+        password:
+          type:
+          - string
+          - 'null'
+          description: To set password directly without reset password
+        isTempPassword:
+          type:
+          - boolean
+          - 'null'
+          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
+      additionalProperties: false
+    EntityCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityCreateResult'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Property:
+      type: object
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: Custom property key
+        value:
+          type:
+          - string
+          - 'null'
+          description: Custom property value
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    EntityBulkImportListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityImportHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityBulkImportValidateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityImportBulkStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityUpdateRequest:
+      required:
+      - name
+      - parentEntityGuid
+      type: object
+      properties:
+        ownerUserGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity owner user guid
+        isRemoveEntityOwner:
+          type: boolean
+          default: false
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Entity Name
+        description:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Description
+        parentEntityGuid:
+          minLength: 1
+          type: string
+          description: Parent Entity Guid
+        childEntityLabel:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+        address:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address
+        address2:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address 2
+        city:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: City Name
+        stateGuid:
+          type:
+          - string
+          - 'null'
+          description: State Guid. You can fetch country wise state list from Master API
+        countryGuid:
+          type:
+          - string
+          - 'null'
+          description: Country Guid. You can fetch country list from Master API
+        zipCode:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: Zip Code
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          description: Timezone Guid. You can fetch timezone list from Master API
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        userInfoXml:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    EntityLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    EntityList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+        activeUserCount:
+          type: integer
+          format: int32
+        inActiveUserCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    EntityUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityUpdate:
+      type: object
+      properties:
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isExistingUser:
+          type: boolean
+        isWelcomeEmail:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    EntityCreateResult:
+      type: object
+      properties:
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isExistingUser:
+          type: boolean
+        isWelcomeEmail:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    EntityBulkImportCancelResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityImportHistory:
+      type: object
+      properties:
+        entityGuid:
+          type: string
+          format: uuid
+        guid:
+          type: string
+          format: uuid
+        fileName:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        createdByName:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+        success:
+          type: integer
+          format: int32
+        failed:
+          type: integer
+          format: int32
+        isValidBatch:
+          type: boolean
+        companyName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EntityCreateV2Request:
+      required:
+      - name
+      - parentEntityGuid
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Entity Name
+        description:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Description
+        parentEntityGuid:
+          minLength: 1
+          type: string
+          description: Parent Entity Guid
+        childEntityLabel:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+        address:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address
+        address2:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address 2
+        city:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: City Name
+        stateGuid:
+          type:
+          - string
+          - 'null'
+          description: State Guid. You can fetch country wise state list from Master API
+        countryGuid:
+          type:
+          - string
+          - 'null'
+          description: Country Guid. You can fetch country list from Master API
+        zipCode:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: Zip Code
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          description: Timezone Guid. You can fetch timezone list from Master API
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        userInfoXml:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    EntityImportCancelResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityValidateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityImportBulkStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityLookup_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eName:
+          type:
+          - string
+          - 'null'
+        lvl:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EntityList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        activeUserCount:
+          type: integer
+          format: int32
+        inActiveUserCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        userCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        hasChild:
+          type:
+          - boolean
+          - 'null'
+        childJson:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityList_2'
+      additionalProperties: false
+    EntityImportListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityImportHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityLookup_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eName:
+          type:
+          - string
+          - 'null'
+        lvl:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EntityList_3:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        activeUserCount:
+          type: integer
+          format: int32
+        inActiveUserCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        userCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        hasChild:
+          type:
+          - boolean
+          - 'null'
+        childJson:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityList_3'
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: Please enter JWT with Bearer into field
+      name: Authorization
+      in: header
+x-refined-from:
+- avnet-iotconnect-user-aws-prod-swagger.json
+- avnet-iotconnect-user-azure-prod-swagger.json
+- avnet-iotconnect-user-openapi.yml
