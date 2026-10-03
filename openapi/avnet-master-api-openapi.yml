@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet Master API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Master across 3 of this provider''s published API definitions: avnet-iotconnect-master-aws-prod-swagger.json, avnet-iotconnect-master-azure-prod-swagger.json, avnet-iotconnect-master-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://master.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+  description: 'Operations tagged Master across 2 of this provider''s published API definitions: avnet-iotconnect-master-aws-prod-swagger.json, avnet-iotconnect-master-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -789,11 +780,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SignalRConfigResponse:
+    PreferenceGridResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/SignalRConfigData'
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -949,6 +942,84 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    CloudUIReaderData:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SignalRConfigData:
+      type: object
+      properties:
+        cpId:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
     ErrorModel:
       type: object
       properties:
@@ -961,13 +1032,11 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    UserGridPreferenceResponse:
+    UIProtocolReaderResponse:
       type: object
       properties:
         data:
-          type:
-          - object
-          - 'null'
+          $ref: '#/components/schemas/CloudUIReaderData'
         status:
           enum:
           - 100
@@ -1043,91 +1112,26 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserGridLookUpResponse:
+    PreferenceGridRequest:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserPrefrenceGridModel'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+        gridValue:
           type: integer
           format: int32
-        message:
+        gridCode:
           type:
           - string
           - 'null'
-        count:
+        alwaysShowFilter:
+          type: boolean
+          default: false
+        defaultFilterVal:
           type:
           - integer
           - 'null'
-          format: int64
+          format: int32
       additionalProperties: false
-    CloudUIReaderData:
+    StompReaderData:
       type: object
       properties:
         host:
@@ -1296,21 +1300,9 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    Timezone:
+    StateList:
       type: object
       properties:
-        utcName:
-          type:
-          - string
-          - 'null'
-        offset:
-          type:
-          - string
-          - 'null'
-        isdst:
-          type: boolean
-        isDeleted:
-          type: boolean
         guid:
           type:
           - string
@@ -1321,50 +1313,41 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    ConnectionVerifyRequest:
-      type: object
-      properties:
-        type:
-          type:
-          - string
-          - 'null'
-          description: Connection Type should be SQLServer, RabbitMQ or ServiceBus.
-        params:
-          type:
-          - object
-          - 'null'
-          description: Connection Parameters
-      additionalProperties: false
-    UserPrefrenceGridModel:
+    Country:
       type: object
       properties:
         guid:
-          type: string
-          format: uuid
-        maxValue:
-          type: integer
-          format: int32
-      additionalProperties: false
-    PreferenceGridRequest:
-      type: object
-      properties:
-        gridValue:
-          type: integer
-          format: int32
-        gridCode:
           type:
           - string
           - 'null'
-        alwaysShowFilter:
-          type: boolean
-          default: false
-        defaultFilterVal:
+          readOnly: true
+        name:
           type:
-          - integer
+          - string
           - 'null'
-          format: int32
+        countryCode:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    TimeZoneListResponse:
+    ConflictErrorModel:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    UserGridLookUpResponse:
       type: object
       properties:
         data:
@@ -1372,7 +1355,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Timezone'
+            $ref: '#/components/schemas/UserPrefrenceGridModel'
         status:
           enum:
           - 100
@@ -1448,40 +1431,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ConflictErrorModel:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    SignalRConfigData:
-      type: object
-      properties:
-        cpId:
-          type:
-          - string
-          - 'null'
-        topic:
-          type:
-          - string
-          - 'null'
-        url:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ConnectionVerifyRespoonse:
+    TimeZoneListResponse:
       type: object
       properties:
         data:
@@ -1489,9 +1439,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/Timezone'
         status:
           enum:
           - 100
@@ -1649,280 +1597,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    LanguageListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Language'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    PreferenceGridResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    StateList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    UIProtocolReaderResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CloudUIReaderData'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    Language:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        cd:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     CountryListResponse:
       type: object
       properties:
@@ -2007,67 +1681,110 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    StompReaderData:
+    UserPrefrenceGridModel:
       type: object
       properties:
-        host:
+        guid:
+          type: string
+          format: uuid
+        maxValue:
+          type: integer
+          format: int32
+      additionalProperties: false
+    Language:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
           type:
           - string
           - 'null'
-        vhost:
+        cd:
           type:
           - string
           - 'null'
-        user:
+      additionalProperties: false
+    SignalRConfigResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SignalRConfigData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
-        password:
-          type:
-          - string
-          - 'null'
-        port:
+        count:
           type:
           - integer
           - 'null'
-          format: int32
-        isSecure:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        cpId:
-          type:
-          - string
-          - 'null'
-        url:
-          type:
-          - string
-          - 'null'
-        topic:
-          type:
-          - string
-          - 'null'
-        vhost-alert:
-          type:
-          - string
-          - 'null'
-        wsurl:
-          type:
-          - string
-          - 'null'
-        telemetryTopic:
-          type:
-          - string
-          - 'null'
-        notificationTopic:
-          type:
-          - string
-          - 'null'
-        type:
-          type:
-          - string
-          - 'null'
+          format: int64
       additionalProperties: false
     UserPreferenceGridResponse:
       type: object
@@ -2153,9 +1870,21 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    Country:
+    Timezone:
       type: object
       properties:
+        utcName:
+          type:
+          - string
+          - 'null'
+        offset:
+          type:
+          - string
+          - 'null'
+        isdst:
+          type: boolean
+        isDeleted:
+          type: boolean
         guid:
           type:
           - string
@@ -2165,70 +1894,274 @@ components:
           type:
           - string
           - 'null'
-        countryCode:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
-    StompReaderData_2:
+    LanguageListResponse:
       type: object
       properties:
-        host:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Language'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
-        vhost:
-          type:
-          - string
-          - 'null'
-        user:
-          type:
-          - string
-          - 'null'
-        password:
-          type:
-          - string
-          - 'null'
-        port:
+        count:
           type:
           - integer
           - 'null'
-          format: int32
-        isSecure:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        cpId:
-          type:
-          - string
-          - 'null'
-        url:
-          type:
-          - string
-          - 'null'
-        topic:
-          type:
-          - string
-          - 'null'
-        vhost-alert:
-          type:
-          - string
-          - 'null'
-        wsurl:
-          type:
-          - string
-          - 'null'
-        telemetryTopic:
-          type:
-          - string
-          - 'null'
-        notificationTopic:
-          type:
-          - string
-          - 'null'
+          format: int64
       additionalProperties: false
-    StompReaderData_3:
+    ConnectionVerifyRequest:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+          description: Connection Type should be SQLServer, RabbitMQ or ServiceBus.
+        params:
+          type:
+          - object
+          - 'null'
+          description: Connection Parameters
+      additionalProperties: false
+    ConnectionVerifyRespoonse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserGridPreferenceResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    StompReaderData_2:
       type: object
       properties:
         host:
@@ -2295,4 +2228,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-master-aws-prod-swagger.json
 - avnet-iotconnect-master-azure-prod-swagger.json
-- avnet-iotconnect-master-openapi.yml

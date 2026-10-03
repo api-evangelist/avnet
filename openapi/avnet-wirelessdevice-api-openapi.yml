@@ -1272,19 +1272,482 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    WirelessSocketModel:
+    ErrorsResponse:
       type: object
       properties:
-        webSocketURL:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    CommandSendRequest:
+      required:
+      - commandGuid
+      - gatewayGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Template command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        commandText:
+          type:
+          - string
+          - 'null'
+          description: Command Text
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Device guid list. \n            Required if applyTo is 2"
+        entityGuid:
+          maxLength: 750
+          type:
+          - string
+          - 'null'
+          description: "Entity Guid. \n            Required if applyTo is 1"
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: 'Send true to include child entity devices.
+
+            Required if applyTo is 1'
+        isScheduledCommand:
+          type:
+          - boolean
+          - 'null'
+          description: 'Allows to schedule a command. <i>true</i>: To schedule a command, <i>false</i>: Doesn''t schedule and send command instantly.'
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+        isCpidOptional:
+          type: boolean
+        gatewayGuid:
+          minLength: 1
+          type: string
+          description: Gateway Guid
+        fPort:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        transmissionInterval:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        downlinkMode:
+          type:
+          - string
+          - 'null'
+        downlinkFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        transmissionMode:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isBytesCommand:
+          type: boolean
+        commandAsString:
+          type: boolean
+        dType:
           type:
           - string
           - 'null'
       additionalProperties: false
-    DeviceQueuedMessagesResponse:
+    BytesCommandAdd:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    LorawanGatewayLookupResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/DeviceQueuedMessageIdList'
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/LorawanGatewayLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    WirelessDeviceCommandStatus:
+      type: object
+      properties:
+        messageId:
+          type:
+          - string
+          - 'null'
+        deviceId:
+          type:
+          - string
+          - 'null'
+        cmdText:
+          type:
+          - string
+          - 'null'
+        cmdName:
+          type:
+          - string
+          - 'null'
+        statusText:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SidewalkDeviceCreateRequest:
+      type: object
+      properties:
+        customDecoderGuid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateByteCommandParameter:
+      type: object
+      properties:
+        parameter:
+          type:
+          - string
+          - 'null'
+          description: Parameter
+        dtName:
+          type:
+          - string
+          - 'null'
+          description: Datatype Name
+        rg:
+          type:
+          - string
+          - 'null'
+          description: Range
+        seqNo:
+          type: integer
+          description: Seq No
+          format: int32
+      additionalProperties: false
+    OptionalSettings:
+      type: object
+      properties:
+        factoryPresetFreqs:
+          type:
+          - string
+          - 'null'
+        maxDutyCycle:
+          type: integer
+          format: int32
+        rXDataRate2:
+          type: integer
+          format: int32
+        rXDelay1:
+          type: integer
+          format: int32
+        rXDROffset1:
+          type: integer
+          format: int32
+        rXFreq2:
+          type: integer
+          format: int32
+        supports32bitFCnt:
+          type: boolean
+      additionalProperties: false
+    DeviceSpecification:
+      type: object
+      properties:
+        appEui:
+          type:
+          - string
+          - 'null'
+        appKey:
+          type:
+          - string
+          - 'null'
+        appSKey:
+          type:
+          - string
+          - 'null'
+        devAddr:
+          type:
+          - string
+          - 'null'
+        devEui:
+          type:
+          - string
+          - 'null'
+        deviceSpecificationGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        fNwkSIntKey:
+          type:
+          - string
+          - 'null'
+        nwkKey:
+          type:
+          - string
+          - 'null'
+        nwkSEncKey:
+          type:
+          - string
+          - 'null'
+        nwkSKey:
+          type:
+          - string
+          - 'null'
+        sNwkSIntKey:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    LorawanMasterDataResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/LorawanMasterData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceProfile:
+      type: object
+      properties:
+        deviceProfileGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isPublic:
+          type: boolean
+        macVersionGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        maxEIRP:
+          type: integer
+          format: int32
+        rfRegionGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        rpvGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        supportJoin:
+          type: boolean
+        isSupportClassB:
+          type: boolean
+        isSupportClassC:
+          type: boolean
+        isOptionalSettings:
+          type: boolean
+        optionalSettings:
+          $ref: '#/components/schemas/OptionalSettings'
+        supportClassB:
+          $ref: '#/components/schemas/SupportClassB'
+        supportClassC:
+          $ref: '#/components/schemas/SupportClassC'
+      additionalProperties: false
+    BytesCommandAddResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BytesCommandAdd'
         status:
           enum:
           - 100
@@ -1444,110 +1907,31 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorModel:
+    DeviceProfileLookup:
       type: object
       properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    WirelessDeviceCreateRequest:
-      required:
-      - deviceTemplateGuid
-      - displayName
-      - entityGuid
-      - uniqueId
-      type: object
-      properties:
-        uniqueId:
-          maxLength: 200
-          minLength: 1
+        guid:
           type: string
-          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: The deviceTemplateGuid of device.
-        wirelessDeviceType:
-          type: integer
-          format: int32
-        lorawanDevice:
-          $ref: '#/components/schemas/LorawanDeviceCreateRequest'
-        sidewalkDevice:
-          $ref: '#/components/schemas/SidewalkDeviceCreateRequest'
-        displayName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: The display name of device.
-        note:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: The note of the device.
-        entityGuid:
-          minLength: 1
-          type: string
-          description: The entityGuid of device.
-      additionalProperties: false
-    DeviceProfile:
-      type: object
-      properties:
-        deviceProfileGuid:
-          type:
-          - string
-          - 'null'
           format: uuid
+        name:
+          type:
+          - string
+          - 'null'
         isPublic:
           type: boolean
-        macVersionGuid:
+        lorawanRFRegionGuid:
           type:
           - string
           - 'null'
           format: uuid
-        maxEIRP:
-          type: integer
-          format: int32
-        rfRegionGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        rpvGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        supportJoin:
-          type: boolean
-        isSupportClassB:
-          type: boolean
-        isSupportClassC:
-          type: boolean
-        isOptionalSettings:
-          type: boolean
-        optionalSettings:
-          $ref: '#/components/schemas/OptionalSettings'
-        supportClassB:
-          $ref: '#/components/schemas/SupportClassB'
-        supportClassC:
-          $ref: '#/components/schemas/SupportClassC'
       additionalProperties: false
-    LorawanGatewayLookupResponse:
+    LorawanGatewayDeleteResponse:
       type: object
       properties:
         data:
           type:
-          - array
+          - object
           - 'null'
-          items:
-            $ref: '#/components/schemas/LorawanGatewayLookup'
         status:
           enum:
           - 100
@@ -1623,6 +2007,162 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    LorawanGatewayCreate:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceProfileDetails:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        lorawanRFRegionGuid:
+          type: string
+          format: uuid
+        rfRegionGuid:
+          type: string
+          format: uuid
+          readOnly: true
+        macVersionGuid:
+          type: string
+          format: uuid
+        rpvGuid:
+          type: string
+          format: uuid
+        maxEIRP:
+          type: integer
+          format: int32
+        isSupportClassB:
+          type: boolean
+        isSupportClassC:
+          type: boolean
+        supportClassB:
+          $ref: '#/components/schemas/SupportClassB'
+        supportClassC:
+          $ref: '#/components/schemas/SupportClassC'
+        supportJoin:
+          type: boolean
+        isOptionalSettings:
+          type: boolean
+        optionalSettings:
+          $ref: '#/components/schemas/OptionalSettings'
+        isExistLorawanProfile:
+          type: boolean
+        wirelessProfileId:
+          type:
+          - string
+          - 'null'
+        deviceCount:
+          type: integer
+          format: int32
+        devices:
+          type:
+          - string
+          - 'null'
+        isPublic:
+          type: boolean
+      additionalProperties: false
+    LorawanGatewayUpdateResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LorawanGatewayUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceProfileUpdateRequest:
+      type: object
+      properties:
+        deviceGuid:
+          type: string
+          format: uuid
+        profileGuid:
+          type: string
+          format: uuid
+        isPublic:
+          type: boolean
+      additionalProperties: false
     Properties:
       type: object
       properties:
@@ -1650,35 +2190,197 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    BytesCommandDetail:
+    RetriveHexFileRequest:
       type: object
       properties:
-        guid:
-          type: string
-          format: uuid
-        deviceTemplateGuid:
-          type: string
-          format: uuid
-        companyGuid:
-          type: string
-          format: uuid
-        name:
+        wirelessType:
           type:
           - string
           - 'null'
-        command:
-          type:
-          - string
-          - 'null'
-        convertToHex:
-          type: boolean
-        createdDate:
-          type: string
-          format: date-time
-        bytesCmdDefs:
+      additionalProperties: false
+    LorawanGatewayUpdateStatusResponse:
+      type: object
+      properties:
+        data:
           type:
           - object
           - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    LorawanDeviceCreateRequest:
+      type: object
+      properties:
+        deviceProfile:
+          $ref: '#/components/schemas/DeviceProfile'
+        deviceSpecification:
+          $ref: '#/components/schemas/DeviceSpecification'
+        properties:
+          $ref: '#/components/schemas/Properties'
+      additionalProperties: false
+    WirelessSocketModel:
+      type: object
+      properties:
+        webSocketURL:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    BytesCommandListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BytesCommandList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     DeviceProfileResponse:
       type: object
@@ -1689,6 +2391,218 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/DeviceProfileDetails'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    LorawanGatewayUpdateStatusRequest:
+      required:
+      - isActive
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: LorawanGateway Active Status, 'true' for making LorawanGateway active and 'false' for making LorawanGateway inactive
+      additionalProperties: false
+    LorawanGatewayUpdateRequest:
+      required:
+      - frequencyBand
+      - gatewayName
+      type: object
+      properties:
+        frequencyBand:
+          minLength: 1
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        gatewayName:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    CreateDevice:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ParentUniqueId:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        ggDeviceScript:
+          type:
+          - string
+          - 'null'
+        activeDeviceCount:
+          type: integer
+          format: int32
+        inActiveDeviceCount:
+          type: integer
+          format: int32
+        ggDeviceType:
+          type: integer
+          format: int32
+        fileSupport:
+          type: boolean
+      additionalProperties: false
+    UpdateLorawanDeviceProfile:
+      type: object
+      properties:
+        hasDeviceExist:
+          type: boolean
+        wirelessId:
+          type:
+          - string
+          - 'null'
+        wirelessProfileId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    LorawanMasterData:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        type:
+          type: integer
+          format: int32
+        name:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandSendResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -1792,231 +2706,22 @@ components:
           description: Seq No
           format: int32
       additionalProperties: false
-    LorawanDeviceCreateRequest:
-      type: object
-      properties:
-        deviceProfile:
-          $ref: '#/components/schemas/DeviceProfile'
-        deviceSpecification:
-          $ref: '#/components/schemas/DeviceSpecification'
-        properties:
-          $ref: '#/components/schemas/Properties'
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
-    LorawanGatewayUpdateStatusResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    LorawanMasterDataResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/LorawanMasterData'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    DeviceProfileUpdateRequest:
+    DeleteWirelessLogRequest:
       type: object
       properties:
         deviceGuid:
           type: string
           format: uuid
-        profileGuid:
-          type: string
-          format: uuid
-        isPublic:
-          type: boolean
       additionalProperties: false
-    OptionalSettings:
-      type: object
-      properties:
-        factoryPresetFreqs:
-          type:
-          - string
-          - 'null'
-        maxDutyCycle:
-          type: integer
-          format: int32
-        rXDataRate2:
-          type: integer
-          format: int32
-        rXDelay1:
-          type: integer
-          format: int32
-        rXDROffset1:
-          type: integer
-          format: int32
-        rXFreq2:
-          type: integer
-          format: int32
-        supports32bitFCnt:
-          type: boolean
-      additionalProperties: false
-    LorawanGatewayResponse:
+    DeviceProfileLookupResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/LorawanGateway'
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceProfileLookup'
         status:
           enum:
           - 100
@@ -2092,7 +2797,96 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandSendResponse:
+    BytesCommandDetailResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BytesCommandDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    BytesDefinitionUpdateSequenceRequest:
+      required:
+      - seqNo
+      type: object
+      properties:
+        seqNo:
+          type: integer
+          format: int32
+      additionalProperties: false
+    RetriveHexFileResponse:
       type: object
       properties:
         data:
@@ -2100,9 +2894,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/RetriveHexFileModel'
         status:
           enum:
           - 100
@@ -2218,7 +3010,14 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    DeviceProperty:
+    WirelessLogsRequest:
+      type: object
+      properties:
+        deviceGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    LorawanGatewayList:
       type: object
       properties:
         guid:
@@ -2226,53 +3025,21 @@ components:
           - string
           - 'null'
           readOnly: true
-        deviceGuid:
+        euiCode:
           type:
           - string
           - 'null'
-          readOnly: true
-        value:
+        gatewayName:
           type:
           - string
           - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        propertyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        options:
-          type:
-          - string
-          - 'null'
-        fieldType:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    SupportClassB:
-      type: object
-      properties:
-        classBTimeout:
-          type: integer
-          format: int32
-        pingSlotDR:
-          type: integer
-          format: int32
-        pingSlotFreq:
-          type: integer
-          format: int32
-        pingSlotPeriod:
-          type: integer
-          format: int32
-      additionalProperties: false
-    LorawanGatewayLookupRequest:
-      type: object
-      properties:
         frequencyBand:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        entityName:
           type:
           - string
           - 'null'
@@ -2280,427 +3047,15 @@ components:
           type:
           - string
           - 'null'
-          format: uuid
-        templateGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        deviceGuids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-            format: uuid
-        includeChildEntity:
-          type: boolean
-        hasCommand:
-          type: boolean
-      additionalProperties: false
-    LorawanLookupResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/LorawanLookup'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+          readOnly: true
+        lorawanDeviceCount:
           type: integer
           format: int32
-        message:
+        lastConnection:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    BytesCommandListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BytesCommandList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandSendToDeviceRequest:
-      required:
-      - commandGuid
-      - gatewayGuid
-      type: object
-      properties:
-        commandGuid:
-          minLength: 1
-          type: string
-          description: Command Guid
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value
-        commandText:
-          type:
-          - string
-          - 'null'
-          description: Command Text
-        gatewayGuid:
-          minLength: 1
-          type: string
-          description: Gateway Guid
-        fPort:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        transmissionInterval:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        downlinkMode:
-          type:
-          - string
-          - 'null'
-        downlinkFrequency:
-          type:
-          - integer
-          - 'null'
-          format: int64
-        transmissionMode:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        isBytesCommand:
-          type: boolean
-      additionalProperties: false
-    LorawanGatewayUpdateStatusRequest:
-      required:
-      - isActive
-      type: object
-      properties:
-        isActive:
-          type: boolean
-          description: LorawanGateway Active Status, 'true' for making LorawanGateway active and 'false' for making LorawanGateway inactive
-      additionalProperties: false
-    LorawanGatewayUpdate:
-      type: object
-      properties:
-        newid:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    BytesCommandAddResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BytesCommandAdd'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    WirelessCommandStatusResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WirelessDeviceCommandStatus'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+          format: date-time
       additionalProperties: false
     LorawanGatewayLookup:
       type: object
@@ -2723,153 +3078,11 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    CreateDevice:
+    SupportClassC:
       type: object
       properties:
-        newid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ParentUniqueId:
-          type:
-          - string
-          - 'null'
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        ggDeviceScript:
-          type:
-          - string
-          - 'null'
-        activeDeviceCount:
+        classCTimeout:
           type: integer
-          format: int32
-        inActiveDeviceCount:
-          type: integer
-          format: int32
-        ggDeviceType:
-          type: integer
-          format: int32
-        fileSupport:
-          type: boolean
-      additionalProperties: false
-    LorawanGatewayCreateResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/LorawanGatewayCreate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    BytesDefinitionUpdateSequenceRequest:
-      required:
-      - seqNo
-      type: object
-      properties:
-        seqNo:
-          type: integer
-          format: int32
-      additionalProperties: false
-    TemplateByteCommandParameter:
-      type: object
-      properties:
-        parameter:
-          type:
-          - string
-          - 'null'
-          description: Parameter
-        dtName:
-          type:
-          - string
-          - 'null'
-          description: Datatype Name
-        rg:
-          type:
-          - string
-          - 'null'
-          description: Range
-        seqNo:
-          type: integer
-          description: Seq No
           format: int32
       additionalProperties: false
     DeviceProfileUpdateResponse:
@@ -2956,40 +3169,34 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    OutputparamListResponse:
+    LorawanLookup:
       type: object
       properties:
-        fName:
+        guid:
           type:
           - string
           - 'null'
-        dName:
+          readOnly: true
+        manufacturer:
           type:
           - string
           - 'null'
-        value:
+        displayName:
           type:
-          - object
+          - string
           - 'null'
+        decoderName:
+          type:
+          - string
+          - 'null'
+        manufacturerId:
+          type:
+          - string
+          - 'null'
+        isCustom:
+          type: boolean
       additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    DeviceProfileLookupResponse:
+    BytesCommandDeleteResponse:
       type: object
       properties:
         data:
@@ -2997,7 +3204,277 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceProfileLookup'
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    LorawanGatewayCreateResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LorawanGatewayCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UpdateBytesCommandRequest:
+      type: object
+      properties:
+        commandName:
+          type:
+          - string
+          - 'null'
+          description: CommandName
+        command:
+          type:
+          - string
+          - 'null'
+          description: command
+        isHex:
+          type: boolean
+          description: isHex
+        bytesCommandParameter:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UpdateBytesCommandParamter'
+          description: templateByteCommandParameter
+      additionalProperties: false
+    DeviceListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    WirelessLogsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/WirelessSocketModel'
         status:
           enum:
           - 100
@@ -3244,11 +3721,93 @@ components:
           items:
             $ref: '#/components/schemas/OutputparamListResponse'
       additionalProperties: false
-    WirelessLogsResponse:
+    DeviceProperty:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        value:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        propertyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        options:
+          type:
+          - string
+          - 'null'
+        fieldType:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    BytesCommandList:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        command:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    BytesCommandDetail:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        deviceTemplateGuid:
+          type: string
+          format: uuid
+        companyGuid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        convertToHex:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        bytesCmdDefs:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    DeleteWirelessLogsInterface:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/WirelessSocketModel'
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -3323,6 +3882,14 @@ components:
           - integer
           - 'null'
           format: int64
+      additionalProperties: false
+    LorawanGatewayUpdate:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     CommandSendToDeviceResponse:
       type: object
@@ -3410,346 +3977,74 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UpdateLorawanDeviceProfile:
-      type: object
-      properties:
-        hasDeviceExist:
-          type: boolean
-        wirelessId:
-          type:
-          - string
-          - 'null'
-        wirelessProfileId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    WirelessLogsRequest:
-      type: object
-      properties:
-        deviceGuid:
-          type: string
-          format: uuid
-      additionalProperties: false
-    LorawanGatewayUpdateRequest:
-      required:
-      - frequencyBand
-      - gatewayName
+    LorawanGatewayLookupRequest:
       type: object
       properties:
         frequencyBand:
-          minLength: 1
-          type: string
-        description:
           type:
           - string
           - 'null'
-        gatewayName:
-          minLength: 1
-          type: string
-      additionalProperties: false
-    AddBytesCommandRequest:
-      type: object
-      properties:
-        commandName:
+        entityGuid:
           type:
           - string
           - 'null'
-          description: CommandName
-        command:
+          format: uuid
+        templateGuid:
           type:
           - string
           - 'null'
-          description: command
-        isHex:
-          type: boolean
-          description: isHex
-        bytesCommandParameter:
+          format: uuid
+        deviceGuids:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/TemplateByteCommandParameter'
-          description: templateByteCommandParameter
+            type: string
+            format: uuid
+        includeChildEntity:
+          type: boolean
+        hasCommand:
+          type: boolean
       additionalProperties: false
-    SupportClassC:
-      type: object
-      properties:
-        classCTimeout:
-          type: integer
-          format: int32
-      additionalProperties: false
-    DeviceSpecification:
-      type: object
-      properties:
-        appEui:
-          type:
-          - string
-          - 'null'
-        appKey:
-          type:
-          - string
-          - 'null'
-        appSKey:
-          type:
-          - string
-          - 'null'
-        devAddr:
-          type:
-          - string
-          - 'null'
-        devEui:
-          type:
-          - string
-          - 'null'
-        deviceSpecificationGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        fNwkSIntKey:
-          type:
-          - string
-          - 'null'
-        nwkKey:
-          type:
-          - string
-          - 'null'
-        nwkSEncKey:
-          type:
-          - string
-          - 'null'
-        nwkSKey:
-          type:
-          - string
-          - 'null'
-        sNwkSIntKey:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DeviceQueuedMessagesRequest:
+    WirelessDeviceCreateRequest:
+      required:
+      - deviceTemplateGuid
+      - displayName
+      - entityGuid
+      - uniqueId
       type: object
       properties:
         uniqueId:
-          type:
-          - string
-          - 'null'
-        nextToken:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    LorawanGatewayUpdateResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/LorawanGatewayUpdate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    LorawanMasterData:
-      type: object
-      properties:
-        guid:
+          maxLength: 200
+          minLength: 1
           type: string
-          format: uuid
-        type:
+          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: The deviceTemplateGuid of device.
+        wirelessDeviceType:
           type: integer
           format: int32
-        name:
-          type:
-          - string
-          - 'null'
+        lorawanDevice:
+          $ref: '#/components/schemas/LorawanDeviceCreateRequest'
+        sidewalkDevice:
+          $ref: '#/components/schemas/SidewalkDeviceCreateRequest'
         displayName:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    LorawanGatewayCreateRequest:
-      required:
-      - euiCode
-      - frequencyBand
-      - gatewayName
-      type: object
-      properties:
-        euiCode:
+          maxLength: 100
           minLength: 1
           type: string
-        frequencyBand:
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
           minLength: 1
           type: string
-        description:
-          type:
-          - string
-          - 'null'
-        gatewayName:
-          minLength: 1
-          type: string
-      additionalProperties: false
-    RetriveHexFileResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RetriveHexFileModel'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RetriveHexFileRequest:
-      type: object
-      properties:
-        wirelessType:
-          type:
-          - string
-          - 'null'
+          description: The entityGuid of device.
       additionalProperties: false
     DeviceCreateResponse:
       type: object
@@ -3835,15 +4130,11 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DeviceListResponse:
+    DeviceQueuedMessagesResponse:
       type: object
       properties:
         data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DeviceList'
+          $ref: '#/components/schemas/DeviceQueuedMessageIdList'
         status:
           enum:
           - 100
@@ -3918,403 +4209,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    DeleteWirelessLogsInterface:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    DeviceProfileLookup:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        isPublic:
-          type: boolean
-        lorawanRFRegionGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
-    LorawanGatewayDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    BytesCommandList:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        command:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    BytesCommandDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandSendRequest:
-      required:
-      - commandGuid
-      - gatewayGuid
-      type: object
-      properties:
-        commandGuid:
-          minLength: 1
-          type: string
-          description: Template command Guid
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value
-        commandText:
-          type:
-          - string
-          - 'null'
-          description: Command Text
-        applyTo:
-          type: integer
-          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
-          format: int32
-        devices:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: "Device guid list. \n            Required if applyTo is 2"
-        entityGuid:
-          maxLength: 750
-          type:
-          - string
-          - 'null'
-          description: "Entity Guid. \n            Required if applyTo is 1"
-        isRecursive:
-          type:
-          - boolean
-          - 'null'
-          description: 'Send true to include child entity devices.
-
-            Required if applyTo is 1'
-        isScheduledCommand:
-          type:
-          - boolean
-          - 'null'
-          description: 'Allows to schedule a command. <i>true</i>: To schedule a command, <i>false</i>: Doesn''t schedule and send command instantly.'
-        scheduleUnit:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
-        scheduleUnitValue:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
-        isCpidOptional:
-          type: boolean
-        gatewayGuid:
-          minLength: 1
-          type: string
-          description: Gateway Guid
-        fPort:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        transmissionInterval:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        downlinkMode:
-          type:
-          - string
-          - 'null'
-        downlinkFrequency:
-          type:
-          - integer
-          - 'null'
-          format: int64
-        transmissionMode:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        isBytesCommand:
-          type: boolean
-        commandAsString:
-          type: boolean
-        dType:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    LorawanGatewayCreate:
-      type: object
-      properties:
-        newid:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    BytesCommandAdd:
-      type: object
-      properties:
-        newId:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
     DeleteDeviceQueuedMessagesResponse:
       type: object
@@ -4402,6 +4296,113 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    CommandSendToDeviceRequest:
+      required:
+      - commandGuid
+      - gatewayGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        commandText:
+          type:
+          - string
+          - 'null'
+          description: Command Text
+        gatewayGuid:
+          minLength: 1
+          type: string
+          description: Gateway Guid
+        fPort:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        transmissionInterval:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        downlinkMode:
+          type:
+          - string
+          - 'null'
+        downlinkFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        transmissionMode:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isBytesCommand:
+          type: boolean
+      additionalProperties: false
+    AddBytesCommandRequest:
+      type: object
+      properties:
+        commandName:
+          type:
+          - string
+          - 'null'
+          description: CommandName
+        command:
+          type:
+          - string
+          - 'null'
+          description: command
+        isHex:
+          type: boolean
+          description: isHex
+        bytesCommandParameter:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateByteCommandParameter'
+          description: templateByteCommandParameter
+      additionalProperties: false
+    SupportClassB:
+      type: object
+      properties:
+        classBTimeout:
+          type: integer
+          format: int32
+        pingSlotDR:
+          type: integer
+          format: int32
+        pingSlotFreq:
+          type: integer
+          format: int32
+        pingSlotPeriod:
+          type: integer
+          format: int32
+      additionalProperties: false
+    OutputparamListResponse:
+      type: object
+      properties:
+        fName:
+          type:
+          - string
+          - 'null'
+        dName:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
     DeviceQueuedMessageIdList:
       type: object
       properties:
@@ -4416,11 +4417,15 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    BytesCommandDetailResponse:
+    LorawanLookupResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/BytesCommandDetail'
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/LorawanLookup'
         status:
           enum:
           - 100
@@ -4496,143 +4501,197 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    LorawanLookup:
+    WirelessCommandStatusResponse:
       type: object
       properties:
-        guid:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WirelessDeviceCommandStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
-          readOnly: true
-        manufacturer:
+        count:
           type:
-          - string
+          - integer
           - 'null'
-        displayName:
-          type:
-          - string
-          - 'null'
-        decoderName:
-          type:
-          - string
-          - 'null'
-        manufacturerId:
-          type:
-          - string
-          - 'null'
-        isCustom:
-          type: boolean
+          format: int64
       additionalProperties: false
-    LorawanGatewayList:
+    LorawanGatewayCreateRequest:
+      required:
+      - euiCode
+      - frequencyBand
+      - gatewayName
       type: object
       properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
         euiCode:
+          minLength: 1
+          type: string
+        frequencyBand:
+          minLength: 1
+          type: string
+        description:
           type:
           - string
           - 'null'
         gatewayName:
-          type:
-          - string
-          - 'null'
-        frequencyBand:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        entityName:
-          type:
-          - string
-          - 'null'
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        lorawanDeviceCount:
-          type: integer
-          format: int32
-        lastConnection:
-          type:
-          - string
-          - 'null'
-          format: date-time
+          minLength: 1
+          type: string
       additionalProperties: false
-    DeviceProfileDetails:
+    LorawanGatewayResponse:
       type: object
       properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        lorawanRFRegionGuid:
-          type: string
-          format: uuid
-        rfRegionGuid:
-          type: string
-          format: uuid
-          readOnly: true
-        macVersionGuid:
-          type: string
-          format: uuid
-        rpvGuid:
-          type: string
-          format: uuid
-        maxEIRP:
+        data:
+          $ref: '#/components/schemas/LorawanGateway'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
-        isSupportClassB:
-          type: boolean
-        isSupportClassC:
-          type: boolean
-        supportClassB:
-          $ref: '#/components/schemas/SupportClassB'
-        supportClassC:
-          $ref: '#/components/schemas/SupportClassC'
-        supportJoin:
-          type: boolean
-        isOptionalSettings:
-          type: boolean
-        optionalSettings:
-          $ref: '#/components/schemas/OptionalSettings'
-        isExistLorawanProfile:
-          type: boolean
-        wirelessProfileId:
+        message:
           type:
           - string
           - 'null'
-        deviceCount:
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
           type: integer
           format: int32
-        devices:
-          type:
-          - string
-          - 'null'
-        isPublic:
-          type: boolean
-      additionalProperties: false
-    SidewalkDeviceCreateRequest:
-      type: object
-      properties:
-        customDecoderGuid:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DeleteWirelessLogRequest:
-      type: object
-      properties:
-        deviceGuid:
-          type: string
-          format: uuid
       additionalProperties: false
     RetriveHexFileModel:
       type: object
@@ -4646,73 +4705,14 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    SuccessResponse:
+    DeviceQueuedMessagesRequest:
       type: object
       properties:
-        message:
+        uniqueId:
           type:
           - string
           - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-      additionalProperties: false
-    UpdateBytesCommandRequest:
-      type: object
-      properties:
-        commandName:
-          type:
-          - string
-          - 'null'
-          description: CommandName
-        command:
-          type:
-          - string
-          - 'null'
-          description: command
-        isHex:
-          type: boolean
-          description: isHex
-        bytesCommandParameter:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UpdateBytesCommandParamter'
-          description: templateByteCommandParameter
-      additionalProperties: false
-    WirelessDeviceCommandStatus:
-      type: object
-      properties:
-        messageId:
-          type:
-          - string
-          - 'null'
-        deviceId:
-          type:
-          - string
-          - 'null'
-        cmdText:
-          type:
-          - string
-          - 'null'
-        cmdName:
-          type:
-          - string
-          - 'null'
-        statusText:
-          type:
-          - string
-          - 'null'
-        status:
+        nextToken:
           type:
           - string
           - 'null'

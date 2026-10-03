@@ -1,17 +1,20 @@
 openapi: 3.2.0
 info:
-  title: Avnet OTA API
+  title: /IOTCONNECT™ Firmware OTA API
+  description: 'Firmware REST API contains information of Device modules. It will give API methods to firmware communication and OTA.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
   version: '2.0'
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
-  description: 'Operations tagged OTA across 2 of this provider''s published API definitions: avnet-iotconnect-firmware-azure-prod-swagger.json, avnet-iotconnect-firmware-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://firmware.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
 security:
 - Bearer: []
 tags:
@@ -813,13 +816,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    OTAUpdateRecentActivity:
+    ErrorsResponse:
       type: object
       properties:
-        uniqueId:
+        status:
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    OTAUpdateRecentList:
+      type: object
+      properties:
+        otaUpdateItemGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
         hardware:
           type:
           - string
@@ -831,7 +857,7 @@ components:
         updatedDate:
           type: string
           format: date-time
-        firmwareName:
+        uniqueId:
           type:
           - string
           - 'null'
@@ -841,14 +867,48 @@ components:
           - 'null'
         type2Support:
           type: boolean
-        edgeSupport:
-          type: boolean
         lowbandWidth:
           type: boolean
         iotEdgeEnable:
           type: boolean
+        edgeSupport:
+          type: boolean
+        firmwareName:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    OTAUpdateDetail:
+    OTAUpdateHistoryList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        otaGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type: string
+          format: date-time
+      additionalProperties: false
+    OTAUpdateDeviceDetail:
       type: object
       properties:
         otaUpdateItemGuid:
@@ -856,23 +916,42 @@ components:
           - string
           - 'null'
           readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileName:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
         deviceGuid:
           type:
           - string
           - 'null'
           readOnly: true
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        entityName:
-          type:
-          - string
-          - 'null'
-        status:
+        fileUrl:
           type:
           - string
           - 'null'
@@ -883,24 +962,23 @@ components:
         availableDate:
           type: string
           format: date-time
-        parentDeviceUniqueId:
+        updatedDate:
+          type: string
+          format: date-time
+        ackId:
           type:
           - string
           - 'null'
-        isDisplayLink:
-          type: boolean
-        templateName:
+          readOnly: true
+        solutionGuid:
+          type: string
+          format: uuid
+        urls:
           type:
-          - string
+          - array
           - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        software:
-          type:
-          - string
-          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
       additionalProperties: false
     OTAUpdateFirmwareCancelStatusUpdateResponse:
       type: object
@@ -1000,275 +1078,42 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    OTAUpdateDeviceDetailResponse:
+    OTAUpdateRecentActivity:
       type: object
       properties:
-        data:
+        uniqueId:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/OTAUpdateDeviceDetail'
+        hardware:
+          type:
+          - string
+          - 'null'
         status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    OTAUpdateFirmwareCancelStatusUpdateRequest:
-      type: object
-      properties:
-        otaUpdateGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        otaUpdateItemGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
-    Device:
-      type: object
-      properties:
-        deviceguid:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
-    FileUrl:
-      type: object
-      properties:
-        url:
-          type:
-          - string
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    OTAUpdateListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OTAUpdateList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    OTAUpdateRequest:
-      required:
-      - firmwareUpgradeGuid
-      - isForceUpdate
-      type: object
-      properties:
-        firmwareUpgradeGuid:
-          minLength: 1
+        updatedDate:
           type: string
-          description: Firmware Upgrade Guid
-        entityGuid:
+          format: date-time
+        firmwareName:
           type:
           - string
           - 'null'
-          description: Entity Guid. Required when 'target' value is 1 or 2.
-        isForceUpdate:
+        software:
+          type:
+          - string
+          - 'null'
+        type2Support:
           type: boolean
-          description: true/false. To OTA force update
-        scheduledOn:
-          type:
-          - string
-          - 'null'
-          description: To send ota update on scheduled time
-        deviceGuids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Device guid list for trial draft OTA update. Required when 'target' value is 3.
-        isTrialDraft:
+        edgeSupport:
           type: boolean
-          description: true for trial draft OTA update
-          default: false
-        target:
-          enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          type: integer
-          description: target should be Entity=1, EntityWithSibling=2, Device=3 or ReportingGroup=4
-          format: int32
-        reportingGroupGuid:
-          type:
-          - string
-          - 'null'
-          description: Device reporting group guid
-          format: uuid
-        isSphere:
-          type:
-          - boolean
-          - 'null'
-          description: To check if it is sphere OTA
+        lowbandWidth:
+          type: boolean
+        iotEdgeEnable:
+          type: boolean
       additionalProperties: false
-    OTAUpdateDetailResponse:
+    OTAUpdateResponse:
       type: object
       properties:
         data:
@@ -1276,190 +1121,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/OTAUpdateDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    OTAUpdateCommandFeedbackResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    OTAUpdateRecentActivityListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OTAUpdateRecentActivity'
+            $ref: '#/components/schemas/OTAUpdate'
         status:
           enum:
           - 100
@@ -1571,102 +1233,21 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    OTAUpdateList:
+    OTAUpdateFirmwareCancelStatusUpdateRequest:
       type: object
       properties:
-        guid:
+        otaUpdateGuid:
           type:
           - string
           - 'null'
-          readOnly: true
-        firmwareUpgradeGuid:
+          format: uuid
+        otaUpdateItemGuid:
           type:
           - string
           - 'null'
-          readOnly: true
-        firmwareGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        hardware:
-          type:
-          - string
-          - 'null'
-        software:
-          type:
-          - string
-          - 'null'
-        isRecursive:
-          type: boolean
-        scheduledOn:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isforceUpdate:
-          type: boolean
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        entityName:
-          type:
-          - string
-          - 'null'
-        updatedByName:
-          type:
-          - string
-          - 'null'
-        success:
-          type:
-          - string
-          - 'null'
-        pending:
-          type:
-          - string
-          - 'null'
-        failed:
-          type:
-          - string
-          - 'null'
-        executed:
-          type:
-          - string
-          - 'null'
-        isDeprecated:
-          type: boolean
-        firmwareName:
-          type:
-          - string
-          - 'null'
-        hasCancel:
-          type: boolean
-        canceled:
-          type: integer
-          format: int32
-        templateName:
-          type:
-          - string
-          - 'null'
-        targetName:
-          type:
-          - string
-          - 'null'
+          format: uuid
       additionalProperties: false
-    OTAUpdateResponse:
+    OTAUpdateHistoryListResponse:
       type: object
       properties:
         data:
@@ -1674,7 +1255,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/OTAUpdate'
+            $ref: '#/components/schemas/OTAUpdateHistoryList'
         status:
           enum:
           - 100
@@ -1834,292 +1415,15 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    OTAUpdateDeviceDetail:
+    Device:
       type: object
       properties:
-        otaUpdateItemGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firmwareGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        software:
-          type:
-          - string
-          - 'null'
-        firmwareUpgradeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        fileName:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-        deviceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        fileUrl:
-          type:
-          - string
-          - 'null'
-        statusText:
-          type:
-          - string
-          - 'null'
-        availableDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        ackId:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        solutionGuid:
-          type: string
-          format: uuid
-        urls:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FileUrl'
-      additionalProperties: false
-    OTAUpdateDeviceResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OTAUpdateRecentList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    OTAUpdateHistoryListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OTAUpdateHistoryList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    OTAUpdateRecentList:
-      type: object
-      properties:
-        otaUpdateItemGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firmwareGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        hardware:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-        updatedDate:
-          type: string
-          format: date-time
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        software:
-          type:
-          - string
-          - 'null'
-        type2Support:
-          type: boolean
-        lowbandWidth:
-          type: boolean
-        iotEdgeEnable:
-          type: boolean
-        edgeSupport:
-          type: boolean
-        firmwareName:
+        deviceguid:
           type:
           - string
           - 'null'
       additionalProperties: false
-    OTAUpdateHistoryList:
+    OTAUpdateList:
       type: object
       properties:
         guid:
@@ -2127,12 +1431,12 @@ components:
           - string
           - 'null'
           readOnly: true
-        otaGuid:
+        firmwareUpgradeGuid:
           type:
           - string
           - 'null'
           readOnly: true
-        deviceGuid:
+        firmwareGuid:
           type:
           - string
           - 'null'
@@ -2145,20 +1449,74 @@ components:
           type:
           - string
           - 'null'
+        isRecursive:
+          type: boolean
+        scheduledOn:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isforceUpdate:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
         updatedDate:
           type: string
           format: date-time
-      additionalProperties: false
-    OTAUpdateHistoryDeviceList:
-      type: object
-      properties:
-        device:
+        updatedBy:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/Device'
-          description: List of device guids for search to specific devices
+          readOnly: true
+        entityName:
+          type:
+          - string
+          - 'null'
+        updatedByName:
+          type:
+          - string
+          - 'null'
+        success:
+          type:
+          - string
+          - 'null'
+        pending:
+          type:
+          - string
+          - 'null'
+        failed:
+          type:
+          - string
+          - 'null'
+        executed:
+          type:
+          - string
+          - 'null'
+        isDeprecated:
+          type: boolean
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        hasCancel:
+          type: boolean
+        canceled:
+          type: integer
+          format: int32
+        templateName:
+          type:
+          - string
+          - 'null'
+        targetName:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     OTAUpdateFirmwareStatusUpdateResponse:
       type: object
@@ -2246,12 +1604,654 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    OTAUpdateDeviceDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateDeviceDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateCommandFeedbackResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateDetail:
+      type: object
+      properties:
+        otaUpdateItemGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        statusText:
+          type:
+          - string
+          - 'null'
+        availableDate:
+          type: string
+          format: date-time
+        parentDeviceUniqueId:
+          type:
+          - string
+          - 'null'
+        isDisplayLink:
+          type: boolean
+        templateName:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateRecentActivityListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateRecentActivity'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OTAUpdateDeviceResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateRecentList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FileUrl:
+      type: object
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    OTAUpdateHistoryDeviceList:
+      type: object
+      properties:
+        device:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Device'
+          description: List of device guids for search to specific devices
+      additionalProperties: false
+    OTAUpdateRequest:
+      required:
+      - firmwareUpgradeGuid
+      - isForceUpdate
+      type: object
+      properties:
+        firmwareUpgradeGuid:
+          minLength: 1
+          type: string
+          description: Firmware Upgrade Guid
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. Required when 'target' value is 1 or 2.
+        isForceUpdate:
+          type: boolean
+          description: true/false. To OTA force update
+        scheduledOn:
+          type:
+          - string
+          - 'null'
+          description: To send ota update on scheduled time
+        deviceGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list for trial draft OTA update. Required when 'target' value is 3.
+        isTrialDraft:
+          type: boolean
+          description: true for trial draft OTA update
+          default: false
+        target:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          description: target should be Entity=1, EntityWithSibling=2, Device=3 or ReportingGroup=4
+          format: int32
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          description: Device reporting group guid
+          format: uuid
+        isSphere:
+          type:
+          - boolean
+          - 'null'
+          description: To check if it is sphere OTA
+      additionalProperties: false
+    OTAUpdateListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OTAUpdateList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
       description: Please enter JWT with Bearer into field
       name: Authorization
       in: header
-x-refined-from:
-- avnet-iotconnect-firmware-azure-prod-swagger.json
-- avnet-iotconnect-firmware-openapi.yml

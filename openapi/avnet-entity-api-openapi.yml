@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet Entity API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Entity across 3 of this provider''s published API definitions: avnet-iotconnect-user-aws-prod-swagger.json, avnet-iotconnect-user-azure-prod-swagger.json, avnet-iotconnect-user-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://user.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+  description: 'Operations tagged Entity across 2 of this provider''s published API definitions: avnet-iotconnect-user-aws-prod-swagger.json, avnet-iotconnect-user-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -1110,7 +1101,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EntityListResponse:
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    EntityBulkImportListResponse:
       type: object
       properties:
         data:
@@ -1118,7 +1126,571 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityList'
+            $ref: '#/components/schemas/EntityImportHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+        activeUserCount:
+          type: integer
+          format: int32
+        inActiveUserCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    EntityDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityPropertiesUpdateRequest:
+      type: object
+      properties:
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: Custom Properties
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    EntityImportBulkStatus:
+      type: object
+      properties:
+        importBatchGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isValid:
+          type: boolean
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Property:
+      type: object
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: Custom property key
+        value:
+          type:
+          - string
+          - 'null'
+          description: Custom property value
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    EntityBulkImportValidateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityImportBulkStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    PropertyValue:
+      required:
+      - guid
+      - value
+      type: object
+      properties:
+        guid:
+          minLength: 1
+          type: string
+          description: Custom Property Guid
+        value:
+          minLength: 1
+          type: string
+          description: Custom Property Value
+      additionalProperties: false
+    UserInfo:
+      type: object
+      properties:
+        firstName:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: User's first name
+        lastName:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: User's last name
+        userId:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: 'User''s login email id. eg: abc@gmail.com'
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          description: Timezone Guid. You can fetch timezone list from Master API
+        roleGuid:
+          type:
+          - string
+          - 'null'
+          description: Role Guid
+        contactNo:
+          type:
+          - string
+          - 'null'
+          description: 'User''s contact no. eg: 91-1234567890'
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Property'
+          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
+        isActive:
+          type:
+          - boolean
+          - 'null'
+          description: 'User''s active status. true: Active, false: Inactive'
+        sendInvitationEmail:
+          type:
+          - boolean
+          - 'null'
+          description: To receive invitation email from IDS
+        password:
+          type:
+          - string
+          - 'null'
+          description: To set password directly without reset password
+        isTempPassword:
+          type:
+          - boolean
+          - 'null'
+          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
+      additionalProperties: false
+    EntityCreateResult:
+      type: object
+      properties:
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isExistingUser:
+          type: boolean
+        isWelcomeEmail:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    EntityCreateV2Request:
+      required:
+      - name
+      - parentEntityGuid
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Entity Name
+        description:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Description
+        parentEntityGuid:
+          minLength: 1
+          type: string
+          description: Parent Entity Guid
+        childEntityLabel:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+        address:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address
+        address2:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address 2
+        city:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: City Name
+        stateGuid:
+          type:
+          - string
+          - 'null'
+          description: State Guid. You can fetch country wise state list from Master API
+        countryGuid:
+          type:
+          - string
+          - 'null'
+          description: Country Guid. You can fetch country list from Master API
+        zipCode:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: Zip Code
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          description: Timezone Guid. You can fetch timezone list from Master API
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        userInfoXml:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    EntityCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityCreateResult'
         status:
           enum:
           - 100
@@ -1278,587 +1850,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    EntityPropertiesUpdateRequest:
-      type: object
-      properties:
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: Custom Properties
-        xmlProperties:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
-    PropertyValue:
-      required:
-      - guid
-      - value
-      type: object
-      properties:
-        guid:
-          minLength: 1
-          type: string
-          description: Custom Property Guid
-        value:
-          minLength: 1
-          type: string
-          description: Custom Property Value
-      additionalProperties: false
-    EntityImportBulkStatus:
-      type: object
-      properties:
-        importBatchGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isValid:
-          type: boolean
-      additionalProperties: false
-    EntityDetail:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        description:
-          type:
-          - string
-          - 'null'
-        childEntityLabel:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isDeleted:
-          type: boolean
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        address:
-          type:
-          - string
-          - 'null'
-        city:
-          type:
-          - string
-          - 'null'
-        stateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        countryGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        defaultuserGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        zipCode:
-          type:
-          - string
-          - 'null'
-        address2:
-          type:
-          - string
-          - 'null'
-        entityInfo:
-          type:
-          - object
-          - 'null'
-      additionalProperties: false
-    UserInfo:
-      type: object
-      properties:
-        firstName:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: User's first name
-        lastName:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: User's last name
-        userId:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: 'User''s login email id. eg: abc@gmail.com'
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          description: Timezone Guid. You can fetch timezone list from Master API
-        roleGuid:
-          type:
-          - string
-          - 'null'
-          description: Role Guid
-        contactNo:
-          type:
-          - string
-          - 'null'
-          description: 'User''s contact no. eg: 91-1234567890'
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Property'
-          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
-        isActive:
-          type:
-          - boolean
-          - 'null'
-          description: 'User''s active status. true: Active, false: Inactive'
-        sendInvitationEmail:
-          type:
-          - boolean
-          - 'null'
-          description: To receive invitation email from IDS
-        password:
-          type:
-          - string
-          - 'null'
-          description: To set password directly without reset password
-        isTempPassword:
-          type:
-          - boolean
-          - 'null'
-          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
-      additionalProperties: false
-    EntityCreateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityCreateResult'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EntityDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    Property:
-      type: object
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: Custom property key
-        value:
-          type:
-          - string
-          - 'null'
-          description: Custom property value
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    EntityBulkImportListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityImportHistory'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EntityBulkImportValidateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityImportBulkStatus'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
     EntityUpdateRequest:
       required:
       - name
@@ -1940,70 +1931,7 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
-    EntityLookup:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    EntityList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parentName:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        childEntityLabel:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        activeUserCount:
-          type: integer
-          format: int32
-        inActiveUserCount:
-          type: integer
-          format: int32
-        deviceCount:
-          type: integer
-          format: int32
-      additionalProperties: false
-    EntityUpdateResponse:
+    EntityBulkImportCancelResponse:
       type: object
       properties:
         data:
@@ -2011,7 +1939,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityUpdate'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -2087,52 +2017,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EntityUpdate:
-      type: object
-      properties:
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invitationGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isExistingUser:
-          type: boolean
-        isWelcomeEmail:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    EntityCreateResult:
-      type: object
-      properties:
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invitationGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isExistingUser:
-          type: boolean
-        isWelcomeEmail:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    EntityBulkImportCancelResponse:
+    EntityUpdateResponse:
       type: object
       properties:
         data:
@@ -2140,9 +2025,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/EntityUpdate'
         status:
           enum:
           - 100
@@ -2268,99 +2151,7 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    EntityCreateV2Request:
-      required:
-      - name
-      - parentEntityGuid
-      type: object
-      properties:
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Entity Name
-        description:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: Entity Description
-        parentEntityGuid:
-          minLength: 1
-          type: string
-          description: Parent Entity Guid
-        childEntityLabel:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-        address:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: Entity Address
-        address2:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: Entity Address 2
-        city:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: City Name
-        stateGuid:
-          type:
-          - string
-          - 'null'
-          description: State Guid. You can fetch country wise state list from Master API
-        countryGuid:
-          type:
-          - string
-          - 'null'
-          description: Country Guid. You can fetch country list from Master API
-        zipCode:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: Zip Code
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          description: Timezone Guid. You can fetch timezone list from Master API
-        userInfo:
-          $ref: '#/components/schemas/UserInfo'
-        userInfoXml:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-      additionalProperties: false
-    EntityImportCancelResponse:
+    EntityListResponse:
       type: object
       properties:
         data:
@@ -2368,9 +2159,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/EntityList'
         status:
           enum:
           - 100
@@ -2446,7 +2235,189 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EntityValidateResponse:
+    EntityUpdate:
+      type: object
+      properties:
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isExistingUser:
+          type: boolean
+        isWelcomeEmail:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    EntityDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        address:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        stateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        countryGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        defaultuserGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        zipCode:
+          type:
+          - string
+          - 'null'
+        address2:
+          type:
+          - string
+          - 'null'
+        entityInfo:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    EntityList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        activeUserCount:
+          type: integer
+          format: int32
+        inActiveUserCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        userCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        hasChild:
+          type:
+          - boolean
+          - 'null'
+        childJson:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityList_2'
+      additionalProperties: false
+    EntityImportCancelResponse:
       type: object
       properties:
         data:
@@ -2454,7 +2425,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityImportBulkStatus'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -2556,71 +2529,89 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    EntityList_2:
+    EntityValidateResponse:
       type: object
       properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parentName:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        childEntityLabel:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        activeUserCount:
-          type: integer
-          format: int32
-        inActiveUserCount:
-          type: integer
-          format: int32
-        deviceCount:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        userCount:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        hasChild:
-          type:
-          - boolean
-          - 'null'
-        childJson:
+        data:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityList_2'
+            $ref: '#/components/schemas/EntityImportBulkStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     EntityImportListResponse:
       type: object
@@ -2706,98 +2697,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EntityLookup_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eName:
-          type:
-          - string
-          - 'null'
-        lvl:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    EntityList_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parentName:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        childEntityLabel:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        activeUserCount:
-          type: integer
-          format: int32
-        inActiveUserCount:
-          type: integer
-          format: int32
-        deviceCount:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        userCount:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        hasChild:
-          type:
-          - boolean
-          - 'null'
-        childJson:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityList_3'
-      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
@@ -2807,4 +2706,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-user-aws-prod-swagger.json
 - avnet-iotconnect-user-azure-prod-swagger.json
-- avnet-iotconnect-user-openapi.yml

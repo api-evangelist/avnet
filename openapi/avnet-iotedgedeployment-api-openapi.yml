@@ -1,17 +1,20 @@
 openapi: 3.2.0
 info:
-  title: Avnet Io T Edge Deployment API
+  title: /IOTCONNECT™ Firmware Io T Edge Deployment API
+  description: 'Firmware REST API contains information of Device modules. It will give API methods to firmware communication and OTA.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
   version: '2.0'
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
-  description: 'Operations tagged IoTEdgeDeployment across 2 of this provider''s published API definitions: avnet-iotconnect-firmware-azure-prod-swagger.json, avnet-iotconnect-firmware-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://firmware.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
 security:
 - Bearer: []
 tags:
@@ -148,6 +151,49 @@ components:
           - string
           - 'null'
       additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    IoTEdgeDeploymentList:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        groupName:
+          type:
+          - string
+          - 'null'
+        modules:
+          type:
+          - string
+          - 'null'
+        routes:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+      additionalProperties: false
     ErrorModel:
       type: object
       properties:
@@ -156,6 +202,147 @@ components:
           - string
           - 'null'
         message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    IoTEdgeDeploymentCreateRequest:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        deviceGroup:
+          type: string
+          format: uuid
+        userName:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        address:
+          type:
+          - string
+          - 'null'
+        modules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/IoTEdgeModule'
+        routes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/IoTEdgeRoute'
+      additionalProperties: false
+    IoTEdgeDeploymentCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    IoTEdgeRoute:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        fromModule:
+          type:
+          - string
+          - 'null'
+        toModule:
+          type:
+          - string
+          - 'null'
+        fromChannel:
+          type:
+          - string
+          - 'null'
+        toChannel:
           type:
           - string
           - 'null'
@@ -244,173 +431,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    IoTEdgeDeploymentList:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        groupName:
-          type:
-          - string
-          - 'null'
-        modules:
-          type:
-          - string
-          - 'null'
-        routes:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-      additionalProperties: false
-    IoTEdgeDeploymentCreateRequest:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        deviceGroup:
-          type: string
-          format: uuid
-        userName:
-          type:
-          - string
-          - 'null'
-        password:
-          type:
-          - string
-          - 'null'
-        address:
-          type:
-          - string
-          - 'null'
-        modules:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/IoTEdgeModule'
-        routes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/IoTEdgeRoute'
-      additionalProperties: false
-    IoTEdgeRoute:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        fromModule:
-          type:
-          - string
-          - 'null'
-        toModule:
-          type:
-          - string
-          - 'null'
-        fromChannel:
-          type:
-          - string
-          - 'null'
-        toChannel:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    IoTEdgeDeploymentCreateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
     NoContentResult:
       type: object
       properties:
@@ -418,29 +438,9 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
       description: Please enter JWT with Bearer into field
       name: Authorization
       in: header
-x-refined-from:
-- avnet-iotconnect-firmware-azure-prod-swagger.json
-- avnet-iotconnect-firmware-openapi.yml

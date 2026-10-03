@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet Group API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Group across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://device.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+  description: 'Operations tagged Group across 2 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -1262,270 +1253,38 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GroupUser:
+    ErrorsResponse:
       type: object
       properties:
-        name:
+        status:
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
-        email:
-          type:
-          - string
-          - 'null'
-        permission:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: boolean
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        reportingGroupGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    GroupUpdateResponse:
-      type: object
-      properties:
-        data:
+        error:
           type:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    ErrorModel:
+    GroupDeviceCreate:
       type: object
       properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    GroupUserCreateResponse:
-      type: object
-      properties:
-        data:
+        error:
           type:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
+            $ref: '#/components/schemas/StatusModel'
+        success:
           type:
-          - string
+          - array
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EntityGroupByTarget:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        ggDeviceCnt:
-          type: integer
-          format: int32
-        deviceUniqueIds:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    GroupDevice:
-      type: object
-      properties:
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        displayName:
-          type:
-          - string
-          - 'null'
-        templateName:
-          type:
-          - string
-          - 'null'
-        entityName:
-          type:
-          - string
-          - 'null'
-        deviceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        reportingGroupGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
+          items:
+            $ref: '#/components/schemas/StatusModel'
       additionalProperties: false
     GroupTypeListResponse:
       type: object
@@ -1611,7 +1370,159 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    GroupGetResponse:
+    GroupUpdateRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+    GroupDeviceCreateRequest:
+      required:
+      - deviceGuids
+      - groupGuid
+      type: object
+      properties:
+        groupGuid:
+          minLength: 1
+          type: string
+          description: Group Guid
+        deviceGuids:
+          type: array
+          items:
+            type: string
+          description: Device Guid List
+      additionalProperties: false
+    GroupGet:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    StatusModel:
+      type: object
+      properties:
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        statusMessage:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupTypeList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupDevice:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    GroupUserCreateRequest:
+      required:
+      - groupGuid
+      - permission
+      - userGuids
+      type: object
+      properties:
+        groupGuid:
+          minLength: 1
+          type: string
+          description: Group guid
+        userGuids:
+          type: array
+          items:
+            type: string
+          description: User guid list
+        permission:
+          type: object
+          additionalProperties:
+            type: object
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    EntityGroupByTargetResponse:
       type: object
       properties:
         data:
@@ -1619,7 +1530,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/GroupGet'
+            $ref: '#/components/schemas/EntityGroupByTarget'
         status:
           enum:
           - 100
@@ -1703,141 +1614,7 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    GroupDeviceCreateRequest:
-      required:
-      - deviceGuids
-      - groupGuid
-      type: object
-      properties:
-        groupGuid:
-          minLength: 1
-          type: string
-          description: Group Guid
-        deviceGuids:
-          type: array
-          items:
-            type: string
-          description: Device Guid List
-      additionalProperties: false
-    GroupDeviceCreate:
-      type: object
-      properties:
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/StatusModel'
-        success:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/StatusModel'
-      additionalProperties: false
-    GroupUserUpdateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    GroupCreateRequest:
-      required:
-      - name
-      - type
-      type: object
-      properties:
-        type:
-          minLength: 1
-          type: string
-          description: Group Type Guid.
-        name:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: Group Name
-      additionalProperties: false
-    GroupList:
+    GroupLookup:
       type: object
       properties:
         guid:
@@ -1849,84 +1626,20 @@ components:
           type:
           - string
           - 'null'
-        typeName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        devices:
-          type: integer
-          format: int32
-        users:
-          type: integer
-          format: int32
       additionalProperties: false
-    GroupGet:
+    ErrorModel:
       type: object
       properties:
-        guid:
+        param:
           type:
           - string
           - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        typeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        typeName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isDeleted:
-          type: boolean
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
         message:
           type:
           - string
           - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    GroupDeviceDeleteResponse:
+    GroupDeviceCreateResponse:
       type: object
       properties:
         data:
@@ -1934,7 +1647,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/GroupDeviceDeleteData'
+            $ref: '#/components/schemas/GroupDeviceCreate'
         status:
           enum:
           - 100
@@ -2094,7 +1807,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    GroupDeviceListResponse:
+    GroupDeviceDeleteResponse:
       type: object
       properties:
         data:
@@ -2102,7 +1815,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/GroupDevice'
+            $ref: '#/components/schemas/GroupDeviceDeleteData'
         status:
           enum:
           - 100
@@ -2178,102 +1891,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    GroupUserUpdateRequest:
-      required:
-      - permission
-      type: object
-      properties:
-        permission:
-          type: object
-          additionalProperties:
-            type: object
-          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
-      additionalProperties: false
-    GroupLookupResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/GroupLookup'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    GroupCreateResponse:
+    GroupUserUpdateResponse:
       type: object
       properties:
         data:
@@ -2359,7 +1977,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EntityGroupByTargetResponse:
+    GroupUserCreateResponse:
       type: object
       properties:
         data:
@@ -2367,7 +1985,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityGroupByTarget'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -2529,52 +2149,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    GroupUserCreateRequest:
-      required:
-      - groupGuid
-      - permission
-      - userGuids
-      type: object
-      properties:
-        groupGuid:
-          minLength: 1
-          type: string
-          description: Group guid
-        userGuids:
-          type: array
-          items:
-            type: string
-          description: User guid list
-        permission:
-          type: object
-          additionalProperties:
-            type: object
-          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
-      additionalProperties: false
-    GroupUpdateRequest:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: Group Name
-      additionalProperties: false
-    GroupTypeList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     GroupListResponse:
       type: object
       properties:
@@ -2658,6 +2232,419 @@ components:
           - integer
           - 'null'
           format: int64
+      additionalProperties: false
+    GroupLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupGetResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupGet'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupDeviceListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupDevice'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GroupList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        typeName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        devices:
+          type: integer
+          format: int32
+        users:
+          type: integer
+          format: int32
+      additionalProperties: false
+    GroupCreateRequest:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+          description: Group Type Guid.
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: Group Name
+      additionalProperties: false
+    EntityGroupByTarget:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        ggDeviceCnt:
+          type: integer
+          format: int32
+        deviceUniqueIds:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    GroupUserUpdateRequest:
+      required:
+      - permission
+      type: object
+      properties:
+        permission:
+          type: object
+          additionalProperties:
+            type: object
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
       additionalProperties: false
     GroupDeleteResponse:
       type: object
@@ -2745,33 +2732,35 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    StatusModel:
+    GroupUser:
       type: object
       properties:
-        deviceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        statusMessage:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    GroupLookup:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
         name:
           type:
           - string
           - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        permission:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: boolean
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
       additionalProperties: false
-    GroupDeviceCreateResponse:
+    GroupCreateResponse:
       type: object
       properties:
         data:
@@ -2779,7 +2768,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/GroupDeviceCreate'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -2855,36 +2846,11 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    SphereDeviceGroupListModel:
-      type: object
-      properties:
-        desc:
-          type:
-          - string
-          - 'null'
-        osFeedType:
-          type:
-          - string
-          - 'null'
-        updatePolicy:
-          type:
-          - string
-          - 'null'
-        productName:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    GroupCreateRequest_2:
+    GroupUpdateRequest_2:
       required:
       - name
-      - type
       type: object
       properties:
-        type:
-          minLength: 1
-          type: string
-          description: Group Type Guid.
         sphereGroup:
           $ref: '#/components/schemas/SphereDeviceGroupModel'
         name:
@@ -2892,33 +2858,6 @@ components:
           minLength: 1
           type: string
           description: Group Name
-      additionalProperties: false
-    GroupList_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        typeName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        devices:
-          type: integer
-          format: int32
-        users:
-          type: integer
-          format: int32
-        sphereGroup:
-          $ref: '#/components/schemas/SphereDeviceGroupListModel'
       additionalProperties: false
     GroupGet_2:
       type: object
@@ -2968,6 +2907,74 @@ components:
           readOnly: true
         sphereGroup:
           $ref: '#/components/schemas/SphereDeviceGroupModel'
+      additionalProperties: false
+    GroupUserCreateRequest_2:
+      required:
+      - groupGuid
+      - permission
+      - userGuids
+      type: object
+      properties:
+        groupGuid:
+          minLength: 1
+          type: string
+          description: Group guid
+        userGuids:
+          type: array
+          items:
+            type: string
+          description: User guid list
+        permission:
+          type: object
+          additionalProperties:
+            type:
+            - object
+            - 'null'
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
+      additionalProperties: false
+    SphereDeviceGroupListModel:
+      type: object
+      properties:
+        desc:
+          type:
+          - string
+          - 'null'
+        osFeedType:
+          type:
+          - string
+          - 'null'
+        updatePolicy:
+          type:
+          - string
+          - 'null'
+        productName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SphereDeviceGroupModel:
+      type: object
+      properties:
+        desc:
+          type:
+          - string
+          - 'null'
+        osFeedType:
+          enum:
+          - 0
+          - 1
+          type: integer
+          format: int32
+        updatePolicy:
+          enum:
+          - 0
+          - 1
+          - 2
+          type: integer
+          format: int32
+        productId:
+          type: string
+          format: uuid
       additionalProperties: false
     GroupDeviceDeleteResponse_2:
       type: object
@@ -3055,99 +3062,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    SphereDeviceGroupModel:
-      type: object
-      properties:
-        desc:
-          type:
-          - string
-          - 'null'
-        osFeedType:
-          enum:
-          - 0
-          - 1
-          type: integer
-          format: int32
-        updatePolicy:
-          enum:
-          - 0
-          - 1
-          - 2
-          type: integer
-          format: int32
-        productId:
-          type: string
-          format: uuid
-      additionalProperties: false
-    GroupUserUpdateRequest_2:
-      required:
-      - permission
-      type: object
-      properties:
-        permission:
-          type: object
-          additionalProperties:
-            type:
-            - object
-            - 'null'
-          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
-      additionalProperties: false
-    GroupUserCreateRequest_2:
-      required:
-      - groupGuid
-      - permission
-      - userGuids
-      type: object
-      properties:
-        groupGuid:
-          minLength: 1
-          type: string
-          description: Group guid
-        userGuids:
-          type: array
-          items:
-            type: string
-          description: User guid list
-        permission:
-          type: object
-          additionalProperties:
-            type:
-            - object
-            - 'null'
-          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
-      additionalProperties: false
-    GroupUpdateRequest_2:
-      required:
-      - name
-      type: object
-      properties:
-        sphereGroup:
-          $ref: '#/components/schemas/SphereDeviceGroupModel'
-        name:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: Group Name
-      additionalProperties: false
-    GroupCreateRequest_3:
-      required:
-      - name
-      - type
-      type: object
-      properties:
-        type:
-          minLength: 1
-          type: string
-          description: Group Type Guid.
-        sphereGroup:
-          $ref: '#/components/schemas/SphereDeviceGroupModel'
-        name:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: Group Name
-      additionalProperties: false
-    GroupList_3:
+    GroupList_2:
       type: object
       properties:
         guid:
@@ -3174,183 +3089,16 @@ components:
         sphereGroup:
           $ref: '#/components/schemas/SphereDeviceGroupListModel'
       additionalProperties: false
-    GroupGet_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        typeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        typeName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isDeleted:
-          type: boolean
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        sphereGroup:
-          $ref: '#/components/schemas/SphereDeviceGroupModel'
-      additionalProperties: false
-    GroupDeviceDeleteResponse_3:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    GroupUserUpdateRequest_3:
-      required:
-      - permission
-      type: object
-      properties:
-        permission:
-          type: object
-          additionalProperties:
-            type:
-            - object
-            - 'null'
-          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
-      additionalProperties: false
-    GroupUserCreateRequest_3:
-      required:
-      - groupGuid
-      - permission
-      - userGuids
-      type: object
-      properties:
-        groupGuid:
-          minLength: 1
-          type: string
-          description: Group guid
-        userGuids:
-          type: array
-          items:
-            type: string
-          description: User guid list
-        permission:
-          type: object
-          additionalProperties:
-            type:
-            - object
-            - 'null'
-          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
-      additionalProperties: false
-    GroupUpdateRequest_3:
+    GroupCreateRequest_2:
       required:
       - name
+      - type
       type: object
       properties:
+        type:
+          minLength: 1
+          type: string
+          description: Group Type Guid.
         sphereGroup:
           $ref: '#/components/schemas/SphereDeviceGroupModel'
         name:
@@ -3358,6 +3106,19 @@ components:
           minLength: 1
           type: string
           description: Group Name
+      additionalProperties: false
+    GroupUserUpdateRequest_2:
+      required:
+      - permission
+      type: object
+      properties:
+        permission:
+          type: object
+          additionalProperties:
+            type:
+            - object
+            - 'null'
+          description: "Permission list, Represents a dictionary of pemission(true/false) accessed by permission name. \nNote : Here, 'view' and 'operation' are available permission and at least one permission is required Eg. {\"view\" : true, \"operation\" : false}"
       additionalProperties: false
   securitySchemes:
     Bearer:
@@ -3368,4 +3129,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-device-aws-prod-swagger.json
 - avnet-iotconnect-device-azure-prod-swagger.json
-- avnet-iotconnect-device-openapi.yml

@@ -1,17 +1,20 @@
 openapi: 3.2.0
 info:
-  title: Avnet Deployment API
+  title: /IOTCONNECT™ Device Deployment API
+  description: 'Device REST API contains information of Device modules.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
   version: '2.0'
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
-  description: 'Operations tagged Deployment across 2 of this provider''s published API definitions: avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://device.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
 security:
 - Bearer: []
 tags:
@@ -74,55 +77,22 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DeploymentList:
+    ErrorsResponse:
       type: object
       properties:
-        deploymentId:
-          type:
-          - string
-          - 'null'
-        deploymentType:
-          type:
-          - string
-          - 'null'
-        deviceGroupType:
-          type:
-          - string
-          - 'null'
-        startDateTime:
-          type: string
-          format: date-time
-        isCompleted:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
+        status:
+          type: integer
+          format: int32
         message:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    DeploymentCreateRequest:
-      type: object
-      properties:
-        updateInfo:
-          $ref: '#/components/schemas/DeviceUpdate'
-        adu-group:
+        error:
           type:
-          - string
+          - array
           - 'null'
-        deploymentTime:
-          type:
-          - string
-          - 'null'
-          format: date-time
+          items:
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
     DeploymentCreateResponse:
       type: object
@@ -208,39 +178,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DeviceUpdate:
-      type: object
-      properties:
-        provider:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        version:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
     DeploymentListResponse:
       type: object
       properties:
@@ -325,12 +262,75 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    DeploymentList:
+      type: object
+      properties:
+        deploymentId:
+          type:
+          - string
+          - 'null'
+        deploymentType:
+          type:
+          - string
+          - 'null'
+        deviceGroupType:
+          type:
+          - string
+          - 'null'
+        startDateTime:
+          type: string
+          format: date-time
+        isCompleted:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeploymentCreateRequest:
+      type: object
+      properties:
+        updateInfo:
+          $ref: '#/components/schemas/DeviceUpdate'
+        adu-group:
+          type:
+          - string
+          - 'null'
+        deploymentTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    DeviceUpdate:
+      type: object
+      properties:
+        provider:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
       description: Please enter JWT with Bearer into field
       name: Authorization
       in: header
-x-refined-from:
-- avnet-iotconnect-device-azure-prod-swagger.json
-- avnet-iotconnect-device-openapi.yml

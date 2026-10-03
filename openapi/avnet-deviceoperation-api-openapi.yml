@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet Device Operation API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged DeviceOperation across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://device.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+  description: 'Operations tagged DeviceOperation across 2 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -165,18 +156,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     ErrorsResponse:
       type: object
       properties:
@@ -193,6 +172,18 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     DeviceOperationListResponse:
       type: object
@@ -309,21 +300,6 @@ components:
           - 'null'
           format: uuid
       additionalProperties: false
-    DeviceDataArchiveRequest:
-      required:
-      - toDate
-      type: object
-      properties:
-        toDate:
-          minLength: 1
-          type: string
-          description: "To date time for archive data which are older then this date time \nDate format should be YYYY-MM-DD"
-        supportTicketNumber:
-          type:
-          - string
-          - 'null'
-          description: Support ticket number for archive device data
-      additionalProperties: false
     DeviceDataArchiveResponse:
       type: object
       properties:
@@ -406,6 +382,21 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    DeviceDataArchiveRequest:
+      required:
+      - toDate
+      type: object
+      properties:
+        toDate:
+          minLength: 1
+          type: string
+          description: "To date time for archive data which are older then this date time \nDate format should be YYYY-MM-DD"
+        supportTicketNumber:
+          type:
+          - string
+          - 'null'
+          description: Support ticket number for archive device data
+      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
@@ -415,4 +406,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-device-aws-prod-swagger.json
 - avnet-iotconnect-device-azure-prod-swagger.json
-- avnet-iotconnect-device-openapi.yml

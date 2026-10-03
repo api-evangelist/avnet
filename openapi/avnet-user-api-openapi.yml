@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet User API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged User across 3 of this provider''s published API definitions: avnet-iotconnect-user-aws-prod-swagger.json, avnet-iotconnect-user-azure-prod-swagger.json, avnet-iotconnect-user-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://user.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+  description: 'Operations tagged User across 2 of this provider''s published API definitions: avnet-iotconnect-user-aws-prod-swagger.json, avnet-iotconnect-user-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -2806,10 +2797,147 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UserIdentity:
+    ErrorsResponse:
       type: object
       properties:
-        companyLogo:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    AnnouncementDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        Title:
+          type:
+          - string
+          - 'null'
+        Description:
+          type:
+          - string
+          - 'null'
+        announcementType:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UserPropertiesUpdateRequest:
+      type: object
+      properties:
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Propertys'
+      additionalProperties: false
+    NotificationListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserListNotification'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CognitoUserGetList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userId:
           type:
           - string
           - 'null'
@@ -2821,114 +2949,157 @@ components:
           type:
           - string
           - 'null'
+        contactNo:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        isVerified:
+          type: boolean
+      additionalProperties: false
+    ChangePasswordRequest:
+      required:
+      - email
+      - newPassword
+      - oldPassword
+      type: object
+      properties:
+        email:
+          minLength: 1
+          type: string
+          description: 'User''s login email Id. eg: abc@gmail.com'
+        oldPassword:
+          minLength: 1
+          type: string
+          description: Old login password.
+        newPassword:
+          minLength: 1
+          type: string
+          description: New login password.
+      additionalProperties: false
+    UserUpdateRequest:
+      required:
+      - entityGuid
+      - firstName
+      - lastName
+      - roleGuid
+      - timezoneGuid
+      type: object
+      properties:
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+        firstName:
+          minLength: 1
+          type: string
+          description: User's first name
+        lastName:
+          minLength: 1
+          type: string
+          description: User's last name
         timezoneGuid:
+          minLength: 1
+          type: string
+          description: Timezone Guid. You can fetch timezone list from Master API
+        contactNo:
+          type:
+          - string
+          - 'null'
+          description: 'User''s contact no. eg: 91-1234567890'
+        roleGuid:
+          minLength: 1
+          type: string
+          description: Role Guid
+        entityGuid:
+          minLength: 1
+          type: string
+          description: Entity Guid
+      additionalProperties: false
+    UserinfoValues:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+        name:
           type:
           - string
           - 'null'
           readOnly: true
-        version:
+        options:
           type:
           - string
           - 'null'
-        uiVersion:
+          readOnly: true
+        fieldType:
           type:
           - string
           - 'null'
-        parentEntityGuid:
+        value:
           type:
           - string
           - 'null'
-          format: uuid
-        pageSize:
-          type: integer
-          format: int32
+          readOnly: true
+      additionalProperties: false
+    PropertyValue:
+      required:
+      - guid
+      - value
+      type: object
+      properties:
+        guid:
+          minLength: 1
+          type: string
+          description: Custom Property Guid
+        value:
+          minLength: 1
+          type: string
+          description: Custom Property Value
+      additionalProperties: false
+    UserPreferenceUpdate:
+      type: object
+      properties:
         userGuid:
           type:
           - string
           - 'null'
           readOnly: true
-        roleGuid:
+        preferenceAction:
+          type:
+          - string
+          - 'null'
+        userPreferenceGuid:
           type:
           - string
           - 'null'
           readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyLogoUrl:
-          type:
-          - string
-          - 'null'
-        permissions:
-          type:
-          - object
-          - 'null'
-        companyName:
-          type:
-          - string
-          - 'null'
-        roleName:
-          type:
-          - string
-          - 'null'
-        cpId:
-          type:
-          - string
-          - 'null'
-        entityGuid:
-          type:
-          - string
-          - 'null'
-        solutionGuid:
-          type:
-          - string
-          - 'null'
-        isCompanyAdmin:
+        emailNotification:
           type: boolean
-        authFeatures:
-          $ref: '#/components/schemas/AuthenticationFeatures'
-        configSettings:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type:
-            - string
-            - 'null'
-        userId:
+        smsNotification:
+          type: boolean
+        alternateEmailID:
           type:
           - string
           - 'null'
-        isDefaultDashboard:
+        pushNotification:
           type: boolean
-        isServiceAccountEnabled:
-          type: boolean
-        instanceSize:
-          type:
-          - string
-          - 'null'
-        companyType:
+        pageSize:
           type: integer
           format: int32
-        reviewStatus:
-          type:
-          - string
-          - 'null'
-        oldView:
-          type: boolean
-        languageGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        cd:
-          type:
-          - string
-          - 'null'
-        systemRole:
-          type: boolean
+        rhSetting:
+          type: integer
+          format: int32
       additionalProperties: false
     RegisterPlatformResponse:
       type: object
@@ -3016,10 +3187,54 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserDeleteRequest:
+    Userdata:
       type: object
+      properties:
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Error'
+        success:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SuccessDataResponse'
       additionalProperties: false
-    UserSearchResponse:
+    ResetPasswordRequest:
+      required:
+      - email
+      - invitationguid
+      - newpassword
+      type: object
+      properties:
+        email:
+          minLength: 1
+          type: string
+          description: 'User''s Login email Id. eg: abc@gmail.com'
+        invitationguid:
+          minLength: 1
+          type: string
+          description: Invitation Guid
+        newpassword:
+          minLength: 1
+          type: string
+          description: New login password
+      additionalProperties: false
+    EnumDetails:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        value:
+          type: integer
+          format: int32
+      additionalProperties: false
+    RegisterPlatformDeleteResponse:
       type: object
       properties:
         data:
@@ -3027,7 +3242,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/UserSearch'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -3103,47 +3320,32 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserDataSuccessResponse:
+    UserLookup:
       type: object
       properties:
-        firstname:
-          type:
-          - string
-          - 'null'
-        lastname:
-          type:
-          - string
-          - 'null'
-        email:
-          type:
-          - string
-          - 'null'
-        rolename:
-          type:
-          - string
-          - 'null'
-        properties:
-          type:
-          - object
-          - 'null'
-        userGuid:
+        guid:
           type:
           - string
           - 'null'
           readOnly: true
-        invitationGuid:
+        name:
           type:
           - string
           - 'null'
-          readOnly: true
-        isExistingUser:
-          type: boolean
+        userid:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    UserIdentityResponse:
+    GetMobileNotificationListResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/UserIdentity'
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/MobileNotification'
         status:
           enum:
           - 100
@@ -3344,239 +3546,37 @@ components:
         isCompanyAdmin:
           type: boolean
       additionalProperties: false
-    UserPropertyUpdateResponse:
+    roleguid:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserPropertyUpdate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
+        guid:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+          description: Role Guid
       additionalProperties: false
-    UserUpdateByID:
+    UserListByEntity:
       type: object
       properties:
-        'roleUserGuid ':
+        guid:
           type:
           - string
           - 'null'
           readOnly: true
-        isActive:
-          type: boolean
         userId:
           type:
           - string
           - 'null'
-        'roleGuid ':
+        companyGuid:
           type:
           - string
           - 'null'
           readOnly: true
-        isUpdateRole:
-          type: boolean
-        'entityGuid ':
+        firstName:
           type:
           - string
           - 'null'
-          readOnly: true
-      additionalProperties: false
-    Property:
-      type: object
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: Custom property key
-        value:
-          type:
-          - string
-          - 'null'
-          description: Custom property value
-      additionalProperties: false
-    UserPreferenceUpdate:
-      type: object
-      properties:
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        preferenceAction:
-          type:
-          - string
-          - 'null'
-        userPreferenceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        emailNotification:
-          type: boolean
-        smsNotification:
-          type: boolean
-        alternateEmailID:
-          type:
-          - string
-          - 'null'
-        pushNotification:
-          type: boolean
-        pageSize:
-          type: integer
-          format: int32
-        rhSetting:
-          type: integer
-          format: int32
-      additionalProperties: false
-    AnnouncementRequest:
-      type: object
-      properties:
-        announcementGuid:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Announcement Guid
-      additionalProperties: false
-    PreferenceUpdateRequest:
-      required:
-      - emailNotification
-      - languageGuid
-      - pageSize
-      - pushNotification
-      - smsNotification
-      - timeZoneGuid
-      type: object
-      properties:
-        timeZoneGuid:
-          minLength: 1
-          type: string
-          description: Timezone Guid. You can fetch timezone list from Master API.
-        emailNotification:
-          type: boolean
-          description: true or false. To turn on/off email notifications.
-        emailNotifyOn:
-          type:
-          - integer
-          - 'null'
-          description: 'Email notification preference. 0: to receive emails on primary email id, 1: to receive emails on alternate email id.'
-          format: int32
-        alternateEmailID:
-          type:
-          - string
-          - 'null'
-          description: To receive email notifications on secondary email address. if <i>emailNotifyOn</i> is 1.
-        smsNotification:
-          type: boolean
-          description: true or false. To turn on/off sms notifications.
-        pushNotification:
-          type: boolean
-          description: true or false. To turn on/off push notifications.
-        pageSize:
-          type: integer
-          description: 'Your preference for number of records in one page. eg: 25'
-          format: int32
-        platformEmails:
-          type:
-          - integer
-          - 'null'
-          description: Your preference for PlatformEmails.Store BIT wise sum or the value of email types
-          format: int32
-        oldView:
-          type: boolean
-          description: true or false. To switch from old and new UI view.
-          default: false
-        languageGuid:
-          minLength: 1
-          type: string
-          description: Language Guid.You can fetch language list from Master API.
-        rhSetting:
-          type: integer
-          format: int32
-        alwaysShowFilter:
-          type: boolean
-          default: false
-      additionalProperties: false
-    Userinfo:
-      type: object
-      properties:
-        guid:
+        lastName:
           type:
           - string
           - 'null'
@@ -3584,20 +3584,71 @@ components:
           type:
           - string
           - 'null'
-        fieldType:
+        contactNo:
           type:
           - string
           - 'null'
-        value:
+        timezoneGuid:
           type:
           - string
           - 'null'
-        options:
+          readOnly: true
+        imageName:
           type:
           - string
           - 'null'
+        isActive:
+          type: boolean
+        isVerified:
+          type: boolean
+        userInfo:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Userinfo'
+        roleGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        roleName:
+          type:
+          - string
+          - 'null'
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        entityName:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        isLocked:
+          type: boolean
       additionalProperties: false
-    UserForgetPasswordResponse:
+    UserResetPasswordResponse:
       type: object
       properties:
         data:
@@ -3681,112 +3732,299 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserStatusChangeV2Request:
-      required:
-      - isActive
+    UserSearch:
       type: object
       properties:
-        isActive:
-          minLength: 1
-          type: string
-          description: 'Updated active status. true: to activate user, false: to deactivate user.'
-      additionalProperties: false
-    UserCreateV2Request:
-      required:
-      - entityGuid
-      - firstName
-      - isActive
-      - lastName
-      - roleGuid
-      - timezoneGuid
-      - userId
-      type: object
-      properties:
-        userId:
-          minLength: 1
-          type: string
-          description: 'User''s login email id. eg: abc@gmail.com'
-        isTempPassword:
-          type:
-          - boolean
-          - 'null'
-          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
-        isActive:
-          type: integer
-          description: 'User''s active status. 1: Active, 0: Inactive'
-          format: int32
-        sendInvitationEmail:
-          type:
-          - boolean
-          - 'null'
-          description: To receive invitation email from IDS
-        password:
+        guid:
           type:
           - string
           - 'null'
-        properties:
+          readOnly: true
+        userId:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/Property'
-          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
-        xmlProperties:
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firstName:
+          type:
+          - string
+          - 'null'
+        lastName:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        imageName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        isVerified:
+          type: boolean
+        userInfo:
           type:
           - object
           - 'null'
-          readOnly: true
-        userGuid:
+        createdBy:
           type:
           - string
           - 'null'
-          format: uuid
-        firstName:
-          minLength: 1
+          readOnly: true
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
           type: string
-          description: User's first name
-        lastName:
-          minLength: 1
+          format: date-time
+        updatedDate:
           type: string
-          description: User's last name
-        timezoneGuid:
-          minLength: 1
-          type: string
-          description: Timezone Guid. You can fetch timezone list from Master API
+          format: date-time
         contactNo:
           type:
           - string
           - 'null'
-          description: 'User''s contact no. eg: 91-1234567890'
-        roleGuid:
-          minLength: 1
-          type: string
-          description: Role Guid
-        entityGuid:
-          minLength: 1
-          type: string
-          description: Entity Guid
+        roleName:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    UserListNotification:
+    UserIdentity:
       type: object
       properties:
-        userGuid:
-          type: string
+        companyLogo:
+          type:
+          - string
+          - 'null'
+        firstName:
+          type:
+          - string
+          - 'null'
+        lastName:
+          type:
+          - string
+          - 'null'
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        version:
+          type:
+          - string
+          - 'null'
+        uiVersion:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
           format: uuid
+        pageSize:
+          type: integer
+          format: int32
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        roleGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyLogoUrl:
+          type:
+          - string
+          - 'null'
+        permissions:
+          type:
+          - object
+          - 'null'
+        companyName:
+          type:
+          - string
+          - 'null'
+        roleName:
+          type:
+          - string
+          - 'null'
+        cpId:
+          type:
+          - string
+          - 'null'
+        entityGuid:
+          type:
+          - string
+          - 'null'
+        solutionGuid:
+          type:
+          - string
+          - 'null'
+        isCompanyAdmin:
+          type: boolean
+        authFeatures:
+          $ref: '#/components/schemas/AuthenticationFeatures'
+        configSettings:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type:
+            - string
+            - 'null'
         userId:
           type:
           - string
           - 'null'
-        notificationText:
+        isDefaultDashboard:
+          type: boolean
+        isServiceAccountEnabled:
+          type: boolean
+        instanceSize:
           type:
           - string
           - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        alertType:
+        companyType:
           type: integer
           format: int32
+        reviewStatus:
+          type:
+          - string
+          - 'null'
+        oldView:
+          type: boolean
+        languageGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        cd:
+          type:
+          - string
+          - 'null'
+        systemRole:
+          type: boolean
+      additionalProperties: false
+    RhAppConfiguration:
+      type: object
+      properties:
+        androidApp:
+          type:
+          - string
+          - 'null'
+        IOSApp:
+          type:
+          - string
+          - 'null'
+        enable:
+          type: integer
+          format: int32
+      additionalProperties: false
+    UserCountValueResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserCountValue'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     UserDeleteResponse:
       type: object
@@ -3872,406 +4110,23 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserPropertiesUpdateRequest:
+    UserSearchRequest:
       type: object
       properties:
-        properties:
+        userguids:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Propertys'
-      additionalProperties: false
-    Propertys:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          description: Property Guid
-        value:
-          type:
-          - string
-          - 'null'
-          description: Property Value
-      additionalProperties: false
-    AuthenticationFeatures:
-      type: object
-      properties:
-        authType:
-          type:
-          - string
-          - 'null'
-        features: {}
-      additionalProperties: false
-    GetMobileNotificationListResponse:
-      type: object
-      properties:
-        data:
+            $ref: '#/components/schemas/userguid'
+          description: User Guid List
+        roleguids:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/MobileNotification'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RhConfigResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/RhAppConfiguration'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserPropertyDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserPropertyDelete'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserInvitationDetails:
-      type: object
-      properties:
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invitationGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eventPlaceHolders:
-          type:
-          - string
-          - 'null'
-        invokingUser:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    UserLookupResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserLookup'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+            $ref: '#/components/schemas/roleguid'
+          description: Role Guid List
       additionalProperties: false
     UserCountValue:
       type: object
@@ -4279,118 +4134,6 @@ components:
         userCount:
           type: integer
           format: int32
-      additionalProperties: false
-    UserDelete:
-      type: object
-      properties:
-        userguid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eventPlaceHolders:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    UserLookup:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        userid:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    Userdata:
-      type: object
-      properties:
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Error'
-        success:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/SuccessDataResponse'
-      additionalProperties: false
-    UserUploadData:
-      type: object
-      properties:
-        firstname:
-          type:
-          - string
-          - 'null'
-        lastname:
-          type:
-          - string
-          - 'null'
-        email:
-          type:
-          - string
-          - 'null'
-        rolename:
-          type:
-          - string
-          - 'null'
-        properties:
-          type:
-          - object
-          - 'null'
-        errorLog:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    EnumDetails:
-      type: object
-      properties:
-        description:
-          type:
-          - string
-          - 'null'
-        value:
-          type: integer
-          format: int32
-      additionalProperties: false
-    UserinfoValues:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        options:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        fieldType:
-          type:
-          - string
-          - 'null'
-        value:
-          type:
-          - string
-          - 'null'
-          readOnly: true
       additionalProperties: false
     UserPreferenceListResponse:
       type: object
@@ -4476,519 +4219,60 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserPropertyDelete:
-      type: object
-      additionalProperties: false
-    UserPreferenceList:
+    UserDataSuccessResponse:
       type: object
       properties:
-        guid:
+        firstname:
           type:
           - string
           - 'null'
-          readOnly: true
-        timeZoneGuid:
+        lastname:
           type:
           - string
           - 'null'
-          readOnly: true
-        emailNotification:
-          type: boolean
-        emailNotifyOn:
-          type: integer
-          format: int32
-        alternateEmailID:
+        email:
           type:
           - string
           - 'null'
-        smsNotification:
-          type: boolean
-        pushNotification:
-          type: boolean
-        pageSize:
-          type: integer
-          format: int32
-        platformEmails:
-          type: integer
-          format: int32
-        oldView:
-          type: boolean
-        languageGuid:
+        rolename:
           type:
           - string
           - 'null'
-          readOnly: true
-        rhSetting:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        notificationSetting:
-          type:
-          - string
-          - 'null'
-        alwaysShowFilter:
-          type: boolean
-      additionalProperties: false
-    AnnouncementDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AnnouncementDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserBulkUploadResponse:
-      type: object
-      properties:
-        isWelcomeEmail:
-          type:
-          - boolean
-          - 'null'
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Userdata'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserAvailabilityUsingEmailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserAvailabilityUsingEmail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserResetPasswordTemplate:
-      type: object
-      properties:
-        eventPlaceHolders:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CognitoUserGetList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userId:
-          type:
-          - string
-          - 'null'
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        contactNo:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        isVerified:
-          type: boolean
-      additionalProperties: false
-    SuccessDataResponse:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/UserDataSuccessResponse'
-      additionalProperties: false
-    UserUpdateRequest:
-      required:
-      - entityGuid
-      - firstName
-      - lastName
-      - roleGuid
-      - timezoneGuid
-      type: object
-      properties:
         properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
-        xmlProperties:
           type:
           - object
           - 'null'
+        userGuid:
+          type:
+          - string
+          - 'null'
           readOnly: true
-        firstName:
-          minLength: 1
-          type: string
-          description: User's first name
-        lastName:
-          minLength: 1
-          type: string
-          description: User's last name
-        timezoneGuid:
-          minLength: 1
-          type: string
-          description: Timezone Guid. You can fetch timezone list from Master API
-        contactNo:
+        invitationGuid:
           type:
           - string
           - 'null'
-          description: 'User''s contact no. eg: 91-1234567890'
-        roleGuid:
-          minLength: 1
-          type: string
-          description: Role Guid
-        entityGuid:
-          minLength: 1
-          type: string
-          description: Entity Guid
+          readOnly: true
+        isExistingUser:
+          type: boolean
       additionalProperties: false
-    UserChangePasswordResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserResetPasswordTemplate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ChangePasswordRequest:
+    ForgotPasswordRequest:
       required:
       - email
-      - newPassword
-      - oldPassword
       type: object
       properties:
         email:
           minLength: 1
           type: string
           description: 'User''s login email Id. eg: abc@gmail.com'
-        oldPassword:
-          minLength: 1
-          type: string
-          description: Old login password.
-        newPassword:
-          minLength: 1
-          type: string
-          description: New login password.
+        sendTempPassword:
+          type: boolean
+          description: Send <i>true</i> to receive temp password email from IDS
       additionalProperties: false
-    GetEnumDataResponse:
+    RhConfigResponse:
       type: object
       properties:
         data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EnumDetails'
+          $ref: '#/components/schemas/RhAppConfiguration'
         status:
           enum:
           - 100
@@ -5152,145 +4436,19 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorModel:
+    UserBulkUploadResponse:
       type: object
       properties:
-        param:
+        isWelcomeEmail:
           type:
-          - string
+          - boolean
           - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    PropertyValue:
-      required:
-      - guid
-      - value
-      type: object
-      properties:
-        guid:
-          minLength: 1
-          type: string
-          description: Custom Property Guid
-        value:
-          minLength: 1
-          type: string
-          description: Custom Property Value
-      additionalProperties: false
-    UserAvailabilityUsingEmail:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userId:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        imageName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        isDeleted:
-          type: boolean
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        isPasswordCreated:
-          type: integer
-          format: int32
-      additionalProperties: false
-    userguid:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          description: User Guid
-      additionalProperties: false
-    AnnouncementDetail:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        Title:
-          type:
-          - string
-          - 'null'
-        Description:
-          type:
-          - string
-          - 'null'
-        announcementType:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    roleguid:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          description: Role Guid
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/UserUploadData'
-      additionalProperties: false
-    UserResetPasswordResponse:
-      type: object
-      properties:
         data:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/UserInvitationDetails'
+            $ref: '#/components/schemas/Userdata'
         status:
           enum:
           - 100
@@ -5366,629 +4524,16 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserUpdateResponse:
+    AnnouncementRequest:
       type: object
       properties:
-        data:
+        announcementGuid:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/UserUpdateByID'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ResetPasswordRequest:
-      required:
-      - email
-      - invitationguid
-      - newpassword
-      type: object
-      properties:
-        email:
-          minLength: 1
-          type: string
-          description: 'User''s Login email Id. eg: abc@gmail.com'
-        invitationguid:
-          minLength: 1
-          type: string
-          description: Invitation Guid
-        newpassword:
-          minLength: 1
-          type: string
-          description: New login password
-      additionalProperties: false
-    AnnouncementResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-      additionalProperties: false
-    ResendResetPasswordRequest:
-      type: object
-      properties:
-        email:
-          type:
-          - string
-          - 'null'
-          description: 'User''s login email Id. eg: abc@gmail.com'
-      additionalProperties: false
-    NotificationListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserListNotification'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserCountValueResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserCountValue'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserSearchRequest:
-      type: object
-      properties:
-        userguids:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/userguid'
-          description: User Guid List
-        roleguids:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/roleguid'
-          description: Role Guid List
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
-    RhAppConfiguration:
-      type: object
-      properties:
-        androidApp:
-          type:
-          - string
-          - 'null'
-        IOSApp:
-          type:
-          - string
-          - 'null'
-        enable:
-          type: integer
-          format: int32
-      additionalProperties: false
-    SnoozeNotificationResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    MobileNotification:
-      type: object
-      properties:
-        userGuid:
-          type: string
-          format: uuid
-        userId:
-          type:
-          - string
-          - 'null'
-        notificationText:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        alertType:
-          type: integer
-          format: int32
-      additionalProperties: false
-    CognitoUserListResponse:
-      type: object
-      properties:
-        invokingUser:
-          type:
-          - string
-          - 'null'
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CognitoUserGetList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserPropertyUpdate:
-      type: object
+            type: string
+          description: Announcement Guid
       additionalProperties: false
     UserGetList:
       type: object
@@ -6091,22 +4636,89 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
-    ErrorsResponse:
+    UserLookupResponse:
       type: object
       properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserLookup'
         status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
         message:
           type:
           - string
           - 'null'
-        error:
+        count:
           type:
-          - array
+          - integer
           - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
+          format: int64
       additionalProperties: false
     UserCreateResponse:
       type: object
@@ -6117,6 +4729,409 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/UserAdd'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    GetEnumDataResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EnumDetails'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserPreferenceList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        timeZoneGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        emailNotification:
+          type: boolean
+        emailNotifyOn:
+          type: integer
+          format: int32
+        alternateEmailID:
+          type:
+          - string
+          - 'null'
+        smsNotification:
+          type: boolean
+        pushNotification:
+          type: boolean
+        pageSize:
+          type: integer
+          format: int32
+        platformEmails:
+          type: integer
+          format: int32
+        oldView:
+          type: boolean
+        languageGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        rhSetting:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        notificationSetting:
+          type:
+          - string
+          - 'null'
+        alwaysShowFilter:
+          type: boolean
+      additionalProperties: false
+    UserCreateV2Request:
+      required:
+      - entityGuid
+      - firstName
+      - isActive
+      - lastName
+      - roleGuid
+      - timezoneGuid
+      - userId
+      type: object
+      properties:
+        userId:
+          minLength: 1
+          type: string
+          description: 'User''s login email id. eg: abc@gmail.com'
+        isTempPassword:
+          type:
+          - boolean
+          - 'null'
+          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
+        isActive:
+          type: integer
+          description: 'User''s active status. 1: Active, 0: Inactive'
+          format: int32
+        sendInvitationEmail:
+          type:
+          - boolean
+          - 'null'
+          description: To receive invitation email from IDS
+        password:
+          type:
+          - string
+          - 'null'
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Property'
+          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+        userGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        firstName:
+          minLength: 1
+          type: string
+          description: User's first name
+        lastName:
+          minLength: 1
+          type: string
+          description: User's last name
+        timezoneGuid:
+          minLength: 1
+          type: string
+          description: Timezone Guid. You can fetch timezone list from Master API
+        contactNo:
+          type:
+          - string
+          - 'null'
+          description: 'User''s contact no. eg: 91-1234567890'
+        roleGuid:
+          minLength: 1
+          type: string
+          description: Role Guid
+        entityGuid:
+          minLength: 1
+          type: string
+          description: Entity Guid
+      additionalProperties: false
+    UserForgetPasswordResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserInvitationDetails'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Userinfo:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        fieldType:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+        options:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UserPreferenceUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserPreferenceUpdate'
         status:
           enum:
           - 100
@@ -6281,372 +5296,94 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserResponse:
+    SuccessResponse:
       type: object
       properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
         data:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/UserDetailsById'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+            type:
+            - object
+            - 'null'
       additionalProperties: false
-    ForgotPasswordRequest:
+    UserPropertyUpdate:
+      type: object
+      additionalProperties: false
+    UserStatusChangeV2Request:
       required:
-      - email
+      - isActive
       type: object
       properties:
-        email:
+        isActive:
           minLength: 1
           type: string
-          description: 'User''s login email Id. eg: abc@gmail.com'
-        sendTempPassword:
-          type: boolean
-          description: Send <i>true</i> to receive temp password email from IDS
+          description: 'Updated active status. true: to activate user, false: to deactivate user.'
       additionalProperties: false
-    UserListByEntity:
+    Error:
       type: object
       properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userId:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        contactNo:
-          type:
-          - string
-          - 'null'
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        imageName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        isVerified:
-          type: boolean
-        userInfo:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Userinfo'
-        roleGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        roleName:
-          type:
-          - string
-          - 'null'
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        entityName:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        isLocked:
-          type: boolean
+        user:
+          $ref: '#/components/schemas/UserUploadData'
       additionalProperties: false
-    UserAdd:
+    UserUploadData:
       type: object
       properties:
-        newId:
+        firstname:
           type:
           - string
           - 'null'
-          readOnly: true
-        invitationGuid:
+        lastname:
           type:
           - string
           - 'null'
-          readOnly: true
-        isExistingUser:
-          type: boolean
-        isWelcomeEmail:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    UserPreferenceUpdateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserPreferenceUpdate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
+        email:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserSearch:
-      type: object
-      properties:
-        guid:
+        rolename:
           type:
           - string
           - 'null'
-          readOnly: true
-        userId:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        imageName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        isVerified:
-          type: boolean
-        userInfo:
+        properties:
           type:
           - object
           - 'null'
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        contactNo:
-          type:
-          - string
-          - 'null'
-        roleName:
+        errorLog:
           type:
           - string
           - 'null'
       additionalProperties: false
-    RegisterPlatformDeleteResponse:
+    UserListNotification:
+      type: object
+      properties:
+        userGuid:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+        notificationText:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        alertType:
+          type: integer
+          format: int32
+      additionalProperties: false
+    SnoozeNotificationResponse:
       type: object
       properties:
         data:
@@ -6731,6 +5468,1371 @@ components:
           - integer
           - 'null'
           format: int64
+      additionalProperties: false
+    Propertys:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          description: Property Guid
+        value:
+          type:
+          - string
+          - 'null'
+          description: Property Value
+      additionalProperties: false
+    UserAdd:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isExistingUser:
+          type: boolean
+        isWelcomeEmail:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    SuccessDataResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserDataSuccessResponse'
+      additionalProperties: false
+    UserPropertyDelete:
+      type: object
+      additionalProperties: false
+    UserUpdateByID:
+      type: object
+      properties:
+        'roleUserGuid ':
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        userId:
+          type:
+          - string
+          - 'null'
+        'roleGuid ':
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isUpdateRole:
+          type: boolean
+        'entityGuid ':
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    UserAvailabilityUsingEmail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userId:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firstName:
+          type:
+          - string
+          - 'null'
+        lastName:
+          type:
+          - string
+          - 'null'
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        imageName:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+        isPasswordCreated:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CognitoUserListResponse:
+      type: object
+      properties:
+        invokingUser:
+          type:
+          - string
+          - 'null'
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CognitoUserGetList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserDetailsById'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserResetPasswordTemplate:
+      type: object
+      properties:
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UserAvailabilityUsingEmailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserAvailabilityUsingEmail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserInvitationDetails:
+      type: object
+      properties:
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firstName:
+          type:
+          - string
+          - 'null'
+        lastName:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+        invokingUser:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    UserUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserUpdateByID'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserChangePasswordResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserResetPasswordTemplate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Property:
+      type: object
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: Custom property key
+        value:
+          type:
+          - string
+          - 'null'
+          description: Custom property value
+      additionalProperties: false
+    UserDelete:
+      type: object
+      properties:
+        userguid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AnnouncementResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AnnouncementDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AnnouncementDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    PreferenceUpdateRequest:
+      required:
+      - emailNotification
+      - languageGuid
+      - pageSize
+      - pushNotification
+      - smsNotification
+      - timeZoneGuid
+      type: object
+      properties:
+        timeZoneGuid:
+          minLength: 1
+          type: string
+          description: Timezone Guid. You can fetch timezone list from Master API.
+        emailNotification:
+          type: boolean
+          description: true or false. To turn on/off email notifications.
+        emailNotifyOn:
+          type:
+          - integer
+          - 'null'
+          description: 'Email notification preference. 0: to receive emails on primary email id, 1: to receive emails on alternate email id.'
+          format: int32
+        alternateEmailID:
+          type:
+          - string
+          - 'null'
+          description: To receive email notifications on secondary email address. if <i>emailNotifyOn</i> is 1.
+        smsNotification:
+          type: boolean
+          description: true or false. To turn on/off sms notifications.
+        pushNotification:
+          type: boolean
+          description: true or false. To turn on/off push notifications.
+        pageSize:
+          type: integer
+          description: 'Your preference for number of records in one page. eg: 25'
+          format: int32
+        platformEmails:
+          type:
+          - integer
+          - 'null'
+          description: Your preference for PlatformEmails.Store BIT wise sum or the value of email types
+          format: int32
+        oldView:
+          type: boolean
+          description: true or false. To switch from old and new UI view.
+          default: false
+        languageGuid:
+          minLength: 1
+          type: string
+          description: Language Guid.You can fetch language list from Master API.
+        rhSetting:
+          type: integer
+          format: int32
+        alwaysShowFilter:
+          type: boolean
+          default: false
+      additionalProperties: false
+    UserDeleteRequest:
+      type: object
+      additionalProperties: false
+    MobileNotification:
+      type: object
+      properties:
+        userGuid:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+        notificationText:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        alertType:
+          type: integer
+          format: int32
+      additionalProperties: false
+    userguid:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          description: User Guid
+      additionalProperties: false
+    AuthenticationFeatures:
+      type: object
+      properties:
+        authType:
+          type:
+          - string
+          - 'null'
+        features: {}
+      additionalProperties: false
+    UserIdentityResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserIdentity'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserPropertyDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserPropertyDelete'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ResendResetPasswordRequest:
+      type: object
+      properties:
+        email:
+          type:
+          - string
+          - 'null'
+          description: 'User''s login email Id. eg: abc@gmail.com'
+      additionalProperties: false
+    UserSearchResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserSearch'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    UserPropertyUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserPropertyUpdate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    NotificationListResponse_2:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SnoozeDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    UserPreferenceUpdate_2:
+      type: object
+      properties:
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        preferenceAction:
+          type:
+          - string
+          - 'null'
+        userPreferenceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        emailNotification:
+          type: boolean
+        smsNotification:
+          type: boolean
+        alternateEmailID:
+          type:
+          - string
+          - 'null'
+        pushNotification:
+          type: boolean
+        pageSize:
+          type: integer
+          format: int32
       additionalProperties: false
     UserIdentity_2:
       type: object
@@ -6852,415 +6954,6 @@ components:
         systemRole:
           type: boolean
       additionalProperties: false
-    UserPreferenceUpdate_2:
-      type: object
-      properties:
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        preferenceAction:
-          type:
-          - string
-          - 'null'
-        userPreferenceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        emailNotification:
-          type: boolean
-        smsNotification:
-          type: boolean
-        alternateEmailID:
-          type:
-          - string
-          - 'null'
-        pushNotification:
-          type: boolean
-        pageSize:
-          type: integer
-          format: int32
-      additionalProperties: false
-    PreferenceUpdateRequest_2:
-      required:
-      - emailNotification
-      - languageGuid
-      - pageSize
-      - pushNotification
-      - smsNotification
-      - timeZoneGuid
-      type: object
-      properties:
-        timeZoneGuid:
-          minLength: 1
-          type: string
-          description: Timezone Guid. You can fetch timezone list from Master API.
-        emailNotification:
-          type: boolean
-          description: true or false. To turn on/off email notifications.
-        emailNotifyOn:
-          type:
-          - integer
-          - 'null'
-          description: 'Email notification preference. 0: to receive emails on primary email id, 1: to receive emails on alternate email id.'
-          format: int32
-        alternateEmailID:
-          type:
-          - string
-          - 'null'
-          description: To receive email notifications on secondary email address. if <i>emailNotifyOn</i> is 1.
-        smsNotification:
-          type: boolean
-          description: true or false. To turn on/off sms notifications.
-        pushNotification:
-          type: boolean
-          description: true or false. To turn on/off push notifications.
-        pageSize:
-          type: integer
-          description: 'Your preference for number of records in one page. eg: 25'
-          format: int32
-        platformEmails:
-          type:
-          - integer
-          - 'null'
-          description: Your preference for PlatformEmails.Store BIT wise sum or the value of email types
-          format: int32
-        oldView:
-          type:
-          - boolean
-          - 'null'
-          description: true or false. To switch from old and new UI view.
-        languageGuid:
-          minLength: 1
-          type: string
-          description: Language Guid.You can fetch language list from Master API.
-        rhSetting:
-          type: integer
-          format: int32
-        alwaysShowFilter:
-          type: boolean
-          default: false
-      additionalProperties: false
-    UserCreateV2Request_2:
-      required:
-      - entityGuid
-      - firstName
-      - isActive
-      - lastName
-      - roleGuid
-      - timezoneGuid
-      - userId
-      type: object
-      properties:
-        userId:
-          minLength: 1
-          type: string
-          description: 'User''s login email id. eg: abc@gmail.com'
-        isTempPassword:
-          type:
-          - boolean
-          - 'null'
-          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
-        isActive:
-          type: integer
-          description: 'User''s active status. 1: Active, 0: Inactive'
-          format: int32
-        sendInvitationEmail:
-          type:
-          - boolean
-          - 'null'
-          description: To receive invitation email from IDS
-        password:
-          type:
-          - string
-          - 'null'
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Property'
-          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
-        xmlProperties:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-        firstName:
-          minLength: 1
-          type: string
-          description: User's first name
-        lastName:
-          minLength: 1
-          type: string
-          description: User's last name
-        timezoneGuid:
-          minLength: 1
-          type: string
-          description: Timezone Guid. You can fetch timezone list from Master API
-        contactNo:
-          type:
-          - string
-          - 'null'
-          description: 'User''s contact no. eg: 91-1234567890'
-        roleGuid:
-          minLength: 1
-          type: string
-          description: Role Guid
-        entityGuid:
-          minLength: 1
-          type: string
-          description: Entity Guid
-      additionalProperties: false
-    UserPreferenceList_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        timeZoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userPreferenceGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        emailNotification:
-          type: boolean
-        emailNotifyOn:
-          type: integer
-          format: int32
-        alternateEmailID:
-          type:
-          - string
-          - 'null'
-        smsNotification:
-          type: boolean
-        pushNotification:
-          type: boolean
-        pageSize:
-          type: integer
-          format: int32
-        platformEmails:
-          type: integer
-          format: int32
-        oldView:
-          type: boolean
-        languageGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        rhSetting:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        notificationSetting:
-          type:
-          - string
-          - 'null'
-        alwaysShowFilter:
-          type: boolean
-      additionalProperties: false
-    NotificationListResponse_2:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/SnoozeDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    SnoozeDetail:
-      type: object
-      properties:
-        minutes:
-          type: integer
-          format: int32
-        createdDate:
-          type: string
-          format: date-time
-        snoozeUntil:
-          type:
-          - string
-          - 'null'
-          format: date-time
-      additionalProperties: false
-    SnoozeNotificationResponse_2:
-      type: object
-      properties:
-        data:
-          type:
-          - string
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    MobileNotification_2:
-      type: object
-      properties:
-        notificationText:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        alertType:
-          type: integer
-          format: int32
-      additionalProperties: false
     UserGetList_2:
       type: object
       properties:
@@ -7364,218 +7057,63 @@ components:
         isOwner:
           type: boolean
       additionalProperties: false
-    UserIdentity_3:
+    UserPreferenceList_2:
       type: object
       properties:
-        companyLogo:
-          type:
-          - string
-          - 'null'
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        timezoneGuid:
+        guid:
           type:
           - string
           - 'null'
           readOnly: true
-        version:
-          type:
-          - string
-          - 'null'
-        uiVersion:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        pageSize:
-          type: integer
-          format: int32
-        userGuid:
+        timeZoneGuid:
           type:
           - string
           - 'null'
           readOnly: true
-        roleGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyLogoUrl:
-          type:
-          - string
-          - 'null'
-        permissions:
-          type:
-          - object
-          - 'null'
-        companyName:
-          type:
-          - string
-          - 'null'
-        roleName:
-          type:
-          - string
-          - 'null'
-        cpId:
-          type:
-          - string
-          - 'null'
-        entityGuid:
-          type:
-          - string
-          - 'null'
-        solutionGuid:
-          type:
-          - string
-          - 'null'
-        isCompanyAdmin:
-          type: boolean
-        authFeatures:
-          $ref: '#/components/schemas/AuthenticationFeatures'
-        configSettings:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type:
-            - string
-            - 'null'
-        userId:
-          type:
-          - string
-          - 'null'
-        isDefaultDashboard:
-          type: boolean
-        isServiceAccountEnabled:
-          type: boolean
-        companyType:
-          type: integer
-          format: int32
-        reviewStatus:
-          type:
-          - string
-          - 'null'
-        oldView:
-          type: boolean
-        languageGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        cd:
-          type:
-          - string
-          - 'null'
-        systemRole:
-          type: boolean
-      additionalProperties: false
-    UserPreferenceUpdate_3:
-      type: object
-      properties:
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        preferenceAction:
-          type:
-          - string
-          - 'null'
         userPreferenceGuid:
           type:
           - string
           - 'null'
-          readOnly: true
+          format: uuid
         emailNotification:
           type: boolean
-        smsNotification:
-          type: boolean
-        alternateEmailID:
-          type:
-          - string
-          - 'null'
-        pushNotification:
-          type: boolean
-        pageSize:
-          type: integer
-          format: int32
-      additionalProperties: false
-    PreferenceUpdateRequest_3:
-      required:
-      - emailNotification
-      - languageGuid
-      - pageSize
-      - pushNotification
-      - smsNotification
-      - timeZoneGuid
-      type: object
-      properties:
-        timeZoneGuid:
-          minLength: 1
-          type: string
-          description: Timezone Guid. You can fetch timezone list from Master API.
-        emailNotification:
-          type: boolean
-          description: true or false. To turn on/off email notifications.
         emailNotifyOn:
-          type:
-          - integer
-          - 'null'
-          description: 'Email notification preference. 0: to receive emails on primary email id, 1: to receive emails on alternate email id.'
+          type: integer
           format: int32
         alternateEmailID:
           type:
           - string
           - 'null'
-          description: To receive email notifications on secondary email address. if <i>emailNotifyOn</i> is 1.
         smsNotification:
           type: boolean
-          description: true or false. To turn on/off sms notifications.
         pushNotification:
           type: boolean
-          description: true or false. To turn on/off push notifications.
         pageSize:
           type: integer
-          description: 'Your preference for number of records in one page. eg: 25'
           format: int32
         platformEmails:
+          type: integer
+          format: int32
+        oldView:
+          type: boolean
+        languageGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        rhSetting:
           type:
           - integer
           - 'null'
-          description: Your preference for PlatformEmails.Store BIT wise sum or the value of email types
           format: int32
-        oldView:
+        notificationSetting:
           type:
-          - boolean
+          - string
           - 'null'
-          description: true or false. To switch from old and new UI view.
-        languageGuid:
-          minLength: 1
-          type: string
-          description: Language Guid.You can fetch language list from Master API.
-        rhSetting:
-          type: integer
-          format: int32
         alwaysShowFilter:
           type: boolean
-          default: false
       additionalProperties: false
-    UserCreateV2Request_3:
+    UserCreateV2Request_2:
       required:
       - entityGuid
       - firstName
@@ -7646,225 +7184,164 @@ components:
           type: string
           description: Entity Guid
       additionalProperties: false
-    UserPreferenceList_3:
+    SnoozeNotificationResponse_2:
       type: object
       properties:
-        guid:
+        data:
           type:
           - string
           - 'null'
-          readOnly: true
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SnoozeDetail:
+      type: object
+      properties:
+        minutes:
+          type: integer
+          format: int32
+        createdDate:
+          type: string
+          format: date-time
+        snoozeUntil:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    PreferenceUpdateRequest_2:
+      required:
+      - emailNotification
+      - languageGuid
+      - pageSize
+      - pushNotification
+      - smsNotification
+      - timeZoneGuid
+      type: object
+      properties:
         timeZoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userPreferenceGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
+          minLength: 1
+          type: string
+          description: Timezone Guid. You can fetch timezone list from Master API.
         emailNotification:
           type: boolean
+          description: true or false. To turn on/off email notifications.
         emailNotifyOn:
-          type: integer
+          type:
+          - integer
+          - 'null'
+          description: 'Email notification preference. 0: to receive emails on primary email id, 1: to receive emails on alternate email id.'
           format: int32
         alternateEmailID:
           type:
           - string
           - 'null'
+          description: To receive email notifications on secondary email address. if <i>emailNotifyOn</i> is 1.
         smsNotification:
           type: boolean
+          description: true or false. To turn on/off sms notifications.
         pushNotification:
           type: boolean
+          description: true or false. To turn on/off push notifications.
         pageSize:
           type: integer
+          description: 'Your preference for number of records in one page. eg: 25'
           format: int32
         platformEmails:
-          type: integer
+          type:
+          - integer
+          - 'null'
+          description: Your preference for PlatformEmails.Store BIT wise sum or the value of email types
           format: int32
         oldView:
-          type: boolean
+          type:
+          - boolean
+          - 'null'
+          description: true or false. To switch from old and new UI view.
         languageGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
+          minLength: 1
+          type: string
+          description: Language Guid.You can fetch language list from Master API.
         rhSetting:
-          type:
-          - integer
-          - 'null'
+          type: integer
           format: int32
-        notificationSetting:
-          type:
-          - string
-          - 'null'
         alwaysShowFilter:
           type: boolean
+          default: false
       additionalProperties: false
-    NotificationListResponse_3:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/SnoozeDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    SnoozeNotificationResponse_3:
-      type: object
-      properties:
-        data:
-          type:
-          - string
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    MobileNotification_3:
+    MobileNotification_2:
       type: object
       properties:
         notificationText:
@@ -7878,109 +7355,6 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    UserGetList_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userId:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        contactNo:
-          type:
-          - string
-          - 'null'
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        imageName:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        isVerified:
-          type: boolean
-        isLocked:
-          type: boolean
-        userInfo:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        roleGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        roleName:
-          type:
-          - string
-          - 'null'
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        entityName:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invitationguid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isOwner:
-          type: boolean
-      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
@@ -7990,4 +7364,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-user-aws-prod-swagger.json
 - avnet-iotconnect-user-azure-prod-swagger.json
-- avnet-iotconnect-user-openapi.yml

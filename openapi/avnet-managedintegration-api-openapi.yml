@@ -145,363 +145,77 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SendCommandRequest:
+    CommandHistory:
       type: object
       properties:
-        connectorDevice:
+        commandHistoryGuid:
+          type: string
+          format: uuid
+        uniqueId:
           type:
           - string
           - 'null'
-        command:
+        cmdName:
           type:
           - string
           - 'null'
-        level:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        rateX:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        rateY:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        maskExecuteIfOff:
-          type:
-          - boolean
-          - 'null'
-        overrideExecuteIfOff:
-          type:
-          - boolean
-          - 'null'
-        connectorType:
-          type: integer
-          format: int32
-        sdpOffer:
+        executedDate:
+          type: string
+          format: date-time
+        executedBy:
           type:
           - string
           - 'null'
-        sessionID:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AlexaCommandRequest:
-      type: object
-      properties:
-        connectorDevice:
-          type:
-          - string
-          - 'null'
-        command:
-          type:
-          - string
-          - 'null'
-        connectorType:
-          type: integer
-          format: int32
-        id:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AssociationDevice:
-      type: object
-      properties:
-        connectorDeviceId:
-          type:
-          - string
-          - 'null'
-        id:
-          type:
-          - string
-          - 'null'
-        connectorDeviceName:
-          type:
-          - string
-          - 'null'
-        entityName:
-          type:
-          - string
-          - 'null'
-        deviceTypes:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-      additionalProperties: false
-    SendCommandResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ManageSendCommand'
         status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CheckAssociationResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CheckAssociationModel'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ManageSendCommand:
-      type: object
-      properties:
-        message:
+        statusText:
           type:
           - string
           - 'null'
       additionalProperties: false
-    CreateAssociationRequest:
+    ConnectorAssociationResponse:
       type: object
       properties:
-        isReCreate:
-          type: boolean
-        isRemove:
-          type: boolean
-        connectorType:
-          type: integer
-          format: int32
-      additionalProperties: false
-    CommandHistoryListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CommandHistory'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
+        AccountAuthorizationInfo:
+          $ref: '#/components/schemas/AccountAuthorizationInfo'
+        OAuthAuthorizationUrl:
           type:
           - string
           - 'null'
-        count:
+        AssociationArn:
           type:
-          - integer
+          - string
           - 'null'
-          format: int64
+        AccountAssociationId:
+          type:
+          - string
+          - 'null'
+        AssociationState:
+          type:
+          - string
+          - 'null'
+        ConnectorPolicyArn:
+          type:
+          - string
+          - 'null'
+        discoveryId:
+          type:
+          - string
+          - 'null'
+        connector:
+          type:
+          - string
+          - 'null'
+        DestinationId:
+          type:
+          - string
+          - 'null'
+        AssociationStateCode:
+          type: integer
+          format: int32
+          readOnly: true
       additionalProperties: false
     CreateAssociationResponse:
       type: object
@@ -583,71 +297,53 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CheckAssociationModel:
+    SendCommandRequest:
       type: object
       properties:
-        connectorName:
+        connectorDevice:
           type:
           - string
           - 'null'
-        accountAssociationId:
+        command:
           type:
           - string
           - 'null'
-        associationState:
+        level:
           type:
-          - string
+          - integer
           - 'null'
-        associationStateCode:
+          format: int32
+        rateX:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        rateY:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        maskExecuteIfOff:
+          type:
+          - boolean
+          - 'null'
+        overrideExecuteIfOff:
+          type:
+          - boolean
+          - 'null'
+        connectorType:
           type: integer
           format: int32
-          readOnly: true
-      additionalProperties: false
-    CommandHistory:
-      type: object
-      properties:
-        commandHistoryGuid:
-          type: string
-          format: uuid
-        uniqueId:
+        sdpOffer:
           type:
           - string
           - 'null'
-        cmdName:
-          type:
-          - string
-          - 'null'
-        executedDate:
-          type: string
-          format: date-time
-        executedBy:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-        statusText:
+        sessionID:
           type:
           - string
           - 'null'
       additionalProperties: false
-    AssociationDeviceResponse:
-      type: object
-      properties:
-        Items:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AssociationDevice'
-        NextToken:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AlexaCommandResponse:
+    SendCommandResponse:
       type: object
       properties:
         data:
@@ -735,53 +431,357 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    ConnectorAssociationResponse:
+    CheckAssociationResponse:
       type: object
       properties:
-        AccountAuthorizationInfo:
-          $ref: '#/components/schemas/AccountAuthorizationInfo'
-        OAuthAuthorizationUrl:
+        data:
           type:
-          - string
+          - array
           - 'null'
-        AssociationArn:
-          type:
-          - string
-          - 'null'
-        AccountAssociationId:
-          type:
-          - string
-          - 'null'
-        AssociationState:
-          type:
-          - string
-          - 'null'
-        ConnectorPolicyArn:
-          type:
-          - string
-          - 'null'
-        discoveryId:
-          type:
-          - string
-          - 'null'
-        connector:
-          type:
-          - string
-          - 'null'
-        DestinationId:
-          type:
-          - string
-          - 'null'
-        AssociationStateCode:
+          items:
+            $ref: '#/components/schemas/CheckAssociationModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
-          readOnly: true
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     DeviceListResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/AssociationDeviceResponse'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AssociationDeviceResponse:
+      type: object
+      properties:
+        Items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AssociationDevice'
+        NextToken:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AssociationDevice:
+      type: object
+      properties:
+        connectorDeviceId:
+          type:
+          - string
+          - 'null'
+        id:
+          type:
+          - string
+          - 'null'
+        connectorDeviceName:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    CreateAssociationRequest:
+      type: object
+      properties:
+        isReCreate:
+          type: boolean
+        isRemove:
+          type: boolean
+        connectorType:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ManageSendCommand:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CheckAssociationModel:
+      type: object
+      properties:
+        connectorName:
+          type:
+          - string
+          - 'null'
+        accountAssociationId:
+          type:
+          - string
+          - 'null'
+        associationState:
+          type:
+          - string
+          - 'null'
+        associationStateCode:
+          type: integer
+          format: int32
+          readOnly: true
+      additionalProperties: false
+    AlexaCommandRequest:
+      type: object
+      properties:
+        connectorDevice:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        connectorType:
+          type: integer
+          format: int32
+        id:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AlexaCommandResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ManageSendCommand'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandHistory'
         status:
           enum:
           - 100

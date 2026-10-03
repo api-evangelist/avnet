@@ -1,17 +1,20 @@
 openapi: 3.2.0
 info:
-  title: Avnet Firmware API
+  title: /IOTCONNECT™ Firmware API
+  description: 'Firmware REST API contains information of Device modules. It will give API methods to firmware communication and OTA.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
   version: '2.0'
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
-  description: 'Operations tagged Firmware across 2 of this provider''s published API definitions: avnet-iotconnect-firmware-azure-prod-swagger.json, avnet-iotconnect-firmware-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://firmware.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
 security:
 - Bearer: []
 tags:
@@ -403,26 +406,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FirmwareUpdate:
-      type: object
-      properties:
-        eventPlaceHolders:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     FirmwareLookupResponse:
       type: object
       properties:
@@ -507,41 +490,87 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    NoContentResult:
+    ErrorsResponse:
       type: object
       properties:
-        statusCode:
+        status:
           type: integer
           format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    FileUrl:
+    FirmwareLookup:
       type: object
       properties:
-        url:
-          type:
-          - string
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    Upgrade:
-      type: object
-      properties:
-        software:
-          type:
-          - string
-          - 'null'
         guid:
           type:
           - string
           - 'null'
-        fileName:
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        isDeprecated:
+          type: boolean
+      additionalProperties: false
+    FirmwareGetList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        releaseCount:
+          type: integer
+          format: int32
+        draftCount:
+          type: integer
+          format: int32
+        isDeprecated:
+          type: boolean
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateCode:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
           type:
           - string
           - 'null'
@@ -549,38 +578,40 @@ components:
           type:
           - string
           - 'null'
-        isDraft:
+        firmwareDescription:
           type:
           - string
           - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-        createdBy:
-          type:
-          - string
-          - 'null'
-        updatedDate:
-          type:
-          - string
-          - 'null'
-        updatedBy:
-          type:
-          - string
-          - 'null'
-        fileUrl:
-          type:
-          - string
-          - 'null'
-        urls:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FileUrl'
+        isSolutionTemplate:
+          type: boolean
       additionalProperties: false
-    FirmwareListResponse:
+    FirmwareCreate:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FirmwareGetListResponse:
       type: object
       properties:
         data:
@@ -588,7 +619,264 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/FirmwareList'
+            $ref: '#/components/schemas/FirmwareGetList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeDescription:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeprecated:
+          type: boolean
+        Upgrades:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Upgrade'
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateCode:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FirmwareCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareDetail:
+      required:
+      - name
+      type: object
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: Firmware code
+        hardware:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version
+        software:
+          type:
+          - string
+          - 'null'
+          description: Firmware software version
+        name:
+          minLength: 1
+          type: string
+          description: Firmware name
+      additionalProperties: false
+    FirmwareValidateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -748,130 +1036,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    FirmwareList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        firmwareUpgradeDescription:
-          type:
-          - string
-          - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isDeprecated:
-          type: boolean
-        Upgrades:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Upgrade'
-        deviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deviceTemplateCode:
-          type:
-          - string
-          - 'null'
-        deviceTemplateName:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    FirmwareLookup:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        isDeprecated:
-          type: boolean
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    FirmwareDetail:
-      required:
-      - name
-      type: object
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: Firmware code
-        hardware:
-          type:
-          - string
-          - 'null'
-          description: Firmware hardware version
-        software:
-          type:
-          - string
-          - 'null'
-          description: Firmware software version
-        name:
-          minLength: 1
-          type: string
-          description: Firmware name
-      additionalProperties: false
-    FirmwareValidateResponse:
+    FirmwareListResponse:
       type: object
       properties:
         data:
@@ -879,9 +1044,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/FirmwareList'
         status:
           enum:
           - 100
@@ -957,19 +1120,83 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    FirmwareCreate:
+    Upgrade:
       type: object
       properties:
-        newId:
+        software:
           type:
           - string
           - 'null'
-          readOnly: true
-        firmwareUpgradeGuid:
+        guid:
           type:
           - string
           - 'null'
-          readOnly: true
+        fileName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        isDraft:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type:
+          - string
+          - 'null'
+        updatedBy:
+          type:
+          - string
+          - 'null'
+        fileUrl:
+          type:
+          - string
+          - 'null'
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
+      additionalProperties: false
+    FirmwareUpdateV2Request:
+      required:
+      - firmwareName
+      - hardware
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+          description: Status should be draft or released.
+        FirmwareDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        firmwareName:
+          maxLength: 10
+          minLength: 3
+          type: string
+          description: Firmware Name
+        hardware:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Hardware Version
       additionalProperties: false
     FirmwareCreateV2Request:
       required:
@@ -1018,176 +1245,29 @@ components:
           type: string
           description: Firmware Hardware Version
       additionalProperties: false
-    FirmwareGetListResponse:
+    FirmwareUpdate:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FirmwareGetList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
+        eventPlaceHolders:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
       additionalProperties: false
-    FirmwareUpdateV2Request:
-      required:
-      - firmwareName
-      - hardware
+    FileUrl:
       type: object
       properties:
-        status:
+        url:
           type:
           - string
           - 'null'
-          description: Status should be draft or released.
-        FirmwareDescription:
-          maxLength: 250
+        tag:
           type:
           - string
           - 'null'
-          description: Firmware Description
-        firmwareName:
-          maxLength: 10
-          minLength: 3
-          type: string
-          description: Firmware Name
-        hardware:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: Firmware Hardware Version
-      additionalProperties: false
-    FirmwareGetList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
         name:
           type:
           - string
           - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        releaseCount:
-          type: integer
-          format: int32
-        draftCount:
-          type: integer
-          format: int32
-        isDeprecated:
-          type: boolean
-        deviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deviceTemplateCode:
-          type:
-          - string
-          - 'null'
-        deviceTemplateName:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        firmwareDescription:
-          type:
-          - string
-          - 'null'
-        isSolutionTemplate:
-          type: boolean
       additionalProperties: false
     FirmwareValidateRequest:
       type: object
@@ -1200,89 +1280,12 @@ components:
             $ref: '#/components/schemas/FirmwareDetail'
           description: Firmware list
       additionalProperties: false
-    FirmwareCreateResponse:
+    NoContentResult:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FirmwareCreate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+        statusCode:
           type: integer
           format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
       additionalProperties: false
   securitySchemes:
     Bearer:
@@ -1290,6 +1293,3 @@ components:
       description: Please enter JWT with Bearer into field
       name: Authorization
       in: header
-x-refined-from:
-- avnet-iotconnect-firmware-azure-prod-swagger.json
-- avnet-iotconnect-firmware-openapi.yml

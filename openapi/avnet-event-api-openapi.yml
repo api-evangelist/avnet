@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet Event API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Event across 3 of this provider''s published API definitions: avnet-iotconnect-event-aws-prod-swagger.json, avnet-iotconnect-event-azure-prod-swagger.json, avnet-iotconnect-event-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://event.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v1.1 prefix
+  description: 'Operations tagged Event across 2 of this provider''s published API definitions: avnet-iotconnect-event-aws-prod-swagger.json, avnet-iotconnect-event-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -2055,138 +2046,30 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EventSubscriptionDetail:
+    ErrorsResponse:
       type: object
       properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eventGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deliveryMethod:
+        status:
           type: integer
           format: int32
-        deliveryMethodData:
-          type:
-          - object
-          - 'null'
-        companyGuid:
+        message:
           type:
           - string
           - 'null'
-          readOnly: true
-        solutionGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        refGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        dataXml:
-          type:
-          - object
-          - 'null'
-        severityLevelGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    RegisteredDevicesListRequest:
-      required:
-      - userguids
-      type: object
-      properties:
-        userguids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Userguid'
-          description: User Guid List
-      additionalProperties: false
-    EventSubscriptionUpdateRequest:
-      required:
-      - deliveryMethod
-      - severityLevelGuid
-      type: object
-      properties:
-        deliveryMethod:
-          type: array
-          items:
-            type: string
-          description: 'Delivery Method Eg: MQTT, UI Alert, Push, SignalR, DeviceCommand, WebHook, Email etc.'
-        refData:
-          $ref: '#/components/schemas/RefData'
-        severityLevelGuid:
-          minLength: 1
-          type: string
-          description: Severity Level Guid
-        refGuid:
-          type:
-          - string
-          - 'null'
-          description: 'Ref guid, Eg: RuleGuid'
-      additionalProperties: false
-    EventTemplateDetail:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        template:
-          type:
-          - string
-          - 'null'
-        deliveryMethod:
-          type: integer
-          format: int32
-        eventId:
-          type: integer
-          format: int32
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    EventTemplateDetailResponse:
-      type: object
-      properties:
-        data:
+        error:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EventTemplateDetail'
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    EventSendEmailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -2262,162 +2145,9 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorModel:
+    EventDeliveryMethodDetail:
       type: object
       properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CommandData:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          description: Command Guid
-        text:
-          type:
-          - string
-          - 'null'
-          description: Command Text
-      additionalProperties: false
-    EventAudienceDetail:
-      type: object
-      properties:
-        deliveryMethodName:
-          type:
-          - string
-          - 'null'
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-        userId:
-          type:
-          - string
-          - 'null'
-        deliveryMethod:
-          type: integer
-          format: int32
-        eventTriggredGuid:
-          type: string
-          format: uuid
-      additionalProperties: false
-    EventUINotificationResponse:
-      type: object
-      properties:
-        continuationToken:
-          type:
-          - string
-          - 'null'
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EventNotificationListModel'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EventById:
-      type: object
-      properties:
-        autoSubscribed:
-          type: boolean
-        deliveryMethod:
-          type: integer
-          format: int32
-        eventId:
-          type: integer
-          format: int32
-        eventTopicGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
         guid:
           type:
           - string
@@ -2427,102 +2157,18 @@ components:
           type:
           - string
           - 'null'
-        placeHolder:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    EventTemplateUpdateRequest:
-      required:
-      - template
-      type: object
-      properties:
-        template:
-          $ref: '#/components/schemas/Templatedata'
-      additionalProperties: false
-    TopicListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/TopicList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+        bitValue:
           type: integer
           format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+        isPrivate:
+          type: boolean
+        enableHtml:
+          type: boolean
+        templateLen:
+          type: integer
+          format: int32
+        audienceRequired:
+          type: boolean
       additionalProperties: false
     EventSubscriptionUpdateResponse:
       type: object
@@ -2610,27 +2256,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EventSendEmailRequest:
-      required:
-      - emailMessage
-      - subject
-      - to
-      type: object
-      properties:
-        to:
-          minLength: 1
-          type: string
-          description: Recipient email id. For multiple recipients send comma(,) separated list.
-        emailMessage:
-          minLength: 1
-          type: string
-          description: Email Body
-        subject:
-          minLength: 1
-          type: string
-          description: Email Subject
-      additionalProperties: false
-    EventLookup:
+    TopicList:
       type: object
       properties:
         guid:
@@ -2638,119 +2264,136 @@ components:
           - string
           - 'null'
           readOnly: true
-        SeverityLevel:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
+        topicId:
           type: integer
           format: int32
-      additionalProperties: false
-    RegisteredDevicesRequest:
-      required:
-      - osName
-      - osVersion
-      - uuid
-      type: object
-      properties:
-        osName:
-          maxLength: 50
-          minLength: 1
-          type: string
-        osVersion:
-          maxLength: 100
-          minLength: 1
-          type: string
-        uuid:
-          minLength: 1
-          type: string
-        deviceToken:
-          maxLength: 255
-          type:
-          - string
-          - 'null'
-        registrationId:
-          maxLength: 200
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AudienceDetail:
-      type: object
-      properties:
-        deliveryMethodName:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deliveryMethod:
-          type: integer
-          format: int64
-        displayName:
-          type:
-          - string
-          - 'null'
-        userId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    EventSubscribedList:
-      type: object
-      properties:
-        eventGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
         name:
           type:
           - string
           - 'null'
-        eventSubscriptionGuid:
+      additionalProperties: false
+    WebHookConfig:
+      type: object
+      properties:
+        url:
           type:
           - string
           - 'null'
-          readOnly: true
-        autoSubscribed:
-          type: boolean
-        deliveryMethod:
-          type: integer
-          format: int32
-        eventSubscriptionDeliveryMethod:
-          type: integer
-          format: int32
-        eventSubscriptionDeliveryMethodData:
+          description: Webhook url.
+        headers:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeliveryMethod'
-        eventTopicGuid:
+            $ref: '#/components/schemas/WebHookHeader'
+          description: Webhook headers.
+      additionalProperties: false
+    EventSubscribedListResponse:
+      type: object
+      properties:
+        data:
           type:
-          - string
+          - array
           - 'null'
-          readOnly: true
-        severityLevelGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eventTopicName:
-          type:
-          - string
-          - 'null'
-        dataRef:
-          type:
-          - object
-          - 'null'
-        row_num:
+          items:
+            $ref: '#/components/schemas/EventSubscribedList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EventSubscriptionUpdateRequest:
+      required:
+      - deliveryMethod
+      - severityLevelGuid
+      type: object
+      properties:
+        deliveryMethod:
+          type: array
+          items:
+            type: string
+          description: 'Delivery Method Eg: MQTT, UI Alert, Push, SignalR, DeviceCommand, WebHook, Email etc.'
+        refData:
+          $ref: '#/components/schemas/RefData'
+        severityLevelGuid:
+          minLength: 1
+          type: string
+          description: Severity Level Guid
+        refGuid:
+          type:
+          - string
+          - 'null'
+          description: 'Ref guid, Eg: RuleGuid'
       additionalProperties: false
     EventList:
       type: object
@@ -2789,23 +2432,499 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    WebHookConfig:
+    AudienceData:
       type: object
       properties:
-        url:
-          type:
-          - string
-          - 'null'
-          description: Webhook url.
-        headers:
+        audienceDetails:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/WebHookHeader'
-          description: Webhook headers.
+            $ref: '#/components/schemas/AudienceDetail'
       additionalProperties: false
-    EventTemplateResetResponse:
+    TopicListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TopicList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Templatedata:
+      type: object
+      properties:
+        subject:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    WidgetEventNotificationResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WidgetEventNotificationListModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AudienceDetail:
+      type: object
+      properties:
+        deliveryMethodName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deliveryMethod:
+          type: integer
+          format: int64
+        displayName:
+          type:
+          - string
+          - 'null'
+        userId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EventAudienceDetailsResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EventAudienceDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RegisteredDevicesUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EventUnsubscribeResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    WebHookHeader:
+      type: object
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+          description: Webhook header key.
+        value:
+          type:
+          - string
+          - 'null'
+          description: Webhook header value.
+      additionalProperties: false
+    RegisteredDevicesResponse:
       type: object
       properties:
         data:
@@ -2975,144 +3094,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EventListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EventList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RegisteredDevicesUpdateRequest:
-      required:
-      - deviceToken
-      - osName
-      - osVersion
-      - uuid
-      type: object
-      properties:
-        osName:
-          maxLength: 50
-          minLength: 1
-          type: string
-        osVersion:
-          maxLength: 100
-          minLength: 1
-          type: string
-        uuid:
-          minLength: 1
-          type: string
-        deviceToken:
-          maxLength: 100
-          minLength: 1
-          type: string
-      additionalProperties: false
-    Templatedata:
-      type: object
-      properties:
-        subject:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    EventTemplateUpdateResponse:
+    EventTemplateCreateResponse:
       type: object
       properties:
         data:
@@ -3198,185 +3180,19 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EventDeliveryMethodDetail:
+    CommandData:
       type: object
       properties:
         guid:
           type:
           - string
           - 'null'
-          readOnly: true
-        name:
+          description: Command Guid
+        text:
           type:
           - string
           - 'null'
-        bitValue:
-          type: integer
-          format: int32
-        isPrivate:
-          type: boolean
-        enableHtml:
-          type: boolean
-        templateLen:
-          type: integer
-          format: int32
-        audienceRequired:
-          type: boolean
-      additionalProperties: false
-    EventNotificationListModel:
-      type: object
-      properties:
-        entityName:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        condition:
-          type:
-          - string
-          - 'null'
-        eventName:
-          type:
-          - string
-          - 'null'
-        SeverityLevel:
-          type:
-          - string
-          - 'null'
-        row_num:
-          type: integer
-          format: int32
-        audienceData:
-          type:
-          - object
-          - 'null'
-        markedAsRead:
-          type: boolean
-        eventNotificationGuid:
-          type: string
-          format: uuid
-        entityGuid:
-          type: string
-          format: uuid
-        notificationText:
-          type:
-          - string
-          - 'null'
-        eventTriggredGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
-    TopicList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        topicId:
-          type: integer
-          format: int32
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    RegisteredDevicesUpdateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+          description: Command Text
       additionalProperties: false
     DeliveryMethodResponse:
       type: object
@@ -3460,59 +3276,36 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    NotificationModel:
+    RegisteredDevicesRequest:
+      required:
+      - osName
+      - osVersion
+      - uuid
       type: object
       properties:
-        entityName:
-          type:
-          - string
-          - 'null'
-        markedAsRead:
-          type: integer
-          format: int32
-        notificationText:
-          type:
-          - string
-          - 'null'
-        createdDate:
+        osName:
+          maxLength: 50
+          minLength: 1
           type: string
-          format: date-time
-        audienceData:
-          $ref: '#/components/schemas/AudienceData'
-        eventGuid:
+        osVersion:
+          maxLength: 100
+          minLength: 1
+          type: string
+        uuid:
+          minLength: 1
+          type: string
+        deviceToken:
+          maxLength: 255
           type:
           - string
           - 'null'
-        eventName:
-          type:
-          - string
-          - 'null'
-        cpId:
-          type:
-          - string
-          - 'null'
-        eventNotificationGuid:
-          type:
-          - string
-          - 'null'
-        severityLevelGuid:
-          type:
-          - string
-          - 'null'
-        severityName:
-          type:
-          - string
-          - 'null'
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        condition:
+        registrationId:
+          maxLength: 200
           type:
           - string
           - 'null'
       additionalProperties: false
-    EventUnsubscribeResponse:
+    EventTemplateResetResponse:
       type: object
       properties:
         data:
@@ -3598,201 +3391,37 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EventSubscribedListResponse:
+    EventLookup:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EventSubscribedList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RegisteredDevicesResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    WidgetEventNotificationListModel:
-      type: object
-      properties:
-        eventName:
-          type:
-          - string
-          - 'null'
-        severityLevel:
+        guid:
           type:
           - string
           - 'null'
           readOnly: true
-        createdDate:
+        SeverityLevel:
           type:
           - string
           - 'null'
-          format: date-time
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        condition:
-          type:
-          - string
-          - 'null'
+      additionalProperties: false
+    RegisteredDevicesListRequest:
+      required:
+      - userguids
+      type: object
+      properties:
+        userguids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Userguid'
+          description: User Guid List
+      additionalProperties: false
+    EventTemplateUpdateRequest:
+      required:
+      - template
+      type: object
+      properties:
+        template:
+          $ref: '#/components/schemas/Templatedata'
       additionalProperties: false
     EventSubscriptionDetailResponse:
       type: object
@@ -3878,60 +3507,27 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    RegisteredDevicesList:
+    EventSendEmailRequest:
+      required:
+      - emailMessage
+      - subject
+      - to
       type: object
       properties:
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deviceToken:
-          type:
-          - string
-          - 'null'
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        osName:
-          type:
-          - string
-          - 'null'
-        osVersion:
-          type:
-          - string
-          - 'null'
-        registrationId:
-          type:
-          - string
-          - 'null'
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        uuid:
-          type:
-          - string
-          - 'null'
+        to:
+          minLength: 1
+          type: string
+          description: Recipient email id. For multiple recipients send comma(,) separated list.
+        emailMessage:
+          minLength: 1
+          type: string
+          description: Email Body
+        subject:
+          minLength: 1
+          type: string
+          description: Email Subject
       additionalProperties: false
-    WebHookHeader:
-      type: object
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: Webhook header key.
-        value:
-          type:
-          - string
-          - 'null'
-          description: Webhook header value.
-      additionalProperties: false
-    EventSubscriptionCreateResponse:
+    EventTemplateUpdateResponse:
       type: object
       properties:
         data:
@@ -3942,90 +3538,6 @@ components:
             type:
             - object
             - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EventLookupResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EventLookup'
         status:
           enum:
           - 100
@@ -4185,89 +3697,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EventSendEmailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EventDeliveryMethodDetailResponse:
+    EventListResponse:
       type: object
       properties:
         data:
@@ -4275,225 +3705,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EventDeliveryMethodDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    AudienceData:
-      type: object
-      properties:
-        audienceDetails:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AudienceDetail'
-      additionalProperties: false
-    WidgetEventNotificationResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WidgetEventNotificationListModel'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EventSubscriptionCreateRequest:
-      required:
-      - deliveryMethod
-      - severityLevelGuid
-      type: object
-      properties:
-        eventGuid:
-          type:
-          - string
-          - 'null'
-          description: "Event Guid, \nNote : EventGuid or EventName is required"
-        eventName:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: 'Event Name,
-
-            Note : EventGuid or EventName is required'
-        deliveryMethod:
-          type: array
-          items:
-            type: string
-          description: 'Delivery Method Eg: MQTT, UI Alert, Push, SignalR, DeviceCommand, WebHook, Email etc.'
-        refData:
-          $ref: '#/components/schemas/RefData'
-        severityLevelGuid:
-          minLength: 1
-          type: string
-          description: Severity Level Guid
-        refGuid:
-          type:
-          - string
-          - 'null'
-          description: 'Ref guid, Eg: RuleGuid'
-      additionalProperties: false
-    EventNotificationListResponse:
-      type: object
-      properties:
-        continuationToken:
-          type:
-          - string
-          - 'null'
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/NotificationModel'
+            $ref: '#/components/schemas/EventList'
         status:
           enum:
           - 100
@@ -4584,137 +3796,19 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    Userguid:
+    EventNotificationListResponse:
       type: object
       properties:
-        userguid:
+        continuationToken:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    RefData:
-      type: object
-      properties:
-        userguids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: User guid list for event audience
-        roleguids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Role guid list for event audience
-        command:
-          $ref: '#/components/schemas/CommandData'
-        webhook:
-          $ref: '#/components/schemas/WebHookConfig'
-        templateGuids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-      additionalProperties: false
-    EventTemplateCreateResponse:
-      type: object
-      properties:
         data:
           type:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EventAudienceDetailsResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EventAudienceDetail'
+            $ref: '#/components/schemas/NotificationModel'
         status:
           enum:
           - 100
@@ -4813,6 +3907,509 @@ components:
         template:
           $ref: '#/components/schemas/Templatedata'
       additionalProperties: false
+    EventLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EventLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EventSubscriptionDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deliveryMethod:
+          type: integer
+          format: int32
+        deliveryMethodData:
+          type:
+          - object
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        solutionGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        refGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        dataXml:
+          type:
+          - object
+          - 'null'
+        severityLevelGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    NotificationModel:
+      type: object
+      properties:
+        entityName:
+          type:
+          - string
+          - 'null'
+        markedAsRead:
+          type: integer
+          format: int32
+        notificationText:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        audienceData:
+          $ref: '#/components/schemas/AudienceData'
+        eventGuid:
+          type:
+          - string
+          - 'null'
+        eventName:
+          type:
+          - string
+          - 'null'
+        cpId:
+          type:
+          - string
+          - 'null'
+        eventNotificationGuid:
+          type:
+          - string
+          - 'null'
+        severityLevelGuid:
+          type:
+          - string
+          - 'null'
+        severityName:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        condition:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EventById:
+      type: object
+      properties:
+        autoSubscribed:
+          type: boolean
+        deliveryMethod:
+          type: integer
+          format: int32
+        eventId:
+          type: integer
+          format: int32
+        eventTopicGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        placeHolder:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EventUINotificationResponse:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EventNotificationListModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Userguid:
+      type: object
+      properties:
+        userguid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    EventTemplateDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EventTemplateDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EventSubscriptionCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EventAudienceDetail:
+      type: object
+      properties:
+        deliveryMethodName:
+          type:
+          - string
+          - 'null'
+        firstName:
+          type:
+          - string
+          - 'null'
+        lastName:
+          type:
+          - string
+          - 'null'
+        userId:
+          type:
+          - string
+          - 'null'
+        deliveryMethod:
+          type: integer
+          format: int32
+        eventTriggredGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
     EventByIdResponse:
       type: object
       properties:
@@ -4822,6 +4419,517 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/EventById'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    WidgetEventNotificationListModel:
+      type: object
+      properties:
+        eventName:
+          type:
+          - string
+          - 'null'
+        severityLevel:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        condition:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    RefData:
+      type: object
+      properties:
+        userguids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: User guid list for event audience
+        roleguids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Role guid list for event audience
+        command:
+          $ref: '#/components/schemas/CommandData'
+        webhook:
+          $ref: '#/components/schemas/WebHookConfig'
+        templateGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    RegisteredDevicesUpdateRequest:
+      required:
+      - deviceToken
+      - osName
+      - osVersion
+      - uuid
+      type: object
+      properties:
+        osName:
+          maxLength: 50
+          minLength: 1
+          type: string
+        osVersion:
+          maxLength: 100
+          minLength: 1
+          type: string
+        uuid:
+          minLength: 1
+          type: string
+        deviceToken:
+          maxLength: 100
+          minLength: 1
+          type: string
+      additionalProperties: false
+    EventTemplateDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        template:
+          type:
+          - string
+          - 'null'
+        deliveryMethod:
+          type: integer
+          format: int32
+        eventId:
+          type: integer
+          format: int32
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    EventDeliveryMethodDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EventDeliveryMethodDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EventNotificationListModel:
+      type: object
+      properties:
+        entityName:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        condition:
+          type:
+          - string
+          - 'null'
+        eventName:
+          type:
+          - string
+          - 'null'
+        SeverityLevel:
+          type:
+          - string
+          - 'null'
+        row_num:
+          type: integer
+          format: int32
+        audienceData:
+          type:
+          - object
+          - 'null'
+        markedAsRead:
+          type: boolean
+        eventNotificationGuid:
+          type: string
+          format: uuid
+        entityGuid:
+          type: string
+          format: uuid
+        notificationText:
+          type:
+          - string
+          - 'null'
+        eventTriggredGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    EventSubscribedList:
+      type: object
+      properties:
+        eventGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        eventSubscriptionGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        autoSubscribed:
+          type: boolean
+        deliveryMethod:
+          type: integer
+          format: int32
+        eventSubscriptionDeliveryMethod:
+          type: integer
+          format: int32
+        eventSubscriptionDeliveryMethodData:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeliveryMethod'
+        eventTopicGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        severityLevelGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventTopicName:
+          type:
+          - string
+          - 'null'
+        dataRef:
+          type:
+          - object
+          - 'null'
+        row_num:
+          type: integer
+          format: int32
+      additionalProperties: false
+    RegisteredDevicesList:
+      type: object
+      properties:
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceToken:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        osName:
+          type:
+          - string
+          - 'null'
+        osVersion:
+          type:
+          - string
+          - 'null'
+        registrationId:
+          type:
+          - string
+          - 'null'
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uuid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    EventSubscriptionCreateRequest:
+      required:
+      - deliveryMethod
+      - severityLevelGuid
+      type: object
+      properties:
+        eventGuid:
+          type:
+          - string
+          - 'null'
+          description: "Event Guid, \nNote : EventGuid or EventName is required"
+        eventName:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: 'Event Name,
+
+            Note : EventGuid or EventName is required'
+        deliveryMethod:
+          type: array
+          items:
+            type: string
+          description: 'Delivery Method Eg: MQTT, UI Alert, Push, SignalR, DeviceCommand, WebHook, Email etc.'
+        refData:
+          $ref: '#/components/schemas/RefData'
+        severityLevelGuid:
+          minLength: 1
+          type: string
+          description: Severity Level Guid
+        refGuid:
+          type:
+          - string
+          - 'null'
+          description: 'Ref guid, Eg: RuleGuid'
+      additionalProperties: false
+    EventNotificationHubDetail:
+      type: object
+      properties:
+        connectionString:
+          type:
+          - string
+          - 'null'
+        hubName:
+          type:
+          - string
+          - 'null'
+        cpId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    WebHookConfigWithData:
+      type: object
+      properties:
+        data:
+          type:
+          - string
+          - 'null'
+          description: Webhook test data.
+        url:
+          type:
+          - string
+          - 'null'
+          description: Webhook url.
+        headers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WebHookHeader'
+          description: Webhook headers.
+      additionalProperties: false
+    EventNotificationHubDetailResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EventNotificationHubDetail'
         status:
           enum:
           - 100
@@ -4921,43 +5029,6 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    EventNotificationHubDetail:
-      type: object
-      properties:
-        connectionString:
-          type:
-          - string
-          - 'null'
-        hubName:
-          type:
-          - string
-          - 'null'
-        cpId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    WebHookConfigWithData:
-      type: object
-      properties:
-        data:
-          type:
-          - string
-          - 'null'
-          description: Webhook test data.
-        url:
-          type:
-          - string
-          - 'null'
-          description: Webhook url.
-        headers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WebHookHeader'
-          description: Webhook headers.
-      additionalProperties: false
     EventSubscriptionCreateRequest_2:
       required:
       - deliveryMethod
@@ -4994,153 +5065,6 @@ components:
           - 'null'
           description: 'Ref guid, Eg: RuleGuid'
       additionalProperties: false
-    EventNotificationHubDetailResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EventNotificationHubDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RegisteredDevicesRequest_3:
-      required:
-      - osName
-      - osVersion
-      - uuid
-      type: object
-      properties:
-        osName:
-          maxLength: 50
-          minLength: 1
-          type: string
-        osVersion:
-          maxLength: 100
-          minLength: 1
-          type: string
-        uuid:
-          minLength: 1
-          type: string
-        deviceToken:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    EventSubscriptionCreateRequest_3:
-      required:
-      - deliveryMethod
-      - severityLevelGuid
-      type: object
-      properties:
-        eventGuid:
-          type:
-          - string
-          - 'null'
-          description: "Event Guid, \nNote : EventGuid or EventName is required"
-        eventName:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: 'Event Name,
-
-            Note : EventGuid or EventName is required'
-        deliveryMethod:
-          type: array
-          items:
-            type: string
-          description: 'Delivery Method Eg: MQTT, UI Alert, Push, SignalR, DeviceCommand, WebHook, Email etc.'
-        refData:
-          $ref: '#/components/schemas/RefData'
-        severityLevelGuid:
-          minLength: 1
-          type: string
-          description: Severity Level Guid
-        refGuid:
-          type:
-          - string
-          - 'null'
-          description: 'Ref guid, Eg: RuleGuid'
-      additionalProperties: false
-  requestBodies:
-    EventTemplateCreateRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/EventTemplateCreateRequest'
-      description: Json object
   securitySchemes:
     Bearer:
       type: apiKey
@@ -5150,4 +5074,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-event-aws-prod-swagger.json
 - avnet-iotconnect-event-azure-prod-swagger.json
-- avnet-iotconnect-event-openapi.yml

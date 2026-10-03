@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet Setting API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Setting across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://device.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+  description: 'Operations tagged Setting across 2 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -798,144 +789,22 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DeviceTwinHistoryList:
+    ErrorsResponse:
       type: object
       properties:
-        guid:
-          type: string
-          format: uuid
-        companyGuid:
-          type: string
-          format: uuid
-        templateSettingGuid:
-          type: string
-          format: uuid
-        deviceGuid:
-          type: string
-          format: uuid
-        createdDate:
-          type: string
-          format: date-time
-        localName:
-          type:
-          - string
-          - 'null'
-        desiredValue:
-          type:
-          - string
-          - 'null'
-        desiredUpdatedDate:
-          type: string
-          format: date-time
-        reportedValue:
-          type:
-          - string
-          - 'null'
-        reportedUpdatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-      additionalProperties: false
-    SettingDelete:
-      type: object
-      properties:
-        deviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
+        status:
+          type: integer
+          format: int32
         message:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    SettingList:
-      type: object
-      properties:
-        guid:
+        error:
           type:
-          - string
+          - array
           - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        dataTypeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        localName:
-          type:
-          - string
-          - 'null'
-        defaultValue:
-          type:
-          - object
-          - 'null'
-        dataValidation:
-          type:
-          - string
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        isReadOnly:
-          type: boolean
-        dataType:
-          type:
-          - string
-          - 'null'
-        messageVersion:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    TemplateSettingUpdateReadOnlyRequest:
-      required:
-      - deviceTemplateGuid
-      type: object
-      properties:
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Associated Device Template Guid
-        isReadOnly:
-          type: boolean
-      additionalProperties: false
-    SettingCreate:
-      type: object
-      properties:
-        newid:
-          type:
-          - string
-          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
     TemplateSettingUpdateReadOnlyResponse:
       type: object
@@ -1023,341 +892,25 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    SettingLookup:
+    TemplateSettingUpdateReadOnlyRequest:
+      required:
+      - deviceTemplateGuid
       type: object
       properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        localName:
-          type:
-          - string
-          - 'null'
-        defaultValue:
-          type:
-          - string
-          - 'null'
-        dataTypeName:
-          type:
-          - string
-          - 'null'
-        dataValidation:
-          type:
-          - string
-          - 'null'
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Associated Device Template Guid
         isReadOnly:
           type: boolean
       additionalProperties: false
-    SettingCreateResponse:
+    SettingUpdateResponse:
       type: object
       properties:
         data:
           type:
-          - array
+          - object
           - 'null'
-          items:
-            $ref: '#/components/schemas/SettingCreate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    SettingLookupResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/SettingLookup'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    SettingDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/SettingDelete'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    DeviceLookupByTemplate:
-      type: object
-      properties:
-        reportedValue:
-          type:
-          - string
-          - 'null'
-        desiredValue:
-          type:
-          - string
-          - 'null'
-        desiredUpdatedDate:
-          type: string
-          format: date-time
-        reportedUpdatedDate:
-          type: string
-          format: date-time
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        localName:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DeviceLookupByTemplateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DeviceLookupByTemplate'
         status:
           enum:
           - 100
@@ -1517,13 +1070,15 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    SettingUpdateResponse:
+    DeviceLookupByTemplateResponse:
       type: object
       properties:
         data:
           type:
-          - object
+          - array
           - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceLookupByTemplate'
         status:
           enum:
           - 100
@@ -1599,40 +1154,26 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    SettingCreateRequest:
-      required:
-      - dataTypeGuid
-      - defaultValue
-      - deviceTemplateGuid
-      - localName
-      - name
+    ErrorModel:
       type: object
       properties:
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Twin property name
-        dataTypeGuid:
-          minLength: 1
-          type: string
-          description: 'Twin property''s datatype guid. Note : Object datatype is not allowed for twin property.'
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SettingDelete:
+      type: object
+      properties:
         deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Associated Device Template Guid
-        localName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Twin property key
-        defaultValue:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Default value for twin property
-        isReadOnly:
-          type: boolean
+          type:
+          - string
+          - 'null'
+          readOnly: true
       additionalProperties: false
     SettingUpdateRequest:
       required:
@@ -1669,6 +1210,114 @@ components:
         isReadOnly:
           type: boolean
       additionalProperties: false
+    SettingCreate:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SettingCreateRequest:
+      required:
+      - dataTypeGuid
+      - defaultValue
+      - deviceTemplateGuid
+      - localName
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Twin property name
+        dataTypeGuid:
+          minLength: 1
+          type: string
+          description: 'Twin property''s datatype guid. Note : Object datatype is not allowed for twin property.'
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Associated Device Template Guid
+        localName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Twin property key
+        defaultValue:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Default value for twin property
+        isReadOnly:
+          type: boolean
+      additionalProperties: false
+    DeviceTwinHistoryList:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        companyGuid:
+          type: string
+          format: uuid
+        templateSettingGuid:
+          type: string
+          format: uuid
+        deviceGuid:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+        localName:
+          type:
+          - string
+          - 'null'
+        desiredValue:
+          type:
+          - string
+          - 'null'
+        desiredUpdatedDate:
+          type: string
+          format: date-time
+        reportedValue:
+          type:
+          - string
+          - 'null'
+        reportedUpdatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    DeviceLookupByTemplate:
+      type: object
+      properties:
+        reportedValue:
+          type:
+          - string
+          - 'null'
+        desiredValue:
+          type:
+          - string
+          - 'null'
+        desiredUpdatedDate:
+          type: string
+          format: date-time
+        reportedUpdatedDate:
+          type: string
+          format: date-time
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        localName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
     DeviceTemplateSettingHistoryResponse:
       type: object
       properties:
@@ -1678,6 +1327,348 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/DeviceTwinHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SettingLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        localName:
+          type:
+          - string
+          - 'null'
+        defaultValue:
+          type:
+          - string
+          - 'null'
+        dataTypeName:
+          type:
+          - string
+          - 'null'
+        dataValidation:
+          type:
+          - string
+          - 'null'
+        isReadOnly:
+          type: boolean
+      additionalProperties: false
+    SettingDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SettingDelete'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SettingList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        dataTypeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        localName:
+          type:
+          - string
+          - 'null'
+        defaultValue:
+          type:
+          - object
+          - 'null'
+        dataValidation:
+          type:
+          - string
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        isReadOnly:
+          type: boolean
+        dataType:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SettingLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SettingLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SettingCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SettingCreate'
         status:
           enum:
           - 100
@@ -1849,102 +1840,6 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    SettingCreateRequest_3:
-      required:
-      - dataTypeGuid
-      - defaultValue
-      - deviceTemplateGuid
-      - localName
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Twin property name
-        dataTypeGuid:
-          minLength: 1
-          type: string
-          description: 'Twin property''s datatype guid. Note : Object datatype is not allowed for twin property.'
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Associated Device Template Guid
-        localName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Twin property key
-        defaultValue:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Default value for twin property
-        dataValidation:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: "Data validation for the twin property values. \nType validation values and/or validation ranges separated by commas.<div> For example: </div><div>  1, 2, 10 to 20 </div> -10 to -5, -15 <div> Red, Green, Blue</div>"
-        isReadOnly:
-          type: boolean
-      additionalProperties: false
-    SettingList_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        dataTypeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        localName:
-          type:
-          - string
-          - 'null'
-        defaultValue:
-          type:
-          - object
-          - 'null'
-        dataValidation:
-          type:
-          - string
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        isReadOnly:
-          type: boolean
-        dataTypeName:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
@@ -1954,4 +1849,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-device-aws-prod-swagger.json
 - avnet-iotconnect-device-azure-prod-swagger.json
-- avnet-iotconnect-device-openapi.yml

@@ -1,17 +1,20 @@
 openapi: 3.2.0
 info:
-  title: Avnet Firmware Upgrade API
+  title: /IOTCONNECT™ Firmware Firmware Upgrade API
+  description: 'Firmware REST API contains information of Device modules. It will give API methods to firmware communication and OTA.
+
+
+    Headers
+
+
+    Needed Headers for all the API.
+
+
+    Authorization    Bearer + access_token (Generated From api/v1.1/auth/login API)
+
+
+    Content-Type    application/json'
   version: '2.0'
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
-  description: 'Operations tagged FirmwareUpgrade across 2 of this provider''s published API definitions: avnet-iotconnect-firmware-azure-prod-swagger.json, avnet-iotconnect-firmware-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://firmware.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
 security:
 - Bearer: []
 tags:
@@ -405,251 +408,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FirmwareUpgradeUpdateV2Request:
-      required:
-      - firmwareGuid
-      - software
-      type: object
-      properties:
-        firmwareGuid:
-          minLength: 1
-          type: string
-          description: Associated firmware guid
-        description:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Firmware Description
-        firmwareDescription:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Firmware hardware Description
-        software:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: Firmware Software Version
-        tag:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: "Tag of device template \nRequired if device template has enabled gateway support."
-        operationId:
-          type:
-          - string
-          - 'null'
-          description: OperationId for azure sphere image upload operation.
-          format: uuid
-      additionalProperties: false
-    FirmWareLookupListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FirmWareLookupList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    FirmwareUpgradeGetList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firmwareGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firmwareName:
-          type:
-          - string
-          - 'null'
-        firmwareDescription:
-          type:
-          - string
-          - 'null'
-        firmwareUpgradeDescription:
-          type:
-          - string
-          - 'null'
-        fileName:
-          type:
-          - string
-          - 'null'
-        isDraft:
-          type:
-          - string
-          - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        software:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedByName:
-          type:
-          - string
-          - 'null'
-        fileUrl:
-          type:
-          - string
-          - 'null'
-        urls:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FileUrl'
-      additionalProperties: false
-    FirmwareUpgradeCreateV2Request:
-      required:
-      - firmwareGuid
-      - software
-      type: object
-      properties:
-        firmwareGuid:
-          minLength: 1
-          type: string
-          description: Associated firmware guid
-        description:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Firmware Description
-        firmwareDescription:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Firmware hardware Description
-        software:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: Firmware Software Version
-        tag:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: "Tag of device template \nRequired if device template has enabled gateway support."
-        operationId:
-          type:
-          - string
-          - 'null'
-          description: OperationId for azure sphere image upload operation.
-          format: uuid
-      additionalProperties: false
     FirmwareUpgradeUpdateResponse:
       type: object
       properties:
@@ -736,14 +494,22 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    FirmwareUpgradeCreate:
+    ErrorsResponse:
       type: object
       properties:
-        newId:
+        status:
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
-          readOnly: true
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
     FirmwareUpGradeList:
       type: object
@@ -818,7 +584,16 @@ components:
           items:
             $ref: '#/components/schemas/FileUrl'
       additionalProperties: false
-    FirmWareLookupList:
+    FirmwareUpgradeCreate:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    FirmwareUpgradeGetList:
       type: object
       properties:
         guid:
@@ -826,12 +601,97 @@ components:
           - string
           - 'null'
           readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        firmwareDescription:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeDescription:
+          type:
+          - string
+          - 'null'
+        fileName:
+          type:
+          - string
+          - 'null'
+        isDraft:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
         software:
           type:
           - string
           - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedByName:
+          type:
+          - string
+          - 'null'
+        fileUrl:
+          type:
+          - string
+          - 'null'
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
       additionalProperties: false
-    FirmwareUpGradeListResponse:
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    FirmWareLookupListResponse:
       type: object
       properties:
         data:
@@ -839,7 +699,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/FirmwareUpGradeList'
+            $ref: '#/components/schemas/FirmWareLookupList'
         status:
           enum:
           - 100
@@ -915,13 +775,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
     FileUrl:
       type: object
       properties:
@@ -937,42 +790,6 @@ components:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
       additionalProperties: false
     FirmwareUpgradeCreateResponse:
       type: object
@@ -1142,6 +959,172 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    FirmwareUpgradeCreateV2Request:
+      required:
+      - firmwareGuid
+      - software
+      type: object
+      properties:
+        firmwareGuid:
+          minLength: 1
+          type: string
+          description: Associated firmware guid
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        firmwareDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware Description
+        software:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Software Version
+        tag:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Tag of device template \nRequired if device template has enabled gateway support."
+        operationId:
+          type:
+          - string
+          - 'null'
+          description: OperationId for azure sphere image upload operation.
+          format: uuid
+      additionalProperties: false
+    FirmwareUpgradeUpdateV2Request:
+      required:
+      - firmwareGuid
+      - software
+      type: object
+      properties:
+        firmwareGuid:
+          minLength: 1
+          type: string
+          description: Associated firmware guid
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        firmwareDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware Description
+        software:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Software Version
+        tag:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Tag of device template \nRequired if device template has enabled gateway support."
+        operationId:
+          type:
+          - string
+          - 'null'
+          description: OperationId for azure sphere image upload operation.
+          format: uuid
+      additionalProperties: false
+    FirmwareUpGradeListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareUpGradeList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
     PublishFirmwareUpgradeResponse:
       type: object
       properties:
@@ -1228,12 +1211,29 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    FirmWareLookupList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        software:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
   securitySchemes:
     Bearer:
       type: apiKey
       description: Please enter JWT with Bearer into field
       name: Authorization
       in: header
-x-refined-from:
-- avnet-iotconnect-firmware-azure-prod-swagger.json
-- avnet-iotconnect-firmware-openapi.yml

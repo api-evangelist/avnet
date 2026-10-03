@@ -1,17 +1,8 @@
 openapi: 3.2.0
 info:
   title: Avnet Cloud Template API
-  x-refined-note:
-  - x-conversion differs across the merged source definitions and was not carried
-  - x-harvested differs across the merged source definitions and was not carried
-  - x-original differs across the merged source definitions and was not carried
-  - x-ownership differs across the merged source definitions and was not carried
-  - x-source differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged CloudTemplate across 3 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json, avnet-iotconnect-device-openapi.yml. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://device.iotconnect.io
-  description: /IOTCONNECT production (Azure platform) — the host the docs page resolves for env=prod&pf=az; paths carry the /api/v2 prefix
+  description: 'Operations tagged CloudTemplate across 2 of this provider''s published API definitions: avnet-iotconnect-device-aws-prod-swagger.json, avnet-iotconnect-device-azure-prod-swagger.json. Each path carries the servers of the definition it was published in.'
 security:
 - Bearer: []
 tags:
@@ -1037,65 +1028,22 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CloudTemplateDeviceCreateRequest:
-      required:
-      - displayName
-      - entityGuid
-      - uniqueId
+    ErrorsResponse:
       type: object
       properties:
-        uniqueId:
-          maxLength: 200
-          minLength: 1
-          type: string
-          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
-        deviceCertificateGuid:
-          type:
-          - string
-          - 'null'
-          description: The certificateGuid of devicetemplate.
-        deviceCertificate:
-          type:
-          - string
-          - 'null'
-          description: Byte array of device certificate file(Only .pfx file allowed).
-          format: byte
-        deviceCertificatePassword:
-          type:
-          - string
-          - 'null'
-          description: Password of device certificate
-        certificateText:
-          type:
-          - string
-          - 'null'
-        displayName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: The display name of device.
-        note:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: The note of the device.
-        entityGuid:
-          minLength: 1
-          type: string
-          description: The entityGuid of device.
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
+        status:
+          type: integer
+          format: int32
         message:
           type:
           - string
           - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
     DeviceListByBroker:
       type: object
@@ -1232,14 +1180,20 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    NoContentResult:
+    MultipleCloudTemplateDeviceDeleteRequest:
       type: object
       properties:
-        statusCode:
+        deviceGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        capability:
           type: integer
           format: int32
       additionalProperties: false
-    CloudTemplateAttributeUpdateResponse:
+    CloudTemplateBulkDeleteDeviceListResponse:
       type: object
       properties:
         data:
@@ -1247,93 +1201,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CloudTemplateDeviceCreateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CreateDevice'
+            $ref: '#/components/schemas/DeviceListByBroker'
         status:
           enum:
           - 100
@@ -1437,42 +1305,7 @@ components:
           type: string
           format: uuid
       additionalProperties: false
-    DeviceProperty:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deviceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        value:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        propertyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        options:
-          type:
-          - string
-          - 'null'
-        fieldType:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CloudTemplateDeviceInformationResponse:
+    CloudTemplateDeviceCreateResponse:
       type: object
       properties:
         data:
@@ -1480,7 +1313,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceInformation'
+            $ref: '#/components/schemas/CreateDevice'
         status:
           enum:
           - 100
@@ -1556,7 +1389,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CloudTemplateBulkDeleteDeviceListResponse:
+    CloudTemplateAttributeUpdateResponse:
       type: object
       properties:
         data:
@@ -1564,7 +1397,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceListByBroker'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -1640,7 +1475,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CloudTemplateDeviceListResponse:
+    CloudTemplateDeviceDeleteHistoryListResponse:
       type: object
       properties:
         data:
@@ -1648,7 +1483,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceList'
+            $ref: '#/components/schemas/DeviceDeleteHistoryList'
         status:
           enum:
           - 100
@@ -1761,6 +1596,37 @@ components:
         fileSupport:
           type: boolean
       additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
     CloudTemplateDeviceUpdateRequest:
       required:
       - displayName
@@ -1809,112 +1675,7 @@ components:
           type: string
           description: The entityGuid of device.
       additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    OutputparamListResponse:
-      type: object
-      properties:
-        fName:
-          type:
-          - string
-          - 'null'
-        dName:
-          type:
-          - string
-          - 'null'
-        value:
-          type:
-          - object
-          - 'null'
-      additionalProperties: false
-    DeviceDeleteHistoryList:
-      type: object
-      properties:
-        fileName:
-          type:
-          - string
-          - 'null'
-        batchGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        status:
-          type:
-          - string
-          - 'null'
-        entityName:
-          type:
-          - string
-          - 'null'
-        success:
-          type: integer
-          format: int32
-        failed:
-          type: integer
-          format: int32
-        deletedDate:
-          type: string
-          format: date-time
-        deletedBy:
-          type:
-          - string
-          - 'null'
-        totalDevice:
-          type: integer
-          format: int32
-      additionalProperties: false
-    DeviceDelete:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        status:
-          type: boolean
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        parentDeviceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eventPlaceHolders:
-          type:
-          - string
-          - 'null'
-        activeDeviceCount:
-          type: integer
-          format: int32
-        inActiveDeviceCount:
-          type: integer
-          format: int32
-      additionalProperties: false
-    CloudTemplateDeviceDeleteHistoryListResponse:
+    CloudTemplateDeviceInformationResponse:
       type: object
       properties:
         data:
@@ -1922,7 +1683,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceDeleteHistoryList'
+            $ref: '#/components/schemas/DeviceInformation'
         status:
           enum:
           - 100
@@ -1998,18 +1759,157 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    MultipleCloudTemplateDeviceDeleteRequest:
+    CloudTemplateDeviceDeleteResponse:
       type: object
       properties:
-        deviceGuids:
+        data:
           type:
           - array
           - 'null'
           items:
-            type: string
-        capability:
+            $ref: '#/components/schemas/DeviceDelete'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceDelete:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type: boolean
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventPlaceHolders:
+          type:
+          - string
+          - 'null'
+        activeDeviceCount:
+          type: integer
+          format: int32
+        inActiveDeviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CloudTemplateAttributeUpdateRequest:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        cloudTemplateGuid:
+          type: string
+          format: uuid
+        localName:
+          type:
+          - string
+          - 'null'
+        dataType:
+          type:
+          - string
+          - 'null'
+        dataTypeGuid:
+          type: string
+          format: uuid
+        attributes:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceBatchGuidStatus:
+      type: object
+      properties:
+        batchGuid:
+          type: string
+          format: uuid
       additionalProperties: false
     DeviceList:
       type: object
@@ -2182,7 +2082,42 @@ components:
           items:
             $ref: '#/components/schemas/OutputparamListResponse'
       additionalProperties: false
-    CloudTemplateDeviceDeleteResponse:
+    DeviceProperty:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        value:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        propertyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        options:
+          type:
+          - string
+          - 'null'
+        fieldType:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    MultipleCloudTemplateDeviceDeleteResponse:
       type: object
       properties:
         data:
@@ -2190,7 +2125,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceDelete'
+            $ref: '#/components/schemas/DeviceBatchGuidStatus'
         status:
           enum:
           - 100
@@ -2265,6 +2200,275 @@ components:
           - integer
           - 'null'
           format: int64
+      additionalProperties: false
+    CloudTemplateAttributeListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CloudTemplateAttribute'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OutputparamListResponse:
+      type: object
+      properties:
+        fName:
+          type:
+          - string
+          - 'null'
+        dName:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    DeviceDeleteHistoryList:
+      type: object
+      properties:
+        fileName:
+          type:
+          - string
+          - 'null'
+        batchGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        status:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        success:
+          type: integer
+          format: int32
+        failed:
+          type: integer
+          format: int32
+        deletedDate:
+          type: string
+          format: date-time
+        deletedBy:
+          type:
+          - string
+          - 'null'
+        totalDevice:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CloudTemplateDeviceListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CloudTemplateDeviceCreateRequest:
+      required:
+      - displayName
+      - entityGuid
+      - uniqueId
+      type: object
+      properties:
+        uniqueId:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
+        deviceCertificateGuid:
+          type:
+          - string
+          - 'null'
+          description: The certificateGuid of devicetemplate.
+        deviceCertificate:
+          type:
+          - string
+          - 'null'
+          description: Byte array of device certificate file(Only .pfx file allowed).
+          format: byte
+        deviceCertificatePassword:
+          type:
+          - string
+          - 'null'
+          description: Password of device certificate
+        certificateText:
+          type:
+          - string
+          - 'null'
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
       additionalProperties: false
     DeviceInformation:
       type: object
@@ -2650,226 +2854,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-      additionalProperties: false
-    MultipleCloudTemplateDeviceDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DeviceBatchGuidStatus'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    DeviceBatchGuidStatus:
-      type: object
-      properties:
-        batchGuid:
-          type: string
-          format: uuid
-      additionalProperties: false
-    CloudTemplateAttributeListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CloudTemplateAttribute'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CloudTemplateAttributeUpdateRequest:
-      type: object
-      properties:
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        cloudTemplateGuid:
-          type: string
-          format: uuid
-        localName:
-          type:
-          - string
-          - 'null'
-        dataType:
-          type:
-          - string
-          - 'null'
-        dataTypeGuid:
-          type: string
-          format: uuid
-        attributes:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     DeviceTemplateCreateRequest:
       type: object
       properties:
@@ -2877,203 +2861,34 @@ components:
           type: string
           format: uuid
       additionalProperties: false
-    CloudTemplateDeviceCreateRequest_2:
-      required:
-      - displayName
-      - entityGuid
-      - uniqueId
+    NoContentResult:
       type: object
       properties:
-        uniqueId:
-          maxLength: 200
-          minLength: 1
-          type: string
-          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
-        tag:
-          type:
-          - string
-          - 'null'
-          description: The tag of the device which must be exists in device template. This field is required if the request for child device create and gateway support enabled in device template.
-        endorsementKey:
-          maxLength: 2000
-          type:
-          - string
-          - 'null'
-          description: The endorsementKey of TPM device. This field is required if device template authentication type is TPM.
-        parentDeviceGuid:
-          type:
-          - string
-          - 'null'
-          description: The gateway device guid. This field is required if the request for child device create and gateway support enabled in device template.
-        primaryThumbprint:
-          type:
-          - string
-          - 'null'
-          description: The primaryThumbprint of self signed device. This field is required if device template authentication type is self signed certificate.
-        secondaryThumbprint:
-          type:
-          - string
-          - 'null'
-          description: The secondaryThumbprint of self signed device.
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: The custom properties of device.
-        xmlProperties:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-        deviceCertificateGuid:
-          type:
-          - string
-          - 'null'
-          description: The certificateGuid of devicetemplate.
-        deviceCertificate:
-          type:
-          - string
-          - 'null'
-          description: Byte array of device certificate file(Only .pfx file allowed).
-          format: byte
-        deviceCertificatePassword:
-          type:
-          - string
-          - 'null'
-          description: Password of device certificate
-        primaryKey:
-          type:
-          - string
-          - 'null'
-          description: The primaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
-        secondaryKey:
-          type:
-          - string
-          - 'null'
-          description: The secondaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
-        certificateText:
-          type:
-          - string
-          - 'null'
-        autoGenerate:
-          type: boolean
-        displayName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: The display name of device.
-        note:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: The note of the device.
-        entityGuid:
-          minLength: 1
-          type: string
-          description: The entityGuid of device.
-      additionalProperties: false
-    MultipleCloudDeviceDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DeviceBatchGuidStatus'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+        statusCode:
           type: integer
           format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
       additionalProperties: false
-    PropertyValue:
-      required:
-      - guid
+    CreateDevice_2:
       type: object
       properties:
-        guid:
-          minLength: 1
-          type: string
-          description: The custom property guid
-        value:
-          maxLength: 500
+        newid:
           type:
           - string
           - 'null'
-          description: The custom property value
+          readOnly: true
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentUniqueId:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     CloudDeviceDeleteHistoryListResponse:
       type: object
@@ -3159,28 +2974,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CreateDevice_2:
-      type: object
-      properties:
-        newid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parentUniqueId:
-          type:
-          - string
-          - 'null'
-        uniqueId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     CloudTemplateDeviceUpdateRequest_2:
       required:
       - displayName
@@ -3215,92 +3008,6 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
-    BulkDeleteCloudDeviceListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
     DeviceDelete_2:
       type: object
       properties:
@@ -3329,6 +3036,22 @@ components:
           type:
           - string
           - 'null'
+      additionalProperties: false
+    PropertyValue:
+      required:
+      - guid
+      type: object
+      properties:
+        guid:
+          minLength: 1
+          type: string
+          description: The custom property guid
+        value:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The custom property value
       additionalProperties: false
     DeviceList_2:
       type: object
@@ -3487,6 +3210,114 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/OutputparamListResponse'
+      additionalProperties: false
+    MultipleCloudDeviceDeleteRequest:
+      type: object
+      properties:
+        deviceGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    CloudTemplateDeviceCreateRequest_2:
+      required:
+      - displayName
+      - entityGuid
+      - uniqueId
+      type: object
+      properties:
+        uniqueId:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
+        tag:
+          type:
+          - string
+          - 'null'
+          description: The tag of the device which must be exists in device template. This field is required if the request for child device create and gateway support enabled in device template.
+        endorsementKey:
+          maxLength: 2000
+          type:
+          - string
+          - 'null'
+          description: The endorsementKey of TPM device. This field is required if device template authentication type is TPM.
+        parentDeviceGuid:
+          type:
+          - string
+          - 'null'
+          description: The gateway device guid. This field is required if the request for child device create and gateway support enabled in device template.
+        primaryThumbprint:
+          type:
+          - string
+          - 'null'
+          description: The primaryThumbprint of self signed device. This field is required if device template authentication type is self signed certificate.
+        secondaryThumbprint:
+          type:
+          - string
+          - 'null'
+          description: The secondaryThumbprint of self signed device.
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: The custom properties of device.
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+        deviceCertificateGuid:
+          type:
+          - string
+          - 'null'
+          description: The certificateGuid of devicetemplate.
+        deviceCertificate:
+          type:
+          - string
+          - 'null'
+          description: Byte array of device certificate file(Only .pfx file allowed).
+          format: byte
+        deviceCertificatePassword:
+          type:
+          - string
+          - 'null'
+          description: Password of device certificate
+        primaryKey:
+          type:
+          - string
+          - 'null'
+          description: The primaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
+        secondaryKey:
+          type:
+          - string
+          - 'null'
+          description: The secondaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
+        certificateText:
+          type:
+          - string
+          - 'null'
+        autoGenerate:
+          type: boolean
+        displayName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: The display name of device.
+        note:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: The note of the device.
+        entityGuid:
+          minLength: 1
+          type: string
+          description: The entityGuid of device.
       additionalProperties: false
     DeviceInformation_2:
       type: object
@@ -3696,564 +3527,175 @@ components:
           type: string
           format: date-time
       additionalProperties: false
-    MultipleCloudDeviceDeleteRequest:
+    MultipleCloudDeviceDeleteResponse:
       type: object
       properties:
-        deviceGuids:
+        data:
           type:
           - array
           - 'null'
           items:
-            type: string
-      additionalProperties: false
-    CloudTemplateDeviceCreateRequest_3:
-      required:
-      - displayName
-      - entityGuid
-      - uniqueId
-      type: object
-      properties:
-        uniqueId:
-          maxLength: 200
-          minLength: 1
-          type: string
-          description: "The uniqueId of device.\n<b>Notes:</b> Device uniqueId length is conditional based on device template auth type and device type \n1. Self or CA signed parent device uniqueId length should be less than or equal to 31 characters. \n2. Self or CA signed child device uniqueId length should be less than or equal to 31 characters. \n3. For TPM or key, all device uniqueId length should be less than or equal to 128 characters."
-        tag:
-          type:
-          - string
-          - 'null'
-          description: The tag of the device which must be exists in device template. This field is required if the request for child device create and gateway support enabled in device template.
-        endorsementKey:
-          maxLength: 2000
-          type:
-          - string
-          - 'null'
-          description: The endorsementKey of TPM device. This field is required if device template authentication type is TPM.
-        parentDeviceGuid:
-          type:
-          - string
-          - 'null'
-          description: The gateway device guid. This field is required if the request for child device create and gateway support enabled in device template.
-        primaryThumbprint:
-          type:
-          - string
-          - 'null'
-          description: The primaryThumbprint of self signed device. This field is required if device template authentication type is self signed certificate.
-        secondaryThumbprint:
-          type:
-          - string
-          - 'null'
-          description: The secondaryThumbprint of self signed device.
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: The custom properties of device.
-        xmlProperties:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-        deviceCertificateGuid:
-          type:
-          - string
-          - 'null'
-          description: The certificateGuid of devicetemplate.
-        deviceCertificate:
-          type:
-          - string
-          - 'null'
-          description: Byte array of device certificate file(Only .pfx file allowed).
-          format: byte
-        deviceCertificatePassword:
-          type:
-          - string
-          - 'null'
-          description: Password of device certificate
-        primaryKey:
-          type:
-          - string
-          - 'null'
-          description: The primaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
-        secondaryKey:
-          type:
-          - string
-          - 'null'
-          description: The secondaryKey of symmetric key device. This field is required if device template authentication type is symmetric key.
-        certificateText:
-          type:
-          - string
-          - 'null'
-        autoGenerate:
-          type: boolean
-        displayName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: The display name of device.
-        note:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: The note of the device.
-        entityGuid:
-          minLength: 1
-          type: string
-          description: The entityGuid of device.
-      additionalProperties: false
-    CreateDevice_3:
-      type: object
-      properties:
-        newid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parentUniqueId:
-          type:
-          - string
-          - 'null'
-        uniqueId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CloudTemplateDeviceUpdateRequest_3:
-      required:
-      - displayName
-      - entityGuid
-      type: object
-      properties:
-        displayName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: The display name of device.
-        note:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: The note of the device.
-        entityGuid:
-          minLength: 1
-          type: string
-          description: The entityGuid of device.
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: The custom properties of device.
-        xmlProperties:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    DeviceDelete_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
+            $ref: '#/components/schemas/DeviceBatchGuidStatus'
         status:
-          type: boolean
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        parentDeviceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eventPlaceHolders:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DeviceList_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        displayName:
-          type:
-          - string
-          - 'null'
-        isConnected:
-          type: boolean
-        lastactivityDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isActive:
-          type: boolean
-        firmwareupgradeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        authType:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
-        authenticationType:
+        message:
           type:
           - string
           - 'null'
-        messageVersion:
-          type:
-          - string
-          - 'null'
-        isSolutionTemplate:
-          type: boolean
-        solutionName:
-          type:
-          - string
-          - 'null'
-        deviceInfo:
-          type:
-          - object
-          - 'null'
-        deviceTemplateName:
-          type:
-          - string
-          - 'null'
-        reportingTo:
-          type:
-          - string
-          - 'null'
-        entityName:
-          type:
-          - string
-          - 'null'
-        IsAcquired:
-          type: boolean
-          readOnly: true
-        childDeviceCount:
-          type: integer
-          format: int32
-        isType2Support:
-          type: boolean
-        isAllottedDevice:
-          type: integer
-          format: int32
-          readOnly: true
-        allottedDevicePermission:
-          type:
-          - integer
-          - 'null'
-          format: int32
         count:
-          type: integer
-          format: int32
-        isSharedDevice:
-          type:
-          - boolean
-          - 'null'
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DeviceProperty'
-        deviceStatus:
-          type:
-          - string
-          - 'null'
-        recentAttrValue:
-          type:
-          - object
-          - 'null'
-        isDpsDevice:
-          type: boolean
-          readOnly: true
-        lastConnection:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        lastCommunication:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        solutionGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        groupName:
-          type:
-          - string
-          - 'null'
-        productName:
-          type:
-          - string
-          - 'null'
-        parentCompanyGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        cloudDeviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        createdBy:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        attrEnable:
-          type: boolean
-        info:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OutputparamListResponse'
-      additionalProperties: false
-    DeviceInformation_3:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        solutionGuid:
-          type: string
-          format: uuid
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        displayName:
-          type:
-          - string
-          - 'null'
-        isConnected:
-          type: boolean
-        lastActivityDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isActive:
-          type: boolean
-        firmwareUpgradeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        certificateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        certificateName:
-          type:
-          - string
-          - 'null'
-        certificateType:
           type:
           - integer
           - 'null'
-          format: int32
-        deviceTemplateAuthType:
-          type: integer
-          format: int32
-        authType:
-          type: integer
-          format: int32
-        entityName:
-          type:
-          - string
-          - 'null'
-        deviceTemplateName:
-          type:
-          - string
-          - 'null'
-        note:
-          type:
-          - string
-          - 'null'
-        image:
-          type:
-          - string
-          - 'null'
-        cpId:
-          type:
-          - string
-          - 'null'
-        isAcquired:
-          type: integer
-          format: int32
-        firmwareAvail:
-          type: integer
-          format: int32
-        parentDeviceGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        tag:
-          type:
-          - string
-          - 'null'
-        parentDeviceUniqueId:
-          type:
-          - string
-          - 'null'
-        isParentAcquired:
-          type: integer
-          format: int32
-        isSimulatorOn:
-          type: integer
-          format: int32
-        isType2Support:
-          type: boolean
-        isEdgeSupport:
-          type: boolean
-        isAllottedDevice:
-          type: integer
-          format: int32
-        isSphere:
-          type: boolean
-        allottedDevicePermission:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: boolean
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        properties:
+          format: int64
+      additionalProperties: false
+    BulkDeleteCloudDeviceListResponse:
+      type: object
+      properties:
+        data:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceProperty'
-        deviceStatus:
-          type:
-          - string
-          - 'null'
-        isLowBandwidth:
-          type: boolean
-        isIotEdgeEnable:
-          type: boolean
-        isSolutionTemplate:
-          type: boolean
-        fileSupport:
-          type: boolean
-        msgCode:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        messageVersion:
-          type:
-          - string
-          - 'null'
-        hasTwin:
-          type: boolean
-        hasDirectMethod:
-          type: boolean
-        parentCompanyGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        lastConnection:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isDpsDevice:
-          type: boolean
-          readOnly: true
-        sendOfflineCommand:
-          type:
-          - boolean
-          - 'null'
-        authTypeName:
-          type:
-          - string
-          - 'null'
-        parentAuthType:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
-        parentAuthTypeName:
+        message:
           type:
           - string
           - 'null'
-        c2dOnDemand:
-          type: integer
-          format: int32
-        cloudDeviceTemplateGuid:
+        count:
           type:
-          - string
+          - integer
           - 'null'
-          format: uuid
-        createdBy:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
+          format: int64
       additionalProperties: false
   securitySchemes:
     Bearer:
@@ -4264,4 +3706,3 @@ components:
 x-refined-from:
 - avnet-iotconnect-device-aws-prod-swagger.json
 - avnet-iotconnect-device-azure-prod-swagger.json
-- avnet-iotconnect-device-openapi.yml
