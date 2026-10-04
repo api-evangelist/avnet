@@ -101,43 +101,7 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    ADUGroupCreateRequest:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ADUGroupCreate:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ADUGroupCreateResponse:
+    ADUGroupsListResponse:
       type: object
       properties:
         data:
@@ -145,7 +109,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/ADUGroupCreate'
+            $ref: '#/components/schemas/ADUGroupList'
         status:
           enum:
           - 100
@@ -221,6 +185,30 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
     ErrorModel:
       type: object
       properties:
@@ -247,14 +235,26 @@ components:
           type: string
           format: date-time
       additionalProperties: false
-    NoContentResult:
+    ADUGroupCreateRequest:
       type: object
       properties:
-        statusCode:
-          type: integer
-          format: int32
+        name:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    ADUGroupsListResponse:
+    ADUGroupCreate:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ADUGroupCreateResponse:
       type: object
       properties:
         data:
@@ -262,7 +262,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/ADUGroupList'
+            $ref: '#/components/schemas/ADUGroupCreate'
         status:
           enum:
           - 100

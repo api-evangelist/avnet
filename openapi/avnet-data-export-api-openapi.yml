@@ -239,6 +239,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    DynamoExportHistory:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
     ErrorsResponse:
       type: object
       properties:
@@ -267,6 +276,171 @@ components:
           type:
           - string
           - 'null'
+      additionalProperties: false
+    DynamoExportHistoryList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        exportType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        startDate:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        endDate:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ruUsed:
+          type: integer
+          format: int32
+        charges:
+          type: number
+          format: double
+        status:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userId:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        requestData:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    DynamoExportHistoryListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DynamoExportHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DynamoExportHistoryRequest:
+      required:
+      - exportType
+      - guids
+      - startDate
+      type: object
+      properties:
+        startDate:
+          minLength: 1
+          type: string
+          description: Start date format should be YYYY-MM-DD
+        endDate:
+          type: string
+        exportType:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          description: 'Export Type : 1 for Template, 2 for Entity and 3 for Device'
+          format: int32
+        guids:
+          type: array
+          items:
+            type: string
+          description: Guid list for selected export type. For example, if exportType is template then send template guid list.
+        dataExportName:
+          type: string
       additionalProperties: false
     DynamoExportHistoryResponse:
       type: object
@@ -352,68 +526,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DynamoExportHistory:
-      type: object
-      properties:
-        newId:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    DynamoExportHistoryList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        exportType:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        startDate:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        endDate:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ruUsed:
-          type: integer
-          format: int32
-        charges:
-          type: number
-          format: double
-        status:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userId:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        requestData:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    DynamoExportHistoryRequest:
+    CosmosExportChildHistoryRequest:
       required:
       - exportType
       - guids
@@ -439,10 +552,17 @@ components:
           items:
             type: string
           description: Guid list for selected export type. For example, if exportType is template then send template guid list.
-        dataExportName:
-          type: string
       additionalProperties: false
-    DynamoExportHistoryListResponse:
+    CosmosExportHistory:
+      type: object
+      properties:
+        newid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    CosmosExportChildHistoryResponse:
       type: object
       properties:
         data:
@@ -450,7 +570,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DynamoExportHistoryList'
+            $ref: '#/components/schemas/CosmosExportHistory'
         status:
           enum:
           - 100
@@ -578,100 +698,7 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
-    CosmosExportHistory:
-      type: object
-      properties:
-        newid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    CosmosExportHistoryResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CosmosExportHistory'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CosmosExportChildHistoryRequest:
+    CosmosExportHistoryRequest:
       required:
       - exportType
       - guids
@@ -698,7 +725,7 @@ components:
             type: string
           description: Guid list for selected export type. For example, if exportType is template then send template guid list.
       additionalProperties: false
-    CosmosExportChildHistoryResponse:
+    CosmosExportHistoryResponse:
       type: object
       properties:
         data:
@@ -865,33 +892,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    CosmosExportHistoryRequest:
-      required:
-      - exportType
-      - guids
-      - startDate
-      type: object
-      properties:
-        startDate:
-          minLength: 1
-          type: string
-          description: Start date format should be YYYY-MM-DD
-        endDate:
-          type: string
-        exportType:
-          enum:
-          - 1
-          - 2
-          - 3
-          type: integer
-          description: 'Export Type : 1 for Template, 2 for Entity and 3 for Device'
-          format: int32
-        guids:
-          type: array
-          items:
-            type: string
-          description: Guid list for selected export type. For example, if exportType is template then send template guid list.
       additionalProperties: false
   securitySchemes:
     Bearer:

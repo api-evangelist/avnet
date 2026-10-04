@@ -406,7 +406,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FirmwareLookupResponse:
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FirmwareListResponse:
       type: object
       properties:
         data:
@@ -414,7 +443,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/FirmwareLookup'
+            $ref: '#/components/schemas/FirmwareList'
         status:
           enum:
           - 100
@@ -490,87 +519,43 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorsResponse:
+    FirmwareDetail:
+      required:
+      - name
       type: object
       properties:
-        status:
-          type: integer
-          format: int32
-        message:
+        code:
           type:
           - string
           - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    FirmwareLookup:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
+          description: Firmware code
         hardware:
           type:
           - string
           - 'null'
-        isDeprecated:
-          type: boolean
+          description: Firmware hardware version
+        software:
+          type:
+          - string
+          - 'null'
+          description: Firmware software version
+        name:
+          minLength: 1
+          type: string
+          description: Firmware name
       additionalProperties: false
-    FirmwareGetList:
+    Upgrade:
       type: object
       properties:
+        software:
+          type:
+          - string
+          - 'null'
         guid:
           type:
           - string
           - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        releaseCount:
-          type: integer
-          format: int32
-        draftCount:
-          type: integer
-          format: int32
-        isDeprecated:
-          type: boolean
-        deviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        deviceTemplateCode:
-          type:
-          - string
-          - 'null'
-        deviceTemplateName:
+        fileName:
           type:
           - string
           - 'null'
@@ -578,40 +563,38 @@ components:
           type:
           - string
           - 'null'
-        firmwareDescription:
+        isDraft:
           type:
           - string
           - 'null'
-        isSolutionTemplate:
-          type: boolean
+        createdDate:
+          type:
+          - string
+          - 'null'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        updatedDate:
+          type:
+          - string
+          - 'null'
+        updatedBy:
+          type:
+          - string
+          - 'null'
+        fileUrl:
+          type:
+          - string
+          - 'null'
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
       additionalProperties: false
-    FirmwareCreate:
-      type: object
-      properties:
-        newId:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firmwareUpgradeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    FirmwareGetListResponse:
+    FirmwareUpdateResponse:
       type: object
       properties:
         data:
@@ -619,7 +602,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/FirmwareGetList'
+            $ref: '#/components/schemas/FirmwareUpdate'
         status:
           enum:
           - 100
@@ -757,114 +740,13 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    FirmwareCreateResponse:
+    FirmwareUpdate:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FirmwareCreate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
+        eventPlaceHolders:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    FirmwareDetail:
-      required:
-      - name
-      type: object
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: Firmware code
-        hardware:
-          type:
-          - string
-          - 'null'
-          description: Firmware hardware version
-        software:
-          type:
-          - string
-          - 'null'
-          description: Firmware software version
-        name:
-          minLength: 1
-          type: string
-          description: Firmware name
       additionalProperties: false
     FirmwareValidateResponse:
       type: object
@@ -952,186 +834,51 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    FirmwareUpdateResponse:
+    FirmwareGetList:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FirmwareUpdate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    FirmwareListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FirmwareList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    Upgrade:
-      type: object
-      properties:
-        software:
-          type:
-          - string
-          - 'null'
         guid:
           type:
           - string
           - 'null'
-        fileName:
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        releaseCount:
+          type: integer
+          format: int32
+        draftCount:
+          type: integer
+          format: int32
+        isDeprecated:
+          type: boolean
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        deviceTemplateCode:
+          type:
+          - string
+          - 'null'
+        deviceTemplateName:
           type:
           - string
           - 'null'
@@ -1139,64 +886,19 @@ components:
           type:
           - string
           - 'null'
-        isDraft:
+        firmwareDescription:
           type:
           - string
           - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-        createdBy:
-          type:
-          - string
-          - 'null'
-        updatedDate:
-          type:
-          - string
-          - 'null'
-        updatedBy:
-          type:
-          - string
-          - 'null'
-        fileUrl:
-          type:
-          - string
-          - 'null'
-        urls:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FileUrl'
+        isSolutionTemplate:
+          type: boolean
       additionalProperties: false
-    FirmwareUpdateV2Request:
-      required:
-      - firmwareName
-      - hardware
+    NoContentResult:
       type: object
       properties:
-        status:
-          type:
-          - string
-          - 'null'
-          description: Status should be draft or released.
-        FirmwareDescription:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Firmware Description
-        firmwareName:
-          maxLength: 10
-          minLength: 3
-          type: string
-          description: Firmware Name
-        hardware:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: Firmware Hardware Version
+        statusCode:
+          type: integer
+          format: int32
       additionalProperties: false
     FirmwareCreateV2Request:
       required:
@@ -1245,14 +947,6 @@ components:
           type: string
           description: Firmware Hardware Version
       additionalProperties: false
-    FirmwareUpdate:
-      type: object
-      properties:
-        eventPlaceHolders:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     FileUrl:
       type: object
       properties:
@@ -1269,6 +963,277 @@ components:
           - string
           - 'null'
       additionalProperties: false
+    FirmwareLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        isDeprecated:
+          type: boolean
+      additionalProperties: false
+    FirmwareGetListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareGetList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
     FirmwareValidateRequest:
       type: object
       properties:
@@ -1280,12 +1245,47 @@ components:
             $ref: '#/components/schemas/FirmwareDetail'
           description: Firmware list
       additionalProperties: false
-    NoContentResult:
+    FirmwareUpdateV2Request:
+      required:
+      - firmwareName
+      - hardware
       type: object
       properties:
-        statusCode:
-          type: integer
-          format: int32
+        status:
+          type:
+          - string
+          - 'null'
+          description: Status should be draft or released.
+        FirmwareDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        firmwareName:
+          maxLength: 10
+          minLength: 3
+          type: string
+          description: Firmware Name
+        hardware:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Hardware Version
+      additionalProperties: false
+    FirmwareCreate:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareUpgradeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
       additionalProperties: false
   securitySchemes:
     Bearer:

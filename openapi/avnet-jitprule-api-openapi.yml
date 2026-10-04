@@ -339,60 +339,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    RegexDetail:
-      required:
-      - expression
-      - guid
-      - regexappguid
-      - seqNo
-      type: object
-      properties:
-        expression:
-          minLength: 1
-          type: string
-        regexappguid:
-          type: string
-          format: uuid
-        seqNo:
-          minLength: 1
-          type: string
-        applyOn:
-          type:
-          - string
-          - 'null'
-        guid:
-          type: string
-          format: uuid
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    JitpRuleRegexUpdateSequenceRequest:
-      required:
-      - seqNo
-      type: object
-      properties:
-        JITPRuleGuid:
-          type: string
-          format: uuid
-        seqNo:
-          type: integer
-          format: int32
-      additionalProperties: false
     RegexTypeLookupResponse:
       type: object
       properties:
@@ -477,96 +423,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    RegexTypeLookup:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        applyOn:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    JitpRuleDetail:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        ruleName:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        ruleType:
-          type: integer
-          format: int32
-        certificateGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        seqNo:
-          type: integer
-          format: int32
-        entityGuid:
-          type: string
-          format: uuid
-        templateGuid:
-          type: string
-          format: uuid
-        createdDate:
-          type: string
-          format: date-time
-        regexDetail:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RegexDetail'
-      additionalProperties: false
-    JitpRuleUpdateSequenceRequest:
-      required:
-      - seqNo
-      type: object
-      properties:
-        seqNo:
-          type: integer
-          format: int32
-      additionalProperties: false
-    JitpRuleDeleteResponse:
+    JitpRuleCreateResponse:
       type: object
       properties:
         data:
@@ -574,9 +431,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/JitpRule'
         status:
           enum:
           - 100
@@ -652,82 +507,111 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    JitpRuleCreateRequest:
-      required:
-      - entityGuid
-      - regexdata
-      - ruleName
-      - ruleType
-      - templateGuid
+    ErrorsResponse:
       type: object
       properties:
-        ruleType:
+        status:
           type: integer
-          description: Rule Type
           format: int32
-        ruleName:
-          minLength: 1
-          type: string
-          description: Rule Name
-        certificateGuid:
+        message:
           type:
           - string
           - 'null'
-          description: CertificateGuid
-          format: uuid
-        entityGuid:
-          type: string
-          description: EntityGuid
-          format: uuid
-        templateGuid:
-          type: string
-          description: TemplateGuid
-          format: uuid
-        regexdata:
-          type: array
+        error:
+          type:
+          - array
+          - 'null'
           items:
-            $ref: '#/components/schemas/RegexDetail'
-        solutionGuid:
-          type: string
-          format: uuid
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    JitpRuleList:
+    JitpRuleDetailResponse:
       type: object
       properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        ruleType:
-          type:
-          - string
-          - 'null'
-        certName:
-          type:
-          - string
-          - 'null'
-        seqNo:
+        data:
+          $ref: '#/components/schemas/JitpRuleDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
-        entityName:
+        message:
           type:
           - string
           - 'null'
-        templateName:
+        count:
           type:
-          - string
+          - integer
           - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        solutionGuid:
-          type: string
-          format: uuid
+          format: int64
       additionalProperties: false
-    JitpRuleCreateResponse:
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    JitpRuleListResponse:
       type: object
       properties:
         data:
@@ -735,7 +619,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/JitpRule'
+            $ref: '#/components/schemas/JitpRuleList'
         status:
           enum:
           - 100
@@ -897,6 +781,84 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    JitpRuleUpdateSequenceRequest:
+      required:
+      - seqNo
+      type: object
+      properties:
+        seqNo:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    JitpRuleDetail:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        ruleName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        ruleType:
+          type: integer
+          format: int32
+        certificateGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        seqNo:
+          type: integer
+          format: int32
+        entityGuid:
+          type: string
+          format: uuid
+        templateGuid:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+        regexDetail:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RegexDetail'
+      additionalProperties: false
     JitpRule:
       type: object
       properties:
@@ -905,87 +867,130 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    JitpRuleDetailResponse:
+    JitpRuleCreateRequest:
+      required:
+      - entityGuid
+      - regexdata
+      - ruleName
+      - ruleType
+      - templateGuid
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/JitpRuleDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+        ruleType:
           type: integer
+          description: Rule Type
           format: int32
-        message:
+        ruleName:
+          minLength: 1
+          type: string
+          description: Rule Name
+        certificateGuid:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+          description: CertificateGuid
+          format: uuid
+        entityGuid:
+          type: string
+          description: EntityGuid
+          format: uuid
+        templateGuid:
+          type: string
+          description: TemplateGuid
+          format: uuid
+        regexdata:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegexDetail'
+        solutionGuid:
+          type: string
+          format: uuid
       additionalProperties: false
-    JitpRuleListResponse:
+    JitpRuleList:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        ruleType:
+          type:
+          - string
+          - 'null'
+        certName:
+          type:
+          - string
+          - 'null'
+        seqNo:
+          type: integer
+          format: int32
+        entityName:
+          type:
+          - string
+          - 'null'
+        templateName:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        solutionGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    JitpRuleRegexUpdateSequenceRequest:
+      required:
+      - seqNo
+      type: object
+      properties:
+        JITPRuleGuid:
+          type: string
+          format: uuid
+        seqNo:
+          type: integer
+          format: int32
+      additionalProperties: false
+    RegexDetail:
+      required:
+      - expression
+      - guid
+      - regexappguid
+      - seqNo
+      type: object
+      properties:
+        expression:
+          minLength: 1
+          type: string
+        regexappguid:
+          type: string
+          format: uuid
+        seqNo:
+          minLength: 1
+          type: string
+        applyOn:
+          type:
+          - string
+          - 'null'
+        guid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    RegexTypeLookup:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        applyOn:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    JitpRuleDeleteResponse:
       type: object
       properties:
         data:
@@ -993,7 +998,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/JitpRuleList'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -1068,13 +1075,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
       additionalProperties: false
   securitySchemes:
     Bearer:

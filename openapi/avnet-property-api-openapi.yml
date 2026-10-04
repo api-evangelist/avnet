@@ -619,123 +619,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PropertyDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    PropertyList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        fieldType:
-          type:
-          - string
-          - 'null'
-        options:
-          type:
-          - string
-          - 'null'
-        propertytypeguid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        customfieldtypeguid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
     PropertyTypeList:
       type: object
       properties:
@@ -749,6 +632,14 @@ components:
           - string
           - 'null'
         configkey:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    PropertyCreate:
+      type: object
+      properties:
+        newid:
           type:
           - string
           - 'null'
@@ -864,17 +755,91 @@ components:
           - 'null'
           description: Requires options list when field type is select or multiselect
       additionalProperties: false
-    ErrorModel:
+    PropertyUpdateResponse:
       type: object
       properties:
-        param:
+        data:
           type:
-          - string
+          - array
           - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
         message:
           type:
           - string
           - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     PropertyDetail:
       type: object
@@ -931,7 +896,19 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
-    PropertyListResponse:
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    PropertyDeleteResponse:
       type: object
       properties:
         data:
@@ -939,7 +916,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/PropertyList'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -1099,7 +1078,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    PropertyUpdateResponse:
+    PropertyListResponse:
       type: object
       properties:
         data:
@@ -1107,9 +1086,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/PropertyList'
         status:
           enum:
           - 100
@@ -1185,97 +1162,34 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    PropertyCreate:
+    PropertyCreateRequest:
+      required:
+      - fieldType
+      - name
+      - propertyTypeGuid
       type: object
       properties:
-        newid:
+        customFieldTypeGuid:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    PropertyDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PropertyDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
+        propertyTypeGuid:
+          minLength: 1
+          type: string
+          description: Property Type Guid
+        name:
+          minLength: 1
+          type: string
+          description: Property Name
+        fieldType:
+          minLength: 1
+          type: string
+          description: Property Field Type should be number, text, textarea, select, multiselect, date, time
+        options:
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+          description: Requires options list when field type is select or multiselect
       additionalProperties: false
     PropertyTypeListResponse:
       type: object
@@ -1286,6 +1200,90 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/PropertyTypeList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    PropertyDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyDetail'
         status:
           enum:
           - 100
@@ -1378,34 +1376,36 @@ components:
           items:
             $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    PropertyCreateRequest:
-      required:
-      - fieldType
-      - name
-      - propertyTypeGuid
+    PropertyList:
       type: object
       properties:
-        customFieldTypeGuid:
+        guid:
           type:
           - string
           - 'null'
-        propertyTypeGuid:
-          minLength: 1
-          type: string
-          description: Property Type Guid
+          readOnly: true
         name:
-          minLength: 1
-          type: string
-          description: Property Name
+          type:
+          - string
+          - 'null'
         fieldType:
-          minLength: 1
-          type: string
-          description: Property Field Type should be number, text, textarea, select, multiselect, date, time
+          type:
+          - string
+          - 'null'
         options:
           type:
           - string
           - 'null'
-          description: Requires options list when field type is select or multiselect
+        propertytypeguid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        customfieldtypeguid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
       additionalProperties: false
   securitySchemes:
     Bearer:

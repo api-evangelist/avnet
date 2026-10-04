@@ -156,34 +156,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorsResponse:
+    DeviceOperationList:
       type: object
       properties:
-        status:
-          type: integer
-          format: int32
-        message:
+        guid:
+          type: string
+          format: uuid
+        startDate:
           type:
           - string
           - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
+          format: date-time
+        endDate:
           type:
           - string
           - 'null'
-        message:
+          format: date-time
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createddate:
           type:
           - string
           - 'null'
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          format: uuid
       additionalProperties: false
     DeviceOperationListResponse:
       type: object
@@ -269,36 +271,49 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DeviceOperationList:
+    ErrorModel:
       type: object
       properties:
-        guid:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    DeviceDataArchiveRequest:
+      required:
+      - toDate
+      type: object
+      properties:
+        toDate:
+          minLength: 1
           type: string
-          format: uuid
-        startDate:
+          description: "To date time for archive data which are older then this date time \nDate format should be YYYY-MM-DD"
+        supportTicketNumber:
           type:
           - string
           - 'null'
-          format: date-time
-        endDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isActive:
-          type: boolean
-        isDeleted:
-          type: boolean
-        createddate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          format: uuid
+          description: Support ticket number for archive device data
       additionalProperties: false
     DeviceDataArchiveResponse:
       type: object
@@ -381,21 +396,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    DeviceDataArchiveRequest:
-      required:
-      - toDate
-      type: object
-      properties:
-        toDate:
-          minLength: 1
-          type: string
-          description: "To date time for archive data which are older then this date time \nDate format should be YYYY-MM-DD"
-        supportTicketNumber:
-          type:
-          - string
-          - 'null'
-          description: Support ticket number for archive device data
       additionalProperties: false
   securitySchemes:
     Bearer:

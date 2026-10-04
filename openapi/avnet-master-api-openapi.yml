@@ -780,93 +780,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PreferenceGridResponse:
+    TimeZoneListResponse:
       type: object
       properties:
         data:
           type:
-          - object
+          - array
           - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    StompReaderResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/StompReaderData'
+          items:
+            $ref: '#/components/schemas/Timezone'
         status:
           enum:
           - 100
@@ -1004,18 +926,15 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    SignalRConfigData:
+    StateList:
       type: object
       properties:
-        cpId:
+        guid:
           type:
           - string
           - 'null'
-        topic:
-          type:
-          - string
-          - 'null'
-        url:
+          readOnly: true
+        name:
           type:
           - string
           - 'null'
@@ -1032,11 +951,13 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    UIProtocolReaderResponse:
+    UserGridPreferenceResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/CloudUIReaderData'
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -1111,224 +1032,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    PreferenceGridRequest:
-      type: object
-      properties:
-        gridValue:
-          type: integer
-          format: int32
-        gridCode:
-          type:
-          - string
-          - 'null'
-        alwaysShowFilter:
-          type: boolean
-          default: false
-        defaultFilterVal:
-          type:
-          - integer
-          - 'null'
-          format: int32
-      additionalProperties: false
-    StompReaderData:
-      type: object
-      properties:
-        host:
-          type:
-          - string
-          - 'null'
-        vhost:
-          type:
-          - string
-          - 'null'
-        user:
-          type:
-          - string
-          - 'null'
-        password:
-          type:
-          - string
-          - 'null'
-        port:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        isSecure:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        cpId:
-          type:
-          - string
-          - 'null'
-        url:
-          type:
-          - string
-          - 'null'
-        topic:
-          type:
-          - string
-          - 'null'
-        vhost-alert:
-          type:
-          - string
-          - 'null'
-        wsurl:
-          type:
-          - string
-          - 'null'
-        telemetryTopic:
-          type:
-          - string
-          - 'null'
-        notificationTopic:
-          type:
-          - string
-          - 'null'
-        type:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    UserGridPreferenceList:
-      type: object
-      properties:
-        gridValue:
-          type: integer
-          format: int32
-        gridCode:
-          type:
-          - string
-          - 'null'
-        alwaysShowFilter:
-          type: boolean
-        quickFilterVal:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        defaultFilterVal:
-          type:
-          - integer
-          - 'null'
-          format: int32
-      additionalProperties: false
-    StateListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/StateList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    StateList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    Country:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        countryCode:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
     ConflictErrorModel:
       type: object
@@ -1347,7 +1050,24 @@ components:
           items:
             $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    UserGridLookUpResponse:
+    Country:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        countryCode:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    LanguageListResponse:
       type: object
       properties:
         data:
@@ -1355,7 +1075,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/UserPrefrenceGridModel'
+            $ref: '#/components/schemas/Language'
         status:
           enum:
           - 100
@@ -1431,15 +1151,11 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    TimeZoneListResponse:
+    SignalRConfigResponse:
       type: object
       properties:
         data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Timezone'
+          $ref: '#/components/schemas/SignalRConfigData'
         status:
           enum:
           - 100
@@ -1597,7 +1313,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CountryListResponse:
+    ConnectionVerifyRespoonse:
       type: object
       properties:
         data:
@@ -1605,7 +1321,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Country'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100
@@ -1681,15 +1399,133 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    UserPrefrenceGridModel:
+    UserGridPreferenceList:
       type: object
       properties:
-        guid:
-          type: string
-          format: uuid
-        maxValue:
+        gridValue:
           type: integer
           format: int32
+        gridCode:
+          type:
+          - string
+          - 'null'
+        alwaysShowFilter:
+          type: boolean
+        quickFilterVal:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        defaultFilterVal:
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    StompReaderResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StompReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    Timezone:
+      type: object
+      properties:
+        utcName:
+          type:
+          - string
+          - 'null'
+        offset:
+          type:
+          - string
+          - 'null'
+        isdst:
+          type: boolean
+        isDeleted:
+          type: boolean
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     Language:
       type: object
@@ -1706,11 +1542,15 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    SignalRConfigResponse:
+    CountryListResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/SignalRConfigData'
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Country'
         status:
           enum:
           - 100
@@ -1870,32 +1710,103 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    Timezone:
+    UIProtocolReaderResponse:
       type: object
       properties:
-        utcName:
+        data:
+          $ref: '#/components/schemas/CloudUIReaderData'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
-        offset:
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SignalRConfigData:
+      type: object
+      properties:
+        cpId:
           type:
           - string
           - 'null'
-        isdst:
-          type: boolean
-        isDeleted:
-          type: boolean
-        guid:
+        topic:
           type:
           - string
           - 'null'
-          readOnly: true
-        name:
+        url:
           type:
           - string
           - 'null'
       additionalProperties: false
-    LanguageListResponse:
+    UserGridLookUpResponse:
       type: object
       properties:
         data:
@@ -1903,7 +1814,89 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Language'
+            $ref: '#/components/schemas/UserPrefrenceGridModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    PreferenceGridResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -1993,7 +1986,98 @@ components:
           - 'null'
           description: Connection Parameters
       additionalProperties: false
-    ConnectionVerifyRespoonse:
+    UserPrefrenceGridModel:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        maxValue:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PreferenceGridRequest:
+      type: object
+      properties:
+        gridValue:
+          type: integer
+          format: int32
+        gridCode:
+          type:
+          - string
+          - 'null'
+        alwaysShowFilter:
+          type: boolean
+          default: false
+        defaultFilterVal:
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    StompReaderData:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        vhost:
+          type:
+          - string
+          - 'null'
+        user:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        port:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSecure:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        cpId:
+          type:
+          - string
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        topic:
+          type:
+          - string
+          - 'null'
+        vhost-alert:
+          type:
+          - string
+          - 'null'
+        wsurl:
+          type:
+          - string
+          - 'null'
+        telemetryTopic:
+          type:
+          - string
+          - 'null'
+        notificationTopic:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    StateListResponse:
       type: object
       properties:
         data:
@@ -2001,91 +2085,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UserGridPreferenceResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
+            $ref: '#/components/schemas/StateList'
         status:
           enum:
           - 100

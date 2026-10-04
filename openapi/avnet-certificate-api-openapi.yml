@@ -1185,473 +1185,6 @@ components:
           items:
             $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    DeviceConnectionStatus:
-      type: object
-      properties:
-        isConnected:
-          type: boolean
-      additionalProperties: false
-    CertificateDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CertificateDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CertificateBatchImportRequest:
-      type: object
-      properties:
-        importBatchGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
-    BulkCertificateUpdate:
-      type: object
-      properties:
-        batchGuid:
-          type: string
-          format: uuid
-      additionalProperties: false
-    DeviceCertificateImportDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DeviceCertificateModel'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    DeviceCertificateImportDetailRequest:
-      type: object
-      properties:
-        importBatchGuid:
-          type: string
-          format: uuid
-        isValid:
-          type: boolean
-        pendingCert:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    CertificateImportList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        fileName:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        success:
-          type: integer
-          format: int32
-        error:
-          type: integer
-          format: int32
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatebyName:
-          type:
-          - string
-          - 'null'
-        bsuccess:
-          type: integer
-          format: int32
-        bfailed:
-          type: integer
-          format: int32
-        pendingCert:
-          type: integer
-          format: int32
-        successCert:
-          type: integer
-          format: int32
-        totalCert:
-          type: integer
-          format: int32
-        isValidBatch:
-          type: boolean
-      additionalProperties: false
-    CertificateRetrive:
-      type: object
-      properties:
-        certificatePemURL:
-          type:
-          - string
-          - 'null'
-        privateKeyURL:
-          type:
-          - string
-          - 'null'
-        configFile:
-          type:
-          - string
-          - 'null'
-        amazonRootCAURL:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CertificateRetriveResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CertificateRetrive'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    DeviceCertificateModel:
-      type: object
-      properties:
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CertificateDetail:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        type:
-          type: integer
-          format: int32
-        primayThumbPrint:
-          type:
-          - string
-          - 'null'
-        clientCert:
-          type:
-          - string
-          - 'null'
-        certPassword:
-          type:
-          - string
-          - 'null'
-        validTill:
-          type: string
-          format: date-time
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isActive:
-          type: boolean
-        isDeleted:
-          type: boolean
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isVerified:
-          type: boolean
-        etag:
-          type:
-          - string
-          - 'null'
-        origin:
-          type:
-          - string
-          - 'null'
-        isDeviceConnected:
-          type: boolean
-        clientCertUrl:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        brokerGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        iotHubInfoGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        jitSupport:
-          type: boolean
-        jitpRuleCount:
-          type: integer
-          format: int32
-      additionalProperties: false
     ErrorModel:
       type: object
       properties:
@@ -1664,7 +1197,7 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    CertificateImportDeleteResponse:
+    CertificateBatchImportResponse:
       type: object
       properties:
         data:
@@ -1672,177 +1205,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CertificateList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        type:
-          type: integer
-          format: int32
-        primayThumbPrint:
-          type:
-          - string
-          - 'null'
-        clientCert:
-          type:
-          - string
-          - 'null'
-        validTill:
-          type: string
-          format: date-time
-        isVerified:
-          type: boolean
-        etag:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isActive:
-          type: boolean
-        row_num:
-          type: integer
-          format: int32
-        origin:
-          type:
-          - string
-          - 'null'
-        clientCertUrl:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        status:
-          type:
-          - string
-          - 'null'
-        createdByUser:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        referenceId:
-          type:
-          - string
-          - 'null'
-        certificateType:
-          type: integer
-          format: int32
-        deviceCount:
-          type: integer
-          format: int32
-        jitSupport:
-          type: boolean
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
-    CertificateDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/ImportBatchStatus'
         status:
           enum:
           - 100
@@ -2002,7 +1365,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CertificateBatchImportResponse:
+    CertificateListResponse:
       type: object
       properties:
         data:
@@ -2010,7 +1373,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/ImportBatchStatus'
+            $ref: '#/components/schemas/CertificateList'
         status:
           enum:
           - 100
@@ -2086,7 +1449,71 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DeviceCertificateValidateResponse:
+    CertificateImportList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileName:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        success:
+          type: integer
+          format: int32
+        error:
+          type: integer
+          format: int32
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatebyName:
+          type:
+          - string
+          - 'null'
+        bsuccess:
+          type: integer
+          format: int32
+        bfailed:
+          type: integer
+          format: int32
+        pendingCert:
+          type: integer
+          format: int32
+        successCert:
+          type: integer
+          format: int32
+        totalCert:
+          type: integer
+          format: int32
+        isValidBatch:
+          type: boolean
+      additionalProperties: false
+    CertificateLookupResponse:
       type: object
       properties:
         data:
@@ -2094,7 +1521,769 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/BulkCertificateUpdate'
+            $ref: '#/components/schemas/CertificateLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        certPassword:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        origin:
+          type:
+          - string
+          - 'null'
+        isDeviceConnected:
+          type: boolean
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        brokerGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        iotHubInfoGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        jitSupport:
+          type: boolean
+        jitpRuleCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CertificateImportDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceConnectionStatus:
+      type: object
+      properties:
+        isConnected:
+          type: boolean
+      additionalProperties: false
+    CertificateRetrive:
+      type: object
+      properties:
+        certificatePemURL:
+          type:
+          - string
+          - 'null'
+        privateKeyURL:
+          type:
+          - string
+          - 'null'
+        configFile:
+          type:
+          - string
+          - 'null'
+        amazonRootCAURL:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CertificateImportListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CertificateImportList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceCertificateModel:
+      type: object
+      properties:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ImportBatchStatus:
+      type: object
+      properties:
+        importBatchGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CertificateDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CertificateDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateCreate:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    DeviceCertificateImportDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceCertificateModel'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    BulkCertificateUpdate:
+      type: object
+      properties:
+        batchGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    DeviceCertificateImportDetailRequest:
+      type: object
+      properties:
+        importBatchGuid:
+          type: string
+          format: uuid
+        isValid:
+          type: boolean
+        pendingCert:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    DeviceConnectionResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DeviceConnectionStatus'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CertificateRetriveResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CertificateRetrive'
         status:
           enum:
           - 100
@@ -2254,104 +2443,89 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DeviceCertificateValidateRequest:
+    CertificateBatchImportRequest:
       type: object
       properties:
         importBatchGuid:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uuid
       additionalProperties: false
-    CertificateCreate:
+    CertificateList:
       type: object
       properties:
-        newId:
+        guid:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    CertificateLookupResponse:
-      type: object
-      properties:
-        data:
+          readOnly: true
+        name:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/CertificateLookup'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+        type:
           type: integer
           format: int32
-        message:
+        primayThumbPrint:
           type:
           - string
           - 'null'
-        count:
+        clientCert:
           type:
-          - integer
+          - string
           - 'null'
-          format: int64
+        validTill:
+          type: string
+          format: date-time
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        row_num:
+          type: integer
+          format: int32
+        origin:
+          type:
+          - string
+          - 'null'
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+        createdByUser:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        referenceId:
+          type:
+          - string
+          - 'null'
+        certificateType:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+        jitSupport:
+          type: boolean
       additionalProperties: false
     CertificateLookup:
       type: object
@@ -2370,7 +2544,7 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    DeviceConnectionResponse:
+    DeviceCertificateValidateResponse:
       type: object
       properties:
         data:
@@ -2378,7 +2552,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceConnectionStatus'
+            $ref: '#/components/schemas/BulkCertificateUpdate'
         status:
           enum:
           - 100
@@ -2454,186 +2628,12 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CertificateListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CertificateList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CertificateImportListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CertificateImportList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ImportBatchStatus:
+    DeviceCertificateValidateRequest:
       type: object
       properties:
         importBatchGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        status:
-          type:
-          - string
-          - 'null'
+          type: string
+          format: uuid
       additionalProperties: false
     AuthTypeCertificateCount:
       type: object
@@ -2648,6 +2648,90 @@ components:
         certCount:
           type: integer
           format: int32
+      additionalProperties: false
+    AuthTypeCertificateCountResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AuthTypeCertificateCount'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     CertificateDetail_2:
       type: object
@@ -2823,6 +2907,83 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    CertificateList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: integer
+          format: int32
+        primayThumbPrint:
+          type:
+          - string
+          - 'null'
+        clientCert:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: string
+          format: date-time
+        isVerified:
+          type: boolean
+        etag:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isActive:
+          type: boolean
+        row_num:
+          type: integer
+          format: int32
+        origin:
+          type:
+          - string
+          - 'null'
+        clientCertUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+        serviceBrokerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isSphereCerti:
+          type: boolean
+        createdByUser:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        referenceId:
+          type:
+          - string
+          - 'null'
+        deviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
     CertificateVerifyResponse:
       type: object
       properties:
@@ -2931,167 +3092,6 @@ components:
           - 'null'
         isSphereCerti:
           type: boolean
-      additionalProperties: false
-    CertificateList_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        type:
-          type: integer
-          format: int32
-        primayThumbPrint:
-          type:
-          - string
-          - 'null'
-        clientCert:
-          type:
-          - string
-          - 'null'
-        validTill:
-          type: string
-          format: date-time
-        isVerified:
-          type: boolean
-        etag:
-          type:
-          - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isActive:
-          type: boolean
-        row_num:
-          type: integer
-          format: int32
-        origin:
-          type:
-          - string
-          - 'null'
-        clientCertUrl:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        status:
-          type:
-          - string
-          - 'null'
-        serviceBrokerGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        isSphereCerti:
-          type: boolean
-        createdByUser:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        referenceId:
-          type:
-          - string
-          - 'null'
-        deviceCount:
-          type: integer
-          format: int32
-      additionalProperties: false
-    AuthTypeCertificateCountResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AuthTypeCertificateCount'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
       additionalProperties: false
   securitySchemes:
     Bearer:

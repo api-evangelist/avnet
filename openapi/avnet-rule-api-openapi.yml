@@ -859,6 +859,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RuleCounter:
+      type: object
+      properties:
+        smartRule:
+          type: integer
+          format: int32
+      additionalProperties: false
     ErrorsResponse:
       type: object
       properties:
@@ -876,22 +883,1004 @@ components:
           items:
             $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    RuleVerifyRequest:
-      required:
-      - deviceTemplateGuid
-      - expression
+    ErrorModel:
       type: object
       properties:
-        deviceTemplateGuid:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    RuleUpdateStatusRequest:
+      required:
+      - isActive
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: Active status, send false for making rule inactive.
+      additionalProperties: false
+    RuleUpdateStatusResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RuleHistory:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        userName:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        operation:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    RuleVerifyResponse:
+      type: object
+      properties:
+        isValid:
+          type: boolean
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    RuleConditionResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleCondition'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RuleHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RuleAudience:
+      required:
+      - interval
+      - intervalUnit
+      - roleGuids
+      type: object
+      properties:
+        interval:
+          type: integer
+          description: 'Interval duration value after rule matched.
+
+            Note : internal duration will consider based on intervalUnit'
+          format: int32
+        intervalUnit:
+          type: integer
+          description: "Interval unit for interval\n1 : Minute,\n2 : Hour,\n3 : Day \nNote : Default value is Minute"
+          format: int32
+        roleGuids:
+          type: array
+          items:
+            type: string
+          description: Role guid list. Notification will be sent to all users of this role if <i>userGuids</i> not exists.
+        userGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: User guid list which are associated with <i>roleGuids</i>. Notification will be sent to all users in the list.
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    WebHookBaseHeaderDetails:
+      required:
+      - key
+      - value
+      type: object
+      properties:
+        key:
           minLength: 1
           type: string
-          description: Device template guid
-        expression:
+        value:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    RuleAudienceUpdate:
+      required:
+      - interval
+      - intervalUnit
+      - roleGuids
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          description: Audience guid to update rule audience detail.
+        interval:
+          type: integer
+          description: 'Interval duration value after rule matched.
+
+            Note : internal duration will consider based on intervalUnit'
+          format: int32
+        intervalUnit:
+          type: integer
+          description: "Interval unit for interval\n1 : Minute,\n2 : Hour,\n3 : Day \nNote : Default value is Minute"
+          format: int32
+        roleGuids:
+          type: array
+          items:
+            type: string
+          description: Role guid list. Notification will be sent to all users of this role if <i>userGuids</i> not exists.
+        userGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: User guid list which are associated with <i>roleGuids</i>. Notification will be sent to all users in the list.
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    RuleCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RuleCreateRequest:
+      required:
+      - conditionText
+      - ignorePreference
+      - name
+      - ruleType
+      - severityLevelGuid
+      - templateGuid
+      type: object
+      properties:
+        _WebhookMsgFormat:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        ruleType:
+          maximum: 3
+          minimum: 1
+          type: integer
+          description: "Rule type, \nSend 1 or 2. 1: for standard rule, 2: for smart rule.\nNote : Rule type must be 1 for edge template."
+          format: int32
+        ruleAudiences:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleAudience'
+          description: Interval audience details for device disconnect event. if <i>ruleType</i> is 3
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          description: Device Reporting Group Guid
+        templateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Rule Name
+        severityLevelGuid:
+          minLength: 1
+          type: string
+          description: Severity Level Guid
+        conditionText:
+          maxLength: 1000
           minLength: 1
           type: string
           description: 'Condition statement triggers Rule on telemetry data that meet specified criteria. Criteria are expressed in the form of predicates.
 
             <div>Condition on attribute(localname) if device template is non gateway Eg. : </div><div>1) Temperature > 50</div><div>2) Temperature > 50 AND Humidity < 20</div><div>3) Temperature > 50 AND ( Humidity < 20 OR WaterLevel > 10 )</div><div>4) Status = "on"</div><div></div><div>Condition on attribute({tag}#{localname}) if device template has enabled gateway enabled Eg. : </div><div>1) Tag1#Temperature > 50</div><div>2) Tag1#Temperature > 50 AND Tag2#Humidity < 20</div><div>3) Tag1#Temperature > 50 AND ( Tag2#Humidity < 20 OR Tag2#WaterLevel > 10 )</div><div>4) Tag3#Status = "on"</div>'
+        ignorePreference:
+          type: boolean
+          description: If <i>true</i> then Ignore preference will send the notification to all the target audience irrespective of their preference
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. if <i>applyTo</i> is 1 or 2
+        applyTo:
+          maximum: 4
+          minimum: 1
+          type: integer
+          description: 'Send 1, 2 or 3. 1: for all device of entity, 2: for all device of entity including child entities, 3: for device guid list.
+
+            Note: <i>applyTo</i> must be 3 for edge template.'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list. Required if <i>applyTo</i> is 3
+        roles:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Role guid list. Notification will be sent to all users associated with these rules.
+        users:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: User guid list. Notification will be sent to all users in the list.
+        deliveryMethod:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Notification delivery method. Eg. DeviceCommand, Email, Push, SignalR, WebHook, UI Alert, MQTT,UiNotification
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          description: Command Guid. Required If <i>deliveryMethod</i> is DeviceCommand
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value. Required if <i>deliveryMethod</i> is DeviceCommand
+        url:
+          type:
+          - string
+          - 'null'
+          description: Webhook url. Required If <i>deliveryMethod</i> is WebHook
+        webhookMsgFormat:
+          maximum: 2
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          description: Webhook message format should be Default Json = 1, Mini Json = 2
+          format: int32
+        headers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WebHookBaseHeaderDetails'
+          description: Webhook headers. If <i>deliveryMethod</i> is WebHook
+        snoozeTime:
+          type:
+          - integer
+          - 'null'
+          description: Snoonze time in unit to snooze rule once rule trigger if ruleType is 1 or 2
+          format: int32
+        snoozeTimeUnit:
+          type:
+          - integer
+          - 'null'
+          description: 'Snoonze time unit
+
+            1 : Minute,
+
+            2 : Hour,
+
+            3 : Day
+
+            Note : Default value is Minute if snoozeTime having value'
+          format: int32
+      additionalProperties: false
+    RuleCondition:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        condition:
+          type:
+          - string
+          - 'null'
+        bitValue:
+          type: integer
+          format: int32
+        operator:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    RuleDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RuleDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RuleList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        template:
+          type:
+          - string
+          - 'null'
+        entity:
+          type:
+          - string
+          - 'null'
+        ruleType:
+          type:
+          - string
+          - 'null'
+        conditionText:
+          type:
+          - string
+          - 'null'
+        userCount:
+          type: integer
+          format: int32
+        roleCount:
+          type: integer
+          format: int32
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createddate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updateddate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        snoozeTime:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        wireless:
+          type: boolean
+        info:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OutputparamListResponse'
+      additionalProperties: false
+    RuleListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    OutputparamListResponse:
+      type: object
+      properties:
+        fName:
+          type:
+          - string
+          - 'null'
+        dName:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - object
+          - 'null'
       additionalProperties: false
     RuleCounterResponse:
       type: object
@@ -1122,298 +2111,6 @@ components:
             Note : Default value is Minute if snoozeTime having value'
           format: int32
       additionalProperties: false
-    RuleDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RuleHistory:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        userName:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        operation:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    RuleCounter:
-      type: object
-      properties:
-        smartRule:
-          type: integer
-          format: int32
-      additionalProperties: false
-    RuleUpdateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    RuleHistoryResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleHistory'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
     RuleDetail:
       type: object
       properties:
@@ -1524,23 +2221,87 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    RuleCondition:
+    RuleUpdateResponse:
       type: object
       properties:
-        guid:
-          type: string
-          format: uuid
-        condition:
+        data:
           type:
-          - string
+          - object
           - 'null'
-        bitValue:
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
-        operator:
+        message:
           type:
           - string
           - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     RuleVerifyResponseBaseResponse:
       type: object
@@ -1622,785 +2383,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    RuleAudience:
-      required:
-      - interval
-      - intervalUnit
-      - roleGuids
-      type: object
-      properties:
-        interval:
-          type: integer
-          description: 'Interval duration value after rule matched.
-
-            Note : internal duration will consider based on intervalUnit'
-          format: int32
-        intervalUnit:
-          type: integer
-          description: "Interval unit for interval\n1 : Minute,\n2 : Hour,\n3 : Day \nNote : Default value is Minute"
-          format: int32
-        roleGuids:
-          type: array
-          items:
-            type: string
-          description: Role guid list. Notification will be sent to all users of this role if <i>userGuids</i> not exists.
-        userGuids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: User guid list which are associated with <i>roleGuids</i>. Notification will be sent to all users in the list.
-        guid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
-    RuleVerifyResponse:
-      type: object
-      properties:
-        isValid:
-          type: boolean
-        attributes:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        tags:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-      additionalProperties: false
-    RuleUpdateStatusRequest:
-      required:
-      - isActive
-      type: object
-      properties:
-        isActive:
-          type: boolean
-          description: Active status, send false for making rule inactive.
-      additionalProperties: false
-    RuleList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        template:
-          type:
-          - string
-          - 'null'
-        entity:
-          type:
-          - string
-          - 'null'
-        ruleType:
-          type:
-          - string
-          - 'null'
-        conditionText:
-          type:
-          - string
-          - 'null'
-        userCount:
-          type: integer
-          format: int32
-        roleCount:
-          type: integer
-          format: int32
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createddate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updateddate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isActive:
-          type: boolean
-        snoozeTime:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        isSolutionTemplate:
-          type: boolean
-        solutionName:
-          type:
-          - string
-          - 'null'
-        wireless:
-          type: boolean
-        info:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OutputparamListResponse'
-      additionalProperties: false
-    RuleConditionResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleCondition'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RuleDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RuleUpdateStatusResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    OutputparamListResponse:
-      type: object
-      properties:
-        fName:
-          type:
-          - string
-          - 'null'
-        dName:
-          type:
-          - string
-          - 'null'
-        value:
-          type:
-          - object
-          - 'null'
-      additionalProperties: false
-    RuleCreateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RuleListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    WebHookBaseHeaderDetails:
-      required:
-      - key
-      - value
-      type: object
-      properties:
-        key:
-          minLength: 1
-          type: string
-        value:
-          minLength: 1
-          type: string
-      additionalProperties: false
-    RuleAudienceUpdate:
-      required:
-      - interval
-      - intervalUnit
-      - roleGuids
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          description: Audience guid to update rule audience detail.
-        interval:
-          type: integer
-          description: 'Interval duration value after rule matched.
-
-            Note : internal duration will consider based on intervalUnit'
-          format: int32
-        intervalUnit:
-          type: integer
-          description: "Interval unit for interval\n1 : Minute,\n2 : Hour,\n3 : Day \nNote : Default value is Minute"
-          format: int32
-        roleGuids:
-          type: array
-          items:
-            type: string
-          description: Role guid list. Notification will be sent to all users of this role if <i>userGuids</i> not exists.
-        userGuids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: User guid list which are associated with <i>roleGuids</i>. Notification will be sent to all users in the list.
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
-    RuleCreateRequest:
-      required:
-      - conditionText
-      - ignorePreference
-      - name
-      - ruleType
-      - severityLevelGuid
-      - templateGuid
-      type: object
-      properties:
-        _WebhookMsgFormat:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        ruleType:
-          maximum: 3
-          minimum: 1
-          type: integer
-          description: "Rule type, \nSend 1 or 2. 1: for standard rule, 2: for smart rule.\nNote : Rule type must be 1 for edge template."
-          format: int32
-        ruleAudiences:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleAudience'
-          description: Interval audience details for device disconnect event. if <i>ruleType</i> is 3
-        reportingGroupGuid:
-          type:
-          - string
-          - 'null'
-          description: Device Reporting Group Guid
-        templateGuid:
-          minLength: 1
-          type: string
-          description: Device Template Guid
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Rule Name
-        severityLevelGuid:
-          minLength: 1
-          type: string
-          description: Severity Level Guid
-        conditionText:
-          maxLength: 1000
-          minLength: 1
-          type: string
-          description: 'Condition statement triggers Rule on telemetry data that meet specified criteria. Criteria are expressed in the form of predicates.
-
-            <div>Condition on attribute(localname) if device template is non gateway Eg. : </div><div>1) Temperature > 50</div><div>2) Temperature > 50 AND Humidity < 20</div><div>3) Temperature > 50 AND ( Humidity < 20 OR WaterLevel > 10 )</div><div>4) Status = "on"</div><div></div><div>Condition on attribute({tag}#{localname}) if device template has enabled gateway enabled Eg. : </div><div>1) Tag1#Temperature > 50</div><div>2) Tag1#Temperature > 50 AND Tag2#Humidity < 20</div><div>3) Tag1#Temperature > 50 AND ( Tag2#Humidity < 20 OR Tag2#WaterLevel > 10 )</div><div>4) Tag3#Status = "on"</div>'
-        ignorePreference:
-          type: boolean
-          description: If <i>true</i> then Ignore preference will send the notification to all the target audience irrespective of their preference
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          description: Entity Guid. if <i>applyTo</i> is 1 or 2
-        applyTo:
-          maximum: 4
-          minimum: 1
-          type: integer
-          description: 'Send 1, 2 or 3. 1: for all device of entity, 2: for all device of entity including child entities, 3: for device guid list.
-
-            Note: <i>applyTo</i> must be 3 for edge template.'
-          format: int32
-        devices:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Device guid list. Required if <i>applyTo</i> is 3
-        roles:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Role guid list. Notification will be sent to all users associated with these rules.
-        users:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: User guid list. Notification will be sent to all users in the list.
-        deliveryMethod:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Notification delivery method. Eg. DeviceCommand, Email, Push, SignalR, WebHook, UI Alert, MQTT,UiNotification
-        commandGuid:
-          type:
-          - string
-          - 'null'
-          description: Command Guid. Required If <i>deliveryMethod</i> is DeviceCommand
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value. Required if <i>deliveryMethod</i> is DeviceCommand
-        url:
-          type:
-          - string
-          - 'null'
-          description: Webhook url. Required If <i>deliveryMethod</i> is WebHook
-        webhookMsgFormat:
-          maximum: 2
-          minimum: 1
-          type:
-          - integer
-          - 'null'
-          description: Webhook message format should be Default Json = 1, Mini Json = 2
-          format: int32
-        headers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WebHookBaseHeaderDetails'
-          description: Webhook headers. If <i>deliveryMethod</i> is WebHook
-        snoozeTime:
-          type:
-          - integer
-          - 'null'
-          description: Snoonze time in unit to snooze rule once rule trigger if ruleType is 1 or 2
-          format: int32
-        snoozeTimeUnit:
-          type:
-          - integer
-          - 'null'
-          description: 'Snoonze time unit
-
-            1 : Minute,
-
-            2 : Hour,
-
-            3 : Day
-
-            Note : Default value is Minute if snoozeTime having value'
-          format: int32
-      additionalProperties: false
-    RuleVerifyRequest_2:
+    RuleVerifyRequest:
       required:
       - deviceTemplateGuid
       - expression
@@ -2416,298 +2399,6 @@ components:
           description: 'Condition statement triggers Rule on telemetry data that meet specified criteria. Criteria are expressed in the form of predicates.
 
             <div>Condition on attribute(localname) if device template is non gateway Eg. : </div><div>1) Temperature > 50</div><div>2) Temperature > 50 AND Humidity < 20</div><div>3) Temperature > 50 AND ( Humidity < 20 OR WaterLevel > 10 )</div><div>4) Status = "on"</div><div></div><div>Condition on attribute({tag}#{localname}) if device template has enabled gateway enabled Eg. : </div><div>1) Tag1#Temperature > 50</div><div>2) Tag1#Temperature > 50 AND Tag2#Humidity < 20</div><div>3) Tag1#Temperature > 50 AND ( Tag2#Humidity < 20 OR Tag2#WaterLevel > 10 )</div><div>4) Tag3#Status = "on"</div>'
-      additionalProperties: false
-    RuleUpdateRequest_2:
-      required:
-      - conditionText
-      - ignorePreference
-      - isActive
-      - name
-      - severityLevelGuid
-      - templateGuid
-      type: object
-      properties:
-        _WebhookMsgFormat:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        isActive:
-          type: boolean
-          description: Active status, send false to Deactivate rule.
-        ruleAudiences:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleAudienceUpdate_2'
-          description: Interval audience details for device disconnect event. if <i>ruleType</i> is 3
-        reportingGroupGuid:
-          type:
-          - string
-          - 'null'
-          description: Device Reporting Group Guid
-        templateGuid:
-          minLength: 1
-          type: string
-          description: Device Template Guid
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Rule Name
-        severityLevelGuid:
-          minLength: 1
-          type: string
-          description: Severity Level Guid
-        conditionText:
-          maxLength: 1000
-          minLength: 1
-          type: string
-          description: 'Condition statement triggers Rule on telemetry data that meet specified criteria. Criteria are expressed in the form of predicates.
-
-            <div>Condition on attribute(localname) if device template is non gateway Eg. : </div><div>1) Temperature > 50</div><div>2) Temperature > 50 AND Humidity < 20</div><div>3) Temperature > 50 AND ( Humidity < 20 OR WaterLevel > 10 )</div><div>4) Status = "on"</div><div></div><div>Condition on attribute({tag}#{localname}) if device template has enabled gateway enabled Eg. : </div><div>1) Tag1#Temperature > 50</div><div>2) Tag1#Temperature > 50 AND Tag2#Humidity < 20</div><div>3) Tag1#Temperature > 50 AND ( Tag2#Humidity < 20 OR Tag2#WaterLevel > 10 )</div><div>4) Tag3#Status = "on"</div>'
-        ignorePreference:
-          type: boolean
-          description: If <i>true</i> then Ignore preference will send the notification to all the target audience irrespective of their preference
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          description: Entity Guid. if <i>applyTo</i> is 1 or 2
-        applyTo:
-          maximum: 4
-          minimum: 1
-          type: integer
-          description: 'Send 1, 2 or 3. 1: for all device of entity, 2: for all device of entity including child entities, 3: for device guid list.
-
-            Note: <i>applyTo</i> must be 3 for edge template.'
-          format: int32
-        devices:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Device guid list. Required if <i>applyTo</i> is 3
-        roles:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Role guid list. Notification will be sent to all users associated with these rules.
-        users:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: User guid list. Notification will be sent to all users in the list.
-        deliveryMethod:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Notification delivery method. Eg. DeviceCommand, Email, Push, SignalR, WebHook, UI Alert, MQTT,UiNotification
-        commandGuid:
-          type:
-          - string
-          - 'null'
-          description: Command Guid. Required If <i>deliveryMethod</i> is DeviceCommand
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value. Required if <i>deliveryMethod</i> is DeviceCommand
-        url:
-          type:
-          - string
-          - 'null'
-          description: Webhook url. Required If <i>deliveryMethod</i> is WebHook
-        webhookMsgFormat:
-          maximum: 2
-          minimum: 1
-          type:
-          - integer
-          - 'null'
-          description: Webhook message format should be Default Json = 1, Mini Json = 2
-          format: int32
-        headers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WebHookBaseHeaderDetails'
-          description: Webhook headers. If <i>deliveryMethod</i> is WebHook
-        snoozeTime:
-          type:
-          - integer
-          - 'null'
-          description: Snoonze time in unit to snooze rule once rule trigger if ruleType is 1 or 2
-          format: int32
-        snoozeTimeUnit:
-          type:
-          - integer
-          - 'null'
-          description: 'Snoonze time unit
-
-            1 : Minute,
-
-            2 : Hour,
-
-            3 : Day
-
-            Note : Default value is Minute if snoozeTime having value'
-          format: int32
-      additionalProperties: false
-    RuleAudienceModel:
-      type: object
-      properties:
-        interval:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        intervalUnit:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        roleGuids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        userGuids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    RuleDetail_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        templateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        attributeGuid:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        ruleType:
-          type: integer
-          format: int32
-        parentAttributeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        conditionText:
-          type:
-          - string
-          - 'null'
-        ignorePreference:
-          type: boolean
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        applyTo:
-          type: integer
-          format: int32
-        isActive:
-          type: boolean
-        eventSubscriptionGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eventSubscription:
-          type:
-          - object
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        roles:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        users:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        devices:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        isEdgeSupport:
-          type: boolean
-        isType2Support:
-          type: boolean
-        isLowBandwidth:
-          type: boolean
-        isIotEdgeEnable:
-          type: boolean
-        snoozeTime:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        snoozeTimeUnit:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        ruleAudiences:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleAudienceModel'
-        reportingGroupGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        c2dOnDemand:
-          type: integer
-          format: int32
       additionalProperties: false
     RuleAudience_2:
       required:
@@ -2738,80 +2429,6 @@ components:
           items:
             type: string
           description: User guid list which are associated with <i>roleGuids</i>. Notification will be sent to all users in the list.
-      additionalProperties: false
-    RuleList_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        template:
-          type:
-          - string
-          - 'null'
-        entity:
-          type:
-          - string
-          - 'null'
-        ruleType:
-          type:
-          - string
-          - 'null'
-        conditionText:
-          type:
-          - string
-          - 'null'
-        userCount:
-          type: integer
-          format: int32
-        roleCount:
-          type: integer
-          format: int32
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createddate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updateddate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isActive:
-          type: boolean
-        snoozeTime:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        isSolutionTemplate:
-          type: boolean
-        solutionName:
-          type:
-          - string
-          - 'null'
-        info:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OutputparamListResponse'
       additionalProperties: false
     RuleAudienceUpdate_2:
       required:
@@ -2847,6 +2464,37 @@ components:
           items:
             type: string
           description: User guid list which are associated with <i>roleGuids</i>. Notification will be sent to all users in the list.
+      additionalProperties: false
+    RuleAudienceModel:
+      type: object
+      properties:
+        interval:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        intervalUnit:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        roleGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        userGuids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
       additionalProperties: false
     RuleCreateRequest_2:
       required:
@@ -2999,6 +2647,358 @@ components:
 
             Note : Default value is Minute if snoozeTime having value'
           format: int32
+      additionalProperties: false
+    RuleList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        template:
+          type:
+          - string
+          - 'null'
+        entity:
+          type:
+          - string
+          - 'null'
+        ruleType:
+          type:
+          - string
+          - 'null'
+        conditionText:
+          type:
+          - string
+          - 'null'
+        userCount:
+          type: integer
+          format: int32
+        roleCount:
+          type: integer
+          format: int32
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createddate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updateddate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        snoozeTime:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        info:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OutputparamListResponse'
+      additionalProperties: false
+    RuleUpdateRequest_2:
+      required:
+      - conditionText
+      - ignorePreference
+      - isActive
+      - name
+      - severityLevelGuid
+      - templateGuid
+      type: object
+      properties:
+        _WebhookMsgFormat:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isActive:
+          type: boolean
+          description: Active status, send false to Deactivate rule.
+        ruleAudiences:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleAudienceUpdate_2'
+          description: Interval audience details for device disconnect event. if <i>ruleType</i> is 3
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          description: Device Reporting Group Guid
+        templateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Rule Name
+        severityLevelGuid:
+          minLength: 1
+          type: string
+          description: Severity Level Guid
+        conditionText:
+          maxLength: 1000
+          minLength: 1
+          type: string
+          description: 'Condition statement triggers Rule on telemetry data that meet specified criteria. Criteria are expressed in the form of predicates.
+
+            <div>Condition on attribute(localname) if device template is non gateway Eg. : </div><div>1) Temperature > 50</div><div>2) Temperature > 50 AND Humidity < 20</div><div>3) Temperature > 50 AND ( Humidity < 20 OR WaterLevel > 10 )</div><div>4) Status = "on"</div><div></div><div>Condition on attribute({tag}#{localname}) if device template has enabled gateway enabled Eg. : </div><div>1) Tag1#Temperature > 50</div><div>2) Tag1#Temperature > 50 AND Tag2#Humidity < 20</div><div>3) Tag1#Temperature > 50 AND ( Tag2#Humidity < 20 OR Tag2#WaterLevel > 10 )</div><div>4) Tag3#Status = "on"</div>'
+        ignorePreference:
+          type: boolean
+          description: If <i>true</i> then Ignore preference will send the notification to all the target audience irrespective of their preference
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. if <i>applyTo</i> is 1 or 2
+        applyTo:
+          maximum: 4
+          minimum: 1
+          type: integer
+          description: 'Send 1, 2 or 3. 1: for all device of entity, 2: for all device of entity including child entities, 3: for device guid list.
+
+            Note: <i>applyTo</i> must be 3 for edge template.'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list. Required if <i>applyTo</i> is 3
+        roles:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Role guid list. Notification will be sent to all users associated with these rules.
+        users:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: User guid list. Notification will be sent to all users in the list.
+        deliveryMethod:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Notification delivery method. Eg. DeviceCommand, Email, Push, SignalR, WebHook, UI Alert, MQTT,UiNotification
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          description: Command Guid. Required If <i>deliveryMethod</i> is DeviceCommand
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value. Required if <i>deliveryMethod</i> is DeviceCommand
+        url:
+          type:
+          - string
+          - 'null'
+          description: Webhook url. Required If <i>deliveryMethod</i> is WebHook
+        webhookMsgFormat:
+          maximum: 2
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          description: Webhook message format should be Default Json = 1, Mini Json = 2
+          format: int32
+        headers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WebHookBaseHeaderDetails'
+          description: Webhook headers. If <i>deliveryMethod</i> is WebHook
+        snoozeTime:
+          type:
+          - integer
+          - 'null'
+          description: Snoonze time in unit to snooze rule once rule trigger if ruleType is 1 or 2
+          format: int32
+        snoozeTimeUnit:
+          type:
+          - integer
+          - 'null'
+          description: 'Snoonze time unit
+
+            1 : Minute,
+
+            2 : Hour,
+
+            3 : Day
+
+            Note : Default value is Minute if snoozeTime having value'
+          format: int32
+      additionalProperties: false
+    RuleDetail_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        attributeGuid:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        ruleType:
+          type: integer
+          format: int32
+        parentAttributeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        conditionText:
+          type:
+          - string
+          - 'null'
+        ignorePreference:
+          type: boolean
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        applyTo:
+          type: integer
+          format: int32
+        isActive:
+          type: boolean
+        eventSubscriptionGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        eventSubscription:
+          type:
+          - object
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        roles:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        users:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        isEdgeSupport:
+          type: boolean
+        isType2Support:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        snoozeTime:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        snoozeTimeUnit:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        ruleAudiences:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleAudienceModel'
+        reportingGroupGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        c2dOnDemand:
+          type: integer
+          format: int32
+      additionalProperties: false
+    RuleVerifyRequest_2:
+      required:
+      - deviceTemplateGuid
+      - expression
+      type: object
+      properties:
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device template guid
+        expression:
+          minLength: 1
+          type: string
+          description: 'Condition statement triggers Rule on telemetry data that meet specified criteria. Criteria are expressed in the form of predicates.
+
+            <div>Condition on attribute(localname) if device template is non gateway Eg. : </div><div>1) Temperature > 50</div><div>2) Temperature > 50 AND Humidity < 20</div><div>3) Temperature > 50 AND ( Humidity < 20 OR WaterLevel > 10 )</div><div>4) Status = "on"</div><div></div><div>Condition on attribute({tag}#{localname}) if device template has enabled gateway enabled Eg. : </div><div>1) Tag1#Temperature > 50</div><div>2) Tag1#Temperature > 50 AND Tag2#Humidity < 20</div><div>3) Tag1#Temperature > 50 AND ( Tag2#Humidity < 20 OR Tag2#WaterLevel > 10 )</div><div>4) Tag3#Status = "on"</div>'
       additionalProperties: false
   securitySchemes:
     Bearer:

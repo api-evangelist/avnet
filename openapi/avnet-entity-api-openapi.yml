@@ -1118,246 +1118,6 @@ components:
           items:
             $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    EntityBulkImportListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityImportHistory'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EntityList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        parentName:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        childEntityLabel:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        updatedDate:
-          type: string
-          format: date-time
-        activeUserCount:
-          type: integer
-          format: int32
-        inActiveUserCount:
-          type: integer
-          format: int32
-        deviceCount:
-          type: integer
-          format: int32
-      additionalProperties: false
-    EntityDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EntityPropertiesUpdateRequest:
-      type: object
-      properties:
-        properties:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PropertyValue'
-          description: Custom Properties
-        xmlProperties:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    EntityImportBulkStatus:
-      type: object
-      properties:
-        importBatchGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isValid:
-          type: boolean
-      additionalProperties: false
     ErrorModel:
       type: object
       properties:
@@ -1369,123 +1129,6 @@ components:
           type:
           - string
           - 'null'
-      additionalProperties: false
-    Property:
-      type: object
-      properties:
-        key:
-          type:
-          - string
-          - 'null'
-          description: Custom property key
-        value:
-          type:
-          - string
-          - 'null'
-          description: Custom property value
-      additionalProperties: false
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-      additionalProperties: false
-    EntityBulkImportValidateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityImportBulkStatus'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
       additionalProperties: false
     EntityLookup:
       type: object
@@ -1505,182 +1148,103 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
-    PropertyValue:
-      required:
-      - guid
-      - value
+    Property:
       type: object
       properties:
-        guid:
-          minLength: 1
-          type: string
-          description: Custom Property Guid
+        key:
+          type:
+          - string
+          - 'null'
+          description: Custom property key
         value:
-          minLength: 1
-          type: string
-          description: Custom Property Value
+          type:
+          - string
+          - 'null'
+          description: Custom property value
       additionalProperties: false
-    UserInfo:
+    EntityLookupResponse:
       type: object
       properties:
-        firstName:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: User's first name
-        lastName:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: User's last name
-        userId:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: 'User''s login email id. eg: abc@gmail.com'
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          description: Timezone Guid. You can fetch timezone list from Master API
-        roleGuid:
-          type:
-          - string
-          - 'null'
-          description: Role Guid
-        contactNo:
-          type:
-          - string
-          - 'null'
-          description: 'User''s contact no. eg: 91-1234567890'
-        properties:
+        data:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Property'
-          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
-        isActive:
-          type:
-          - boolean
-          - 'null'
-          description: 'User''s active status. true: Active, false: Inactive'
-        sendInvitationEmail:
-          type:
-          - boolean
-          - 'null'
-          description: To receive invitation email from IDS
-        password:
-          type:
-          - string
-          - 'null'
-          description: To set password directly without reset password
-        isTempPassword:
-          type:
-          - boolean
-          - 'null'
-          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
-      additionalProperties: false
-    EntityCreateResult:
-      type: object
-      properties:
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        invitationGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        userGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isExistingUser:
-          type: boolean
-        isWelcomeEmail:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    EntityCreateV2Request:
-      required:
-      - name
-      - parentEntityGuid
-      type: object
-      properties:
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Entity Name
-        description:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: Entity Description
-        parentEntityGuid:
-          minLength: 1
-          type: string
-          description: Parent Entity Guid
-        childEntityLabel:
-          maxLength: 50
+            $ref: '#/components/schemas/EntityLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
           type:
           - string
           - 'null'
-        address:
-          maxLength: 500
+        count:
           type:
-          - string
+          - integer
           - 'null'
-          description: Entity Address
-        address2:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: Entity Address 2
-        city:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: City Name
-        stateGuid:
-          type:
-          - string
-          - 'null'
-          description: State Guid. You can fetch country wise state list from Master API
-        countryGuid:
-          type:
-          - string
-          - 'null'
-          description: Country Guid. You can fetch country list from Master API
-        zipCode:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: Zip Code
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          description: Timezone Guid. You can fetch timezone list from Master API
-        userInfo:
-          $ref: '#/components/schemas/UserInfo'
-        userInfoXml:
-          type:
-          - object
-          - 'null'
-          readOnly: true
+          format: int64
       additionalProperties: false
     EntityCreateResponse:
       type: object
@@ -1766,7 +1330,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EntityLookupResponse:
+    EntityListResponse:
       type: object
       properties:
         data:
@@ -1774,7 +1338,620 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityLookup'
+            $ref: '#/components/schemas/EntityList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityBulkImportListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityImportHistory'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    EntityBulkImportCancelResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    EntityUpdate:
+      type: object
+      properties:
+        userGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isExistingUser:
+          type: boolean
+        isWelcomeEmail:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    EntityList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        parentName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+        activeUserCount:
+          type: integer
+          format: int32
+        inActiveUserCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    UserInfo:
+      type: object
+      properties:
+        firstName:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: User's first name
+        lastName:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: User's last name
+        userId:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: 'User''s login email id. eg: abc@gmail.com'
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          description: Timezone Guid. You can fetch timezone list from Master API
+        roleGuid:
+          type:
+          - string
+          - 'null'
+          description: Role Guid
+        contactNo:
+          type:
+          - string
+          - 'null'
+          description: 'User''s contact no. eg: 91-1234567890'
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Property'
+          description: Custom properties allows you to add additional information about user. You can add multiple custom properties.
+        isActive:
+          type:
+          - boolean
+          - 'null'
+          description: 'User''s active status. true: Active, false: Inactive'
+        sendInvitationEmail:
+          type:
+          - boolean
+          - 'null'
+          description: To receive invitation email from IDS
+        password:
+          type:
+          - string
+          - 'null'
+          description: To set password directly without reset password
+        isTempPassword:
+          type:
+          - boolean
+          - 'null'
+          description: To enable/disable IDS temp password for user, Send <i>true</i> to enable and <i>false</i> to disable.
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    EntityDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        parentEntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        description:
+          type:
+          - string
+          - 'null'
+        childEntityLabel:
+          type:
+          - string
+          - 'null'
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isDeleted:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        address:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        stateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        countryGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        defaultuserGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        zipCode:
+          type:
+          - string
+          - 'null'
+        address2:
+          type:
+          - string
+          - 'null'
+        entityInfo:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    PropertyValue:
+      required:
+      - guid
+      - value
+      type: object
+      properties:
+        guid:
+          minLength: 1
+          type: string
+          description: Custom Property Guid
+        value:
+          minLength: 1
+          type: string
+          description: Custom Property Value
+      additionalProperties: false
+    EntityImportBulkStatus:
+      type: object
+      properties:
+        importBatchGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isValid:
+          type: boolean
+      additionalProperties: false
+    EntityCreateV2Request:
+      required:
+      - name
+      - parentEntityGuid
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Entity Name
+        description:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Description
+        parentEntityGuid:
+          minLength: 1
+          type: string
+          description: Parent Entity Guid
+        childEntityLabel:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+        address:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address
+        address2:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: Entity Address 2
+        city:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: City Name
+        stateGuid:
+          type:
+          - string
+          - 'null'
+          description: State Guid. You can fetch country wise state list from Master API
+        countryGuid:
+          type:
+          - string
+          - 'null'
+          description: Country Guid. You can fetch country list from Master API
+        zipCode:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: Zip Code
+        timezoneGuid:
+          type:
+          - string
+          - 'null'
+          description: Timezone Guid. You can fetch timezone list from Master API
+        userInfo:
+          $ref: '#/components/schemas/UserInfo'
+        userInfoXml:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    EntityPropertiesUpdateRequest:
+      type: object
+      properties:
+        properties:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PropertyValue'
+          description: Custom Properties
+        xmlProperties:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    EntityUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityUpdate'
         status:
           enum:
           - 100
@@ -1931,7 +2108,7 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
-    EntityBulkImportCancelResponse:
+    EntityDetailResponse:
       type: object
       properties:
         data:
@@ -1939,9 +2116,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/EntityDetail'
         status:
           enum:
           - 100
@@ -2017,7 +2192,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EntityUpdateResponse:
+    EntityBulkImportValidateResponse:
       type: object
       properties:
         data:
@@ -2025,7 +2200,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityUpdate'
+            $ref: '#/components/schemas/EntityImportBulkStatus'
         status:
           enum:
           - 100
@@ -2151,99 +2326,20 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    EntityListResponse:
+    EntityCreateResult:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/EntityList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    EntityUpdate:
-      type: object
-      properties:
-        userGuid:
+        entityGuid:
           type:
           - string
           - 'null'
           readOnly: true
         invitationGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        userGuid:
           type:
           - string
           - 'null'
@@ -2255,14 +2351,7 @@ components:
           - boolean
           - 'null'
       additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
-    EntityDetail:
+    EntityLookup_2:
       type: object
       properties:
         guid:
@@ -2279,76 +2368,13 @@ components:
           - string
           - 'null'
           readOnly: true
-        description:
+        eName:
           type:
           - string
           - 'null'
-        childEntityLabel:
+        lvl:
           type:
           - string
-          - 'null'
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isDeleted:
-          type: boolean
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        address:
-          type:
-          - string
-          - 'null'
-        city:
-          type:
-          - string
-          - 'null'
-        stateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        countryGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        timezoneGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        defaultuserGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        zipCode:
-          type:
-          - string
-          - 'null'
-        address2:
-          type:
-          - string
-          - 'null'
-        entityInfo:
-          type:
-          - object
           - 'null'
       additionalProperties: false
     EntityList_2:
@@ -2417,7 +2443,7 @@ components:
           items:
             $ref: '#/components/schemas/EntityList_2'
       additionalProperties: false
-    EntityImportCancelResponse:
+    EntityImportListResponse:
       type: object
       properties:
         data:
@@ -2425,9 +2451,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
+            $ref: '#/components/schemas/EntityImportHistory'
         status:
           enum:
           - 100
@@ -2502,32 +2526,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    EntityLookup_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        parentEntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        eName:
-          type:
-          - string
-          - 'null'
-        lvl:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
     EntityValidateResponse:
       type: object
@@ -2613,7 +2611,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    EntityImportListResponse:
+    EntityImportCancelResponse:
       type: object
       properties:
         data:
@@ -2621,7 +2619,9 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/EntityImportHistory'
+            type:
+            - object
+            - 'null'
         status:
           enum:
           - 100

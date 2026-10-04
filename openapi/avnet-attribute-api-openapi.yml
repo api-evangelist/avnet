@@ -559,6 +559,100 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AttributeCreate:
+      type: object
+      properties:
+        newId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AttributeUpdateSequenceResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
     ErrorsResponse:
       type: object
       properties:
@@ -576,15 +670,224 @@ components:
           items:
             $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    AttributeLookupResponse:
+    AttributeCreateRequest:
+      required:
+      - dataTypeGuid
+      - deviceTemplateGuid
+      - localName
       type: object
       properties:
+        localName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: "Template attribute name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        displayName:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: "Template attribute displayName. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Template attribute's description
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Associated Device Template Guid
+        dataTypeGuid:
+          minLength: 1
+          type: string
+          description: Attribute's Datatype Guid
+        unit:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: Attribute's unit
+        tag:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: "Attribute's tag, \nThe tag is required if the associated device template has enabled gateway support. \nThe Tag should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. AC, Camera1 Camera_1, camera_Type__1 etc."
+        aggregateType:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Attribute's aggregate type \nAggregate Types : Min, Max, Average, Sum, Latest Value."
+        tumblingWindow:
+          type:
+          - string
+          - 'null'
+          description: "Attribute's tumbling window \nTumbling window should be 1 to 999 ending with h/m/s.<div> For example: </div><div>  5h (h = hour) </div><div> 5m (m = minute) </div><div> 5s (s = second)</div> \nThe tumbling window is required if the associated device template has enabled edge support."
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AttributeBaseObject'
+          description: Child attributes list, This field is required if selected dataTypeGuid for the object.
+        xmlAttributes:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: Start index is required if the associated device template has enabled low bandwidth support and data type is not an object.
+          format: int32
+        numChar:
+          type:
+          - integer
+          - 'null'
+          description: Range is required if the associated device template has enabled low bandwidth support and data type is not an objet.
+          format: int32
+        attributeColor:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AttributeBaseObject:
+      required:
+      - dataTypeGuid
+      - localName
+      type: object
+      properties:
+        localName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: "Child attribute's name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        displayName:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: "Template attribute displayName. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Child attribute's description
+        dataTypeGuid:
+          minLength: 1
+          type: string
+          description: Child attribute's datatype guid, Object datatype is not allowed for child attributes.
+        sequence:
+          type:
+          - integer
+          - 'null'
+          description: Child attribute's sequence
+          format: int32
+        unit:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: Child attribute's unit
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: Start index is required if the associated device template has enabled low bandwidth support.
+          format: int32
+        numChar:
+          type:
+          - integer
+          - 'null'
+          description: Range is required if the associated device template has enabled low bandwidth support.
+          format: int32
+        attributeColor:
+          type:
+          - string
+          - 'null'
+          description: Color Code of attribute.
+        colorCode:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
         data:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/AttributeLookup'
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
+    AttributeLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        localname:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        isTemplateAttributeUsed:
+          type: boolean
+        parentTemplateAttributeGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    AttributeDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -816,117 +1119,7 @@ components:
           - 'null'
           format: uuid
       additionalProperties: false
-    AttributeUpdateSequenceRequest:
-      required:
-      - deviceTemplateGuid
-      - sequence
-      type: object
-      properties:
-        sequence:
-          type: integer
-          description: Attribute's new sequence number
-          format: int32
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Associated device template guid.
-      additionalProperties: false
-    AttributeLookup:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        localname:
-          type:
-          - string
-          - 'null'
-        displayName:
-          type:
-          - string
-          - 'null'
-        isTemplateAttributeUsed:
-          type: boolean
-        parentTemplateAttributeGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    AttributeBaseObject:
-      required:
-      - dataTypeGuid
-      - localName
-      type: object
-      properties:
-        localName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: "Child attribute's name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        displayName:
-          maxLength: 200
-          type:
-          - string
-          - 'null'
-          description: "Template attribute displayName. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        description:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Child attribute's description
-        dataTypeGuid:
-          minLength: 1
-          type: string
-          description: Child attribute's datatype guid, Object datatype is not allowed for child attributes.
-        sequence:
-          type:
-          - integer
-          - 'null'
-          description: Child attribute's sequence
-          format: int32
-        unit:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: Child attribute's unit
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: Start index is required if the associated device template has enabled low bandwidth support.
-          format: int32
-        numChar:
-          type:
-          - integer
-          - 'null'
-          description: Range is required if the associated device template has enabled low bandwidth support.
-          format: int32
-        attributeColor:
-          type:
-          - string
-          - 'null'
-          description: Color Code of attribute.
-        colorCode:
-          type:
-          - string
-          - 'null'
-        guid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
-    AttributeUpdateSequenceResponse:
+    AttributeLookupResponse:
       type: object
       properties:
         data:
@@ -934,295 +1127,7 @@ components:
           - array
           - 'null'
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    SuccessResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AttributeCreateRequest:
-      required:
-      - dataTypeGuid
-      - deviceTemplateGuid
-      - localName
-      type: object
-      properties:
-        localName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: "Template attribute name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        displayName:
-          maxLength: 200
-          type:
-          - string
-          - 'null'
-          description: "Template attribute displayName. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        description:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Template attribute's description
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Associated Device Template Guid
-        dataTypeGuid:
-          minLength: 1
-          type: string
-          description: Attribute's Datatype Guid
-        unit:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: Attribute's unit
-        tag:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: "Attribute's tag, \nThe tag is required if the associated device template has enabled gateway support. \nThe Tag should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. AC, Camera1 Camera_1, camera_Type__1 etc."
-        aggregateType:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: "Attribute's aggregate type \nAggregate Types : Min, Max, Average, Sum, Latest Value."
-        tumblingWindow:
-          type:
-          - string
-          - 'null'
-          description: "Attribute's tumbling window \nTumbling window should be 1 to 999 ending with h/m/s.<div> For example: </div><div>  5h (h = hour) </div><div> 5m (m = minute) </div><div> 5s (s = second)</div> \nThe tumbling window is required if the associated device template has enabled edge support."
-        attributes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AttributeBaseObject'
-          description: Child attributes list, This field is required if selected dataTypeGuid for the object.
-        xmlAttributes:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: Start index is required if the associated device template has enabled low bandwidth support and data type is not an object.
-          format: int32
-        numChar:
-          type:
-          - integer
-          - 'null'
-          description: Range is required if the associated device template has enabled low bandwidth support and data type is not an objet.
-          format: int32
-        attributeColor:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AttributeListResponse:
-      type: object
-      properties:
-        isValidateTemplate:
-          type: boolean
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AttributeList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    AttributeCreateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AttributeCreate'
+            $ref: '#/components/schemas/AttributeLookup'
         status:
           enum:
           - 100
@@ -1403,13 +1308,15 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    AttributeDeleteResponse:
+    AttributeCreateResponse:
       type: object
       properties:
         data:
           type:
-          - object
+          - array
           - 'null'
+          items:
+            $ref: '#/components/schemas/AttributeCreate'
         status:
           enum:
           - 100
@@ -1485,10 +1392,111 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    AttributeCreate:
+    AttributeUpdateSequenceRequest:
+      required:
+      - deviceTemplateGuid
+      - sequence
       type: object
       properties:
-        newId:
+        sequence:
+          type: integer
+          description: Attribute's new sequence number
+          format: int32
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Associated device template guid.
+      additionalProperties: false
+    AttributeListResponse:
+      type: object
+      properties:
+        isValidateTemplate:
+          type: boolean
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AttributeList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AttributeCreate_2:
+      type: object
+      properties:
+        newid:
           type:
           - string
           - 'null'
@@ -1582,6 +1590,160 @@ components:
         conditionBitValue:
           type: integer
           format: int32
+      additionalProperties: false
+    AttributeCreateRequest_2:
+      required:
+      - dataTypeGuid
+      - deviceTemplateGuid
+      - localName
+      type: object
+      properties:
+        localName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: "Template attribute name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        displayName:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: "Template attribute displayName. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Template attribute's description
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Associated Device Template Guid
+        dataTypeGuid:
+          minLength: 1
+          type: string
+          description: Attribute's Datatype Guid
+        dataValidation:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: "Attribute's data validation, \nThis field will be ignored if selected dataTypeGuid for the object. \nType validation values and/or validation ranges separated by commas.<div> For example: </div><div>  1, 2, 10 to 20 </div> -10 to -5, -15 <div> Red, Green, Blue</div>"
+        unit:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: Attribute's unit
+        tag:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: "Attribute's tag, \nThe tag is required if the associated device template has enabled gateway support. \nThe Tag should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. AC, Camera1 Camera_1, camera_Type__1 etc."
+        aggregateType:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Attribute's aggregate type \nAggregate Types : Min, Max, Average, Sum, Latest Value."
+        tumblingWindow:
+          type:
+          - string
+          - 'null'
+          description: "Attribute's tumbling window \nTumbling window should be 1 to 999 ending with h/m/s.<div> For example: </div><div>  5h (h = hour) </div><div> 5m (m = minute) </div><div> 5s (s = second)</div> \nThe tumbling window is required if the associated device template has enabled edge support."
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AttributeBaseObject_2'
+          description: Child attributes list, This field is required if selected dataTypeGuid for the object.
+        xmlAttributes:
+          type:
+          - object
+          - 'null'
+          readOnly: true
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: Start index is required if the associated device template has enabled low bandwidth support and data type is not an object.
+          format: int32
+        numChar:
+          type:
+          - integer
+          - 'null'
+          description: Range is required if the associated device template has enabled low bandwidth support and data type is not an objet.
+          format: int32
+        attributeColor:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AttributeBaseObject_2:
+      required:
+      - dataTypeGuid
+      - displayName
+      - localName
+      type: object
+      properties:
+        localName:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: "Child attribute's name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        displayName:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: "Template attribute name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Child attribute's description
+        dataValidation:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          description: "Child attribute's data validation. \nType validation values and/or validation ranges separated by commas.<div> For example: </div><div>  1, 2, 10 to 20 </div> -10 to -5, -15 <div> Red, Green, Blue</div>"
+        dataTypeGuid:
+          minLength: 1
+          type: string
+          description: Child attribute's datatype guid, Object datatype is not allowed for child attributes.
+        sequence:
+          type:
+          - integer
+          - 'null'
+          description: Child attribute's sequence
+          format: int32
+        unit:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+          description: Child attribute's unit
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: Start index is required if the associated device template has enabled low bandwidth support.
+          format: int32
+        numChar:
+          type:
+          - integer
+          - 'null'
+          description: Range is required if the associated device template has enabled low bandwidth support.
+          format: int32
+        attributeColor:
+          type:
+          - string
+          - 'null'
+          description: Color Code of attribute.
       additionalProperties: false
     AttributeUpdateRequest_2:
       required:
@@ -1742,160 +1904,6 @@ components:
           - 'null'
           description: Color Code of attribute.
       additionalProperties: false
-    AttributeBaseObject_2:
-      required:
-      - dataTypeGuid
-      - displayName
-      - localName
-      type: object
-      properties:
-        localName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: "Child attribute's name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        displayName:
-          maxLength: 200
-          minLength: 1
-          type: string
-          description: "Template attribute name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        description:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Child attribute's description
-        dataValidation:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: "Child attribute's data validation. \nType validation values and/or validation ranges separated by commas.<div> For example: </div><div>  1, 2, 10 to 20 </div> -10 to -5, -15 <div> Red, Green, Blue</div>"
-        dataTypeGuid:
-          minLength: 1
-          type: string
-          description: Child attribute's datatype guid, Object datatype is not allowed for child attributes.
-        sequence:
-          type:
-          - integer
-          - 'null'
-          description: Child attribute's sequence
-          format: int32
-        unit:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: Child attribute's unit
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: Start index is required if the associated device template has enabled low bandwidth support.
-          format: int32
-        numChar:
-          type:
-          - integer
-          - 'null'
-          description: Range is required if the associated device template has enabled low bandwidth support.
-          format: int32
-        attributeColor:
-          type:
-          - string
-          - 'null'
-          description: Color Code of attribute.
-      additionalProperties: false
-    AttributeCreateRequest_2:
-      required:
-      - dataTypeGuid
-      - deviceTemplateGuid
-      - localName
-      type: object
-      properties:
-        localName:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: "Template attribute name. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        displayName:
-          maxLength: 200
-          type:
-          - string
-          - 'null'
-          description: "Template attribute displayName. \nIt should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        description:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Template attribute's description
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Associated Device Template Guid
-        dataTypeGuid:
-          minLength: 1
-          type: string
-          description: Attribute's Datatype Guid
-        dataValidation:
-          maxLength: 500
-          type:
-          - string
-          - 'null'
-          description: "Attribute's data validation, \nThis field will be ignored if selected dataTypeGuid for the object. \nType validation values and/or validation ranges separated by commas.<div> For example: </div><div>  1, 2, 10 to 20 </div> -10 to -5, -15 <div> Red, Green, Blue</div>"
-        unit:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: Attribute's unit
-        tag:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: "Attribute's tag, \nThe tag is required if the associated device template has enabled gateway support. \nThe Tag should be alphanumeric and allows two consecutive '_' and must start with the alphabet. \nEg. AC, Camera1 Camera_1, camera_Type__1 etc."
-        aggregateType:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: "Attribute's aggregate type \nAggregate Types : Min, Max, Average, Sum, Latest Value."
-        tumblingWindow:
-          type:
-          - string
-          - 'null'
-          description: "Attribute's tumbling window \nTumbling window should be 1 to 999 ending with h/m/s.<div> For example: </div><div>  5h (h = hour) </div><div> 5m (m = minute) </div><div> 5s (s = second)</div> \nThe tumbling window is required if the associated device template has enabled edge support."
-        attributes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AttributeBaseObject_2'
-          description: Child attributes list, This field is required if selected dataTypeGuid for the object.
-        xmlAttributes:
-          type:
-          - object
-          - 'null'
-          readOnly: true
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: Start index is required if the associated device template has enabled low bandwidth support and data type is not an object.
-          format: int32
-        numChar:
-          type:
-          - integer
-          - 'null'
-          description: Range is required if the associated device template has enabled low bandwidth support and data type is not an objet.
-          format: int32
-        attributeColor:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     AttributeList_2:
       type: object
       properties:
@@ -2002,14 +2010,6 @@ components:
         conditionBitValue:
           type: integer
           format: int32
-      additionalProperties: false
-    AttributeCreate_2:
-      type: object
-      properties:
-        newid:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
   securitySchemes:
     Bearer:

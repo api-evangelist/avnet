@@ -94,7 +94,7 @@ components:
           items:
             $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    DeploymentCreateResponse:
+    DeploymentListResponse:
       type: object
       properties:
         data:
@@ -102,7 +102,7 @@ components:
           - array
           - 'null'
           items:
-            type: string
+            $ref: '#/components/schemas/DeploymentList'
         status:
           enum:
           - 100
@@ -178,7 +178,50 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DeploymentListResponse:
+    DeviceUpdate:
+      type: object
+      properties:
+        provider:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        version:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeploymentCreateRequest:
+      type: object
+      properties:
+        updateInfo:
+          $ref: '#/components/schemas/DeviceUpdate'
+        adu-group:
+          type:
+          - string
+          - 'null'
+        deploymentTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    DeploymentCreateResponse:
       type: object
       properties:
         data:
@@ -186,7 +229,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeploymentList'
+            type: string
         status:
           enum:
           - 100
@@ -283,49 +326,6 @@ components:
         isCompleted:
           type:
           - boolean
-          - 'null'
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DeploymentCreateRequest:
-      type: object
-      properties:
-        updateInfo:
-          $ref: '#/components/schemas/DeviceUpdate'
-        adu-group:
-          type:
-          - string
-          - 'null'
-        deploymentTime:
-          type:
-          - string
-          - 'null'
-          format: date-time
-      additionalProperties: false
-    DeviceUpdate:
-      type: object
-      properties:
-        provider:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        version:
-          type:
-          - string
           - 'null'
       additionalProperties: false
   securitySchemes:
