@@ -138,6 +138,8 @@ apis:
   humanURL: https://apiportal.avnet.com/
   baseURL: https://apigw.avnet.com
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -570,6 +572,8 @@ apis:
   humanURL: https://apiportal.avnet.com/
   baseURL: https://apigw.avnet.com
   tags:
+  - FAQ
+  tags_raw:
   - Faq
   properties:
   - type: OpenAPI
@@ -822,6 +826,8 @@ apis:
   humanURL: https://apiportal.avnet.com/
   baseURL: https://apigw.avnet.com
   tags:
+  - Managed Integration
+  tags_raw:
   - ManagedIntegration
   properties:
   - type: OpenAPI
@@ -1038,6 +1044,8 @@ apis:
   humanURL: https://apiportal.avnet.com/
   baseURL: https://apigw.avnet.com
   tags:
+  - rule
+  tags_raw:
   - Rule
   properties:
   - type: OpenAPI
@@ -1182,6 +1190,8 @@ apis:
   humanURL: https://apiportal.avnet.com/
   baseURL: https://apigw.avnet.com
   tags:
+  - Templates
+  tags_raw:
   - Template
   properties:
   - type: OpenAPI
@@ -1321,6 +1331,9 @@ apis:
   - type: Documentation
     url: https://docs.iotconnect.io/iotconnect/rest-api/file/?env=prod&pf=az
 common:
+- type: CapabilityMap
+  url: capabilities/avnet-capability-edges.yml
+  name: Avnet Business Capability Map
 - type: Overlay
   url: overlays/avnet-iotconnect-master-overlay.yaml
 - type: Overlay
