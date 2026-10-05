@@ -1,0 +1,34 @@
+slug: avnet
+provider: Avnet
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: User
+  spec_file: avnet-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /api/v2.1/User 'Add new user'; 'Update user status'; 'Change password'; ChangePasswordRequest,
+    ResetPasswordRequest, CognitoUserGetList
+  reason: User account lifecycle, role/entity assignment and credential management — squarely Identity
+    & Access Management.
+- tag: Role
+  spec_file: avnet-role-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /api/v2.1/Role 'Add new role'; 'Update role status'; 'Get role list with user count'
+  reason: Lifecycle of authorisation roles assigned to platform users is access management; mapped to
+    Identity & Access Management with moderate confidence since it is a platform-internal admin surface.
