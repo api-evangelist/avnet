@@ -2034,88 +2034,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TemplateCreateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
     TemplateTwinLookup:
       type: object
       properties:
@@ -2133,36 +2051,15 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    ErrorsResponse:
+    TemplateDetailLookupResponse:
       type: object
       properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    TemplateDeviceNotificationResponse:
-      type: object
-      properties:
-        continuationToken:
-          type:
-          - string
-          - 'null'
         data:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/TemplateDeviceNotification'
+            $ref: '#/components/schemas/TemplateDetailLookup'
         status:
           enum:
           - 100
@@ -2238,7 +2135,76 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    TemplateTagListResponse:
+    DeviceTemplateUpdateRequest:
+      type: object
+      properties:
+        templateGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    TrustedPartnerLookup:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateDeviceNotification:
+      type: object
+      properties:
+        condition:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        notificationText:
+          type:
+          - string
+          - 'null'
+        ruleName:
+          type:
+          - string
+          - 'null'
+        severityLevel:
+          type:
+          - string
+          - 'null'
+        telemetry:
+          type:
+          - string
+          - 'null'
+        uniqueId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateLookupResponse:
       type: object
       properties:
         data:
@@ -2246,7 +2212,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/TemplateTagList'
+            $ref: '#/components/schemas/TemplateLookup'
         status:
           enum:
           - 100
@@ -2406,277 +2372,73 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorModel:
+    TemplateCreateRequest:
+      required:
+      - authType
+      - code
+      - isEdgeSupport
+      - name
       type: object
       properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    TemplateListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/TemplateList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    DeviceTemplateUpdateRequest:
-      type: object
-      properties:
-        templateGuid:
+        code:
+          maxLength: 10
+          minLength: 1
           type: string
-          format: uuid
-      additionalProperties: false
-    TemplateCommandData:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        command:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type: string
-          format: uuid
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        requiredParam:
-          type:
-          - boolean
-          - 'null'
-        requiredAck:
-          type:
-          - boolean
-          - 'null'
-        isOTACommand:
-          type:
-          - boolean
-          - 'null'
-        isTemplateCommandUsed:
-          type:
-          - boolean
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    TemplateDelete:
-      type: object
-      properties:
-        isGreenGrass:
-          type: integer
-          format: int32
-      additionalProperties: false
-    TemplateCreateQuickResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    TemplateProperty:
-      type: object
-      properties:
-        description:
-          type:
-          - string
-          - 'null'
-        dataFrequency:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        fileSupport:
+          description: Unique device template code. Template code must be alphanumeric and must start with the alphabet .
+        isEdgeSupport:
           type: boolean
-          default: false
+          description: For devices with edge support
+        authType:
+          type: integer
+          description: 'Authentication Type - 2: CA Signed Certificate, 3: Self Signed Certificate, 7: CA Signed Individual'
+          format: int32
+        tag:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: "For Gateway supported Devices. \nIt should be alphanumeric with allowed two consecutive '_' and must be started with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        trustedPartnerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        greenGrass:
+          type: boolean
+        wireless:
+          type: boolean
+        wirelessType:
+          type:
+          - integer
+          - 'null'
+          format: int32
         videoStreamResource:
           type:
-          - string
+          - integer
           - 'null'
-        SupportVideoStream:
+          format: int32
+        videoStreamType:
           type:
-          - string
+          - integer
           - 'null'
+          format: int32
         autoStartVideoStream:
           type: boolean
-          default: false
+        c2dOnDemand:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        dataLength:
+          type:
+          - integer
+          - 'null'
+          description: For devices with low bandwidth support
+          format: int32
         certRenewalDay:
           type:
           - integer
@@ -2690,12 +2452,15 @@ components:
           type:
           - boolean
           - 'null'
-      additionalProperties: false
-    TemplateUpdateRequest:
-      required:
-      - name
-      type: object
-      properties:
+        fileSupport:
+          type:
+          - boolean
+          - 'null'
+        ggDeviceType:
+          type:
+          - integer
+          - 'null'
+          format: int32
         name:
           maxLength: 100
           minLength: 1
@@ -2706,174 +2471,6 @@ components:
           - string
           - 'null'
           description: Firmware hardware version guid
-      additionalProperties: false
-    TemplateDataTypeResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/TemplateDataType'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    TemplateLookupResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/TemplateLookup'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
       additionalProperties: false
     TemplateList:
       type: object
@@ -2976,132 +2573,15 @@ components:
           type: integer
           format: int32
       additionalProperties: false
-    TemplateDataType:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        target:
-          type: integer
-          format: int32
-        conditionBitValue:
-          type: integer
-          format: int32
-        description:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    TemplateDeviceNotification:
-      type: object
-      properties:
-        condition:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        deviceGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        notificationText:
-          type:
-          - string
-          - 'null'
-        ruleName:
-          type:
-          - string
-          - 'null'
-        severityLevel:
-          type:
-          - string
-          - 'null'
-        telemetry:
-          type:
-          - string
-          - 'null'
-        uniqueId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    TemplatePropertyRequest:
-      type: object
-      properties:
-        dataFrequency:
-          type:
-          - integer
-          - 'null'
-          description: DataFrequency. Default value is 60.
-          format: int32
-        description:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Description.
-        fileSupport:
-          type: boolean
-          description: File support. Default value is false.
-          default: false
-        onDemandCmd:
-          type: integer
-          description: OnDemandCmd. Default value is false.
-          format: int32
-          default: false
-        isCpidOptional:
-          type: boolean
-        videoStreamResource:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        videoStreamType:
-          type:
-          - integer
-          - 'null'
-          description: Template Video Stream Type.
-          format: int32
-        autoStartVideoStream:
-          type: boolean
-        certRenewalDay:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        enableCSR:
-          type:
-          - boolean
-          - 'null'
-        enableGeoLocation:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    DeviceTemplateUpdateResponse:
+    TemplateDataTypeResponse:
       type: object
       properties:
         data:
           type:
-          - object
+          - array
           - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDataType'
         status:
           enum:
           - 100
@@ -3261,6 +2741,87 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
+    TemplatePropertyRequest:
+      type: object
+      properties:
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          description: DataFrequency. Default value is 60.
+          format: int32
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Description.
+        fileSupport:
+          type: boolean
+          description: File support. Default value is false.
+          default: false
+        onDemandCmd:
+          type: integer
+          description: OnDemandCmd. Default value is false.
+          format: int32
+          default: false
+        isCpidOptional:
+          type: boolean
+        videoStreamResource:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        videoStreamType:
+          type:
+          - integer
+          - 'null'
+          description: Template Video Stream Type.
+          format: int32
+        autoStartVideoStream:
+          type: boolean
+        certRenewalDay:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        enableCSR:
+          type:
+          - boolean
+          - 'null'
+        enableGeoLocation:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateUpdateRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Device template name
+        firmwareguid:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version guid
+      additionalProperties: false
     TemplateDetailResponse:
       type: object
       properties:
@@ -3272,6 +2833,469 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/TemplateDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateTagList:
+      type: object
+      properties:
+        tag:
+          type:
+          - string
+          - 'null'
+        templateTag:
+          type: boolean
+      additionalProperties: false
+    TemplateCreateQuickResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateUpdate:
+      type: object
+      additionalProperties: false
+    TemplateDataType:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        target:
+          type: integer
+          format: int32
+        conditionBitValue:
+          type: integer
+          format: int32
+        description:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    TemplateDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDelete'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateDelete:
+      type: object
+      properties:
+        isGreenGrass:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TemplateListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateDeviceNotificationResponse:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateDeviceNotification'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceTemplateUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -3433,7 +3457,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    TemplateDeleteResponse:
+    TemplateTagListResponse:
       type: object
       properties:
         data:
@@ -3441,7 +3465,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/TemplateDelete'
+            $ref: '#/components/schemas/TemplateTagList'
         status:
           enum:
           - 100
@@ -3517,15 +3541,30 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    TrustedPartnerLookupResponse:
+    ErrorsResponse:
       type: object
       properties:
-        data:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/TrustedPartnerLookup'
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    TemplateCreateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -3600,6 +3639,46 @@ components:
           - integer
           - 'null'
           format: int64
+      additionalProperties: false
+    TemplateProperty:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        fileSupport:
+          type: boolean
+          default: false
+        videoStreamResource:
+          type:
+          - string
+          - 'null'
+        SupportVideoStream:
+          type:
+          - string
+          - 'null'
+        autoStartVideoStream:
+          type: boolean
+          default: false
+        certRenewalDay:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        enableCSR:
+          type:
+          - boolean
+          - 'null'
+        enableGeoLocation:
+          type:
+          - boolean
+          - 'null'
       additionalProperties: false
     TemplateDetail:
       type: object
@@ -3777,36 +3856,23 @@ components:
           format: int32
           readOnly: true
       additionalProperties: false
-    TemplateTagList:
+    TemplateDetailLookup:
       type: object
       properties:
-        tag:
+        attributes:
           type:
-          - string
+          - object
           - 'null'
-        templateTag:
-          type: boolean
-      additionalProperties: false
-    TrustedPartnerLookup:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        name:
+        commands:
           type:
-          - string
+          - object
           - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        type:
+        wirelessType:
           type:
           - string
           - 'null'
       additionalProperties: false
-    TemplateDetailLookupResponse:
+    TrustedPartnerLookupResponse:
       type: object
       properties:
         data:
@@ -3814,7 +3880,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/TemplateDetailLookup'
+            $ref: '#/components/schemas/TrustedPartnerLookup'
         status:
           enum:
           - 100
@@ -3890,21 +3956,55 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    TemplateUpdate:
-      type: object
-      additionalProperties: false
-    TemplateDetailLookup:
+    TemplateCommandData:
       type: object
       properties:
-        attributes:
+        guid:
           type:
-          - object
+          - string
           - 'null'
-        commands:
+          format: uuid
+        name:
           type:
-          - object
+          - string
           - 'null'
-        wirelessType:
+        command:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+        isOTACommand:
+          type:
+          - boolean
+          - 'null'
+        isTemplateCommandUsed:
+          type:
+          - boolean
+          - 'null'
+        tag:
           type:
           - string
           - 'null'
@@ -3976,107 +4076,7 @@ components:
           - 'null'
           format: int32
       additionalProperties: false
-    TemplateCreateRequest:
-      required:
-      - authType
-      - code
-      - isEdgeSupport
-      - name
-      type: object
-      properties:
-        code:
-          maxLength: 10
-          minLength: 1
-          type: string
-          description: Unique device template code. Template code must be alphanumeric and must start with the alphabet .
-        isEdgeSupport:
-          type: boolean
-          description: For devices with edge support
-        authType:
-          type: integer
-          description: 'Authentication Type - 2: CA Signed Certificate, 3: Self Signed Certificate, 7: CA Signed Individual'
-          format: int32
-        tag:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: "For Gateway supported Devices. \nIt should be alphanumeric with allowed two consecutive '_' and must be started with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        messageVersion:
-          type:
-          - string
-          - 'null'
-        trustedPartnerGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        greenGrass:
-          type: boolean
-        wireless:
-          type: boolean
-        wirelessType:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        videoStreamResource:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        videoStreamType:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        autoStartVideoStream:
-          type: boolean
-        c2dOnDemand:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        dataLength:
-          type:
-          - integer
-          - 'null'
-          description: For devices with low bandwidth support
-          format: int32
-        certRenewalDay:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        enableCSR:
-          type:
-          - boolean
-          - 'null'
-        enableGeoLocation:
-          type:
-          - boolean
-          - 'null'
-        fileSupport:
-          type:
-          - boolean
-          - 'null'
-        ggDeviceType:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Device template name
-        firmwareguid:
-          type:
-          - string
-          - 'null'
-          description: Firmware hardware version guid
-      additionalProperties: false
-    TemplateSettingData:
+    TemplateDirecteMethodData:
       type: object
       properties:
         guid:
@@ -4084,65 +4084,23 @@ components:
           - string
           - 'null'
           format: uuid
-        name:
+        methodName:
           type:
           - string
           - 'null'
-        datatypeGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        dataType:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type: string
-          format: uuid
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        localName:
-          type:
-          - string
-          - 'null'
-        defaultValue:
-          type:
-          - object
-          - 'null'
-        dataValidation:
-          type:
-          - string
-          - 'null'
-        isReadOnly:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    TemplateProperty_2:
-      type: object
-      properties:
-        description:
-          type:
-          - string
-          - 'null'
-        dataFrequency:
-          type:
-          - integer
-          - 'null'
+        responseTimeoutSecond:
+          type: integer
           format: int32
-        fileSupport:
-          type: boolean
-          default: false
+        createdBy:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
       additionalProperties: false
     AuthenticationTypeResponse:
       type: object
@@ -4153,235 +4111,6 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/AuthenticationTypeList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    AuthenticationTypeList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        authenticationType:
-          type:
-          - string
-          - 'null'
-        authTypeId:
-          type: integer
-          format: int32
-      additionalProperties: false
-    TemplateList_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        code:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        firmwareGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        attributeCount:
-          type: integer
-          format: int32
-        settingCount:
-          type: integer
-          format: int32
-        commandCount:
-          type: integer
-          format: int32
-        deviceCount:
-          type: integer
-          format: int32
-        ruleCount:
-          type: integer
-          format: int32
-        isValidateTemplate:
-          type: boolean
-        isValidEdgeSupport:
-          type: boolean
-        isValidType2Support:
-          type: boolean
-        tag:
-          type:
-          - string
-          - 'null'
-        authType:
-          type: integer
-          format: int32
-        isEdgeSupport:
-          type: boolean
-        gatewaySupport:
-          type: boolean
-        isLowBandwidth:
-          type: boolean
-        isIotEdgeEnable:
-          type: boolean
-        isSolutionTemplate:
-          type: boolean
-        solutionName:
-          type:
-          - string
-          - 'null'
-        messageVersion:
-          type:
-          - string
-          - 'null'
-        fileSupport:
-          type: boolean
-        directMethodCount:
-          type: integer
-          format: int32
-        authenticationType:
-          type:
-          - string
-          - 'null'
-        templateType:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        c2dOnDemand:
-          type: integer
-          format: int32
-      additionalProperties: false
-    TemplateDataType_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        target:
-          type: integer
-          format: int32
-        conditionBitValue:
-          type: integer
-          format: int32
-        aggregateBitValue:
-          type: integer
-          format: int32
-        aggregates:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    SphereTemplateLookupResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/TemplateLookup_2'
         status:
           enum:
           - 100
@@ -4500,6 +4229,257 @@ components:
           - 'null'
           readOnly: true
       additionalProperties: false
+    TemplateCreateRequest_2:
+      required:
+      - authType
+      - code
+      - isEdgeSupport
+      - name
+      type: object
+      properties:
+        code:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: Unique device template code. Template code must be alphanumeric and must start with the alphabet .
+        isEdgeSupport:
+          type: boolean
+          description: For devices with edge support
+        authType:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          type: integer
+          description: 'Authentication Type - 1: Key, 2: CA Signed Certificate, 3: Self Signed Certificate, 4: TPM, 5: Symmetric Key,6: DDKG,7: BootstrapCertificate, 8: PKISignature'
+          format: int32
+        tag:
+          maxLength: 50
+          type:
+          - string
+          - 'null'
+          description: "For Gateway supported Devices. \nIt should be alphanumeric with allowed two consecutive '_' and must be started with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
+        dataLength:
+          type:
+          - integer
+          - 'null'
+          description: For devices with low bandwidth support
+          format: int32
+        isIotEdgeEnable:
+          type: boolean
+          description: True to devices is Azure IoTEdge.
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        trustedPartnerGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        c2dOnDemand:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        name:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Device template name
+        firmwareguid:
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware version guid
+      additionalProperties: false
+    SphereTemplateLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateLookup_2'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    TemplateList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        code:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        attributeCount:
+          type: integer
+          format: int32
+        settingCount:
+          type: integer
+          format: int32
+        commandCount:
+          type: integer
+          format: int32
+        deviceCount:
+          type: integer
+          format: int32
+        ruleCount:
+          type: integer
+          format: int32
+        isValidateTemplate:
+          type: boolean
+        isValidEdgeSupport:
+          type: boolean
+        isValidType2Support:
+          type: boolean
+        tag:
+          type:
+          - string
+          - 'null'
+        authType:
+          type: integer
+          format: int32
+        isEdgeSupport:
+          type: boolean
+        gatewaySupport:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSolutionTemplate:
+          type: boolean
+        solutionName:
+          type:
+          - string
+          - 'null'
+        messageVersion:
+          type:
+          - string
+          - 'null'
+        fileSupport:
+          type: boolean
+        directMethodCount:
+          type: integer
+          format: int32
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        templateType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        c2dOnDemand:
+          type: integer
+          format: int32
+      additionalProperties: false
     TemplatePropertyRequest_2:
       type: object
       properties:
@@ -4519,6 +4499,36 @@ components:
           type: boolean
           description: File support. Default value is false.
           default: false
+      additionalProperties: false
+    TemplateDataType_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        target:
+          type: integer
+          format: int32
+        conditionBitValue:
+          type: integer
+          format: int32
+        aggregateBitValue:
+          type: integer
+          format: int32
+        aggregates:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
     TemplateDeleteResponse_2:
       type: object
@@ -4605,6 +4615,22 @@ components:
           - integer
           - 'null'
           format: int64
+      additionalProperties: false
+    TemplateProperty_2:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        dataFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        fileSupport:
+          type: boolean
+          default: false
       additionalProperties: false
     TemplateDetail_2:
       type: object
@@ -4756,31 +4782,21 @@ components:
           - boolean
           - 'null'
       additionalProperties: false
-    TemplateDirecteMethodData:
+    AuthenticationTypeList:
       type: object
       properties:
         guid:
           type:
           - string
           - 'null'
-          format: uuid
-        methodName:
+          readOnly: true
+        authenticationType:
           type:
           - string
           - 'null'
-        responseTimeoutSecond:
+        authTypeId:
           type: integer
           format: int32
-        createdBy:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
       additionalProperties: false
     TemplateDetailLookup_2:
       type: object
@@ -4796,6 +4812,58 @@ components:
         commands:
           type:
           - object
+          - 'null'
+      additionalProperties: false
+    TemplateSettingData:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        datatypeGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        dataType:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        localName:
+          type:
+          - string
+          - 'null'
+        defaultValue:
+          type:
+          - object
+          - 'null'
+        dataValidation:
+          type:
+          - string
+          - 'null'
+        isReadOnly:
+          type:
+          - boolean
           - 'null'
       additionalProperties: false
     TemplateLookup_2:
@@ -4844,74 +4912,6 @@ components:
         c2dOnDemand:
           type: integer
           format: int32
-      additionalProperties: false
-    TemplateCreateRequest_2:
-      required:
-      - authType
-      - code
-      - isEdgeSupport
-      - name
-      type: object
-      properties:
-        code:
-          maxLength: 10
-          minLength: 1
-          type: string
-          description: Unique device template code. Template code must be alphanumeric and must start with the alphabet .
-        isEdgeSupport:
-          type: boolean
-          description: For devices with edge support
-        authType:
-          enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          type: integer
-          description: 'Authentication Type - 1: Key, 2: CA Signed Certificate, 3: Self Signed Certificate, 4: TPM, 5: Symmetric Key,6: DDKG,7: BootstrapCertificate, 8: PKISignature'
-          format: int32
-        tag:
-          maxLength: 50
-          type:
-          - string
-          - 'null'
-          description: "For Gateway supported Devices. \nIt should be alphanumeric with allowed two consecutive '_' and must be started with the alphabet. \nEg. Temperature, Humadity, oxygenIn1, Temperature_In, Temperature__Out, Oxygen_In__1  etc."
-        dataLength:
-          type:
-          - integer
-          - 'null'
-          description: For devices with low bandwidth support
-          format: int32
-        isIotEdgeEnable:
-          type: boolean
-          description: True to devices is Azure IoTEdge.
-        messageVersion:
-          type:
-          - string
-          - 'null'
-        trustedPartnerGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        c2dOnDemand:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        name:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Device template name
-        firmwareguid:
-          type:
-          - string
-          - 'null'
-          description: Firmware hardware version guid
       additionalProperties: false
   securitySchemes:
     Bearer:

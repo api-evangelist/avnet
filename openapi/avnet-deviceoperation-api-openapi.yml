@@ -156,37 +156,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DeviceOperationList:
-      type: object
-      properties:
-        guid:
-          type: string
-          format: uuid
-        startDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        endDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        isActive:
-          type: boolean
-        isDeleted:
-          type: boolean
-        createddate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          format: uuid
-      additionalProperties: false
     DeviceOperationListResponse:
       type: object
       properties:
@@ -299,6 +268,37 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    DeviceOperationList:
+      type: object
+      properties:
+        guid:
+          type: string
+          format: uuid
+        startDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        endDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createddate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          format: uuid
       additionalProperties: false
     DeviceDataArchiveRequest:
       required:

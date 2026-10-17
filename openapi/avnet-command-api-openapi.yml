@@ -1992,866 +1992,97 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CommandScheduleUpdateStatusResponse:
+    CommandLookupResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandLookup'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryDeleteResponse:
       type: object
       properties:
         data:
           type:
           - object
           - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandScheduleUpdateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    ResendHistoryModel:
-      type: object
-      properties:
-        resendCount:
-          type: integer
-          format: int32
-        execTime:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-            format: date-time
-      additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    CommandHistoryList:
-      type: object
-      properties:
-        commandHistoryGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        parentDeviceUniqueId:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-        cmdText:
-          type:
-          - string
-          - 'null'
-        statusDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        createdByName:
-          type:
-          - string
-          - 'null'
-        isResend:
-          type: boolean
-        resendHistory:
-          $ref: '#/components/schemas/ResendHistoryModel'
-        statusText:
-          type:
-          - string
-          - 'null'
-        messageId:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CommandScheduleUpdateStatusRequest:
-      required:
-      - isActive
-      type: object
-      properties:
-        isActive:
-          type: boolean
-          description: 'Scheduled Command Active Status : true/false'
-        isCpidOptional:
-          type: boolean
-      additionalProperties: false
-    CommandCreateRequest:
-      required:
-      - command
-      - deviceTemplateGuid
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 200
-          minLength: 1
-          type: string
-          description: Template command name
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Device Template Guid
-        command:
-          minLength: 1
-          type: string
-          description: Template command
-        requiredParam:
-          type:
-          - boolean
-          - 'null'
-          description: Pass true to set parameter as required
-        requiredAck:
-          type:
-          - boolean
-          - 'null'
-          description: Pass true to set acknowledgement as required
-        isOTACommand:
-          type: boolean
-          description: Pass true if command is OTA command
-        tag:
-          maxLength: 200
-          type:
-          - string
-          - 'null'
-          description: Tag, Required if device template has enabled gateway support.
-      additionalProperties: false
-    CommandHistoryDynamoListRequest:
-      type: object
-      properties:
-        continuationToken:
-          type:
-          - string
-          - 'null'
-        deviceGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        capability:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        isCpIdOptional:
-          type:
-          - boolean
-          - 'null'
-      additionalProperties: false
-    CommandHistoryDynamoListResponse:
-      type: object
-      properties:
-        continuationToken:
-          type:
-          - string
-          - 'null'
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CommandHistoryList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandSendToDeviceUniqueIdResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandScheduleDetailResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CommandScheduleDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandSendRequest:
-      required:
-      - commandGuid
-      - gatewayGuid
-      type: object
-      properties:
-        commandGuid:
-          minLength: 1
-          type: string
-          description: Template command Guid
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value
-        commandText:
-          type:
-          - string
-          - 'null'
-          description: Command Text
-        applyTo:
-          type: integer
-          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
-          format: int32
-        devices:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: "Device guid list. \n            Required if applyTo is 2"
-        entityGuid:
-          maxLength: 750
-          type:
-          - string
-          - 'null'
-          description: "Entity Guid. \n            Required if applyTo is 1"
-        isRecursive:
-          type:
-          - boolean
-          - 'null'
-          description: 'Send true to include child entity devices.
-
-            Required if applyTo is 1'
-        isScheduledCommand:
-          type:
-          - boolean
-          - 'null'
-          description: 'Allows to schedule a command. <i>true</i>: To schedule a command, <i>false</i>: Doesn''t schedule and send command instantly.'
-        scheduleUnit:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
-        scheduleUnitValue:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
-        isCpidOptional:
-          type: boolean
-        gatewayGuid:
-          minLength: 1
-          type: string
-          description: Gateway Guid
-        fPort:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        transmissionInterval:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        downlinkMode:
-          type:
-          - string
-          - 'null'
-        downlinkFrequency:
-          type:
-          - integer
-          - 'null'
-          format: int64
-        transmissionMode:
-          type:
-          - integer
-          - 'null'
-          format: int32
-        isBytesCommand:
-          type: boolean
-        commandAsString:
-          type: boolean
-        dType:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    BatchCommandListResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CommandList'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandScheduleList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        commandGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        commandName:
-          type:
-          - string
-          - 'null'
-        templateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        templateName:
-          type:
-          - string
-          - 'null'
-        applyTo:
-          type: integer
-          format: int32
-        EntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isRecursive:
-          type: boolean
-        deviceXML:
-          type:
-          - string
-          - 'null'
-        unit:
-          type:
-          - string
-          - 'null'
-        unitValue:
-          type: integer
-          format: int32
-        unitTime:
-          type: string
-          format: date-span
-        parameterValue:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        nextExecutionDate:
-          type:
-          - string
-          - 'null'
-        wireless:
-          type: boolean
-      additionalProperties: false
-    CommandSendResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
         status:
           enum:
           - 100
@@ -2950,102 +2181,91 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    CommandUpdateRequest:
-      required:
-      - command
-      - deviceTemplateGuid
-      - name
+    CommandHistoryListResponse:
       type: object
       properties:
-        name:
-          maxLength: 200
-          minLength: 1
-          type: string
-          description: Template command name
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Device Template Guid
-        command:
-          minLength: 1
-          type: string
-          description: Template command
-        requiredParam:
-          type:
-          - boolean
-          - 'null'
-          description: Pass true to set parameter as required
-        requiredAck:
-          type:
-          - boolean
-          - 'null'
-          description: Pass true to set acknowledgement as required
-        isOTACommand:
-          type: boolean
-          description: Pass true if command is OTA command
-        tag:
-          maxLength: 200
-          type:
-          - string
-          - 'null'
-          description: Tag, Required if device template has enabled gateway support.
-      additionalProperties: false
-    CommandScheduleUpdateRequest:
-      required:
-      - commandGuid
-      type: object
-      properties:
-        commandGuid:
-          minLength: 1
-          type: string
-          description: Command Guid
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value
-        applyTo:
-          type: integer
-          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
-          format: int32
-        devices:
+        data:
           type:
           - array
           - 'null'
           items:
-            type: string
-          description: Device guid list. if applyTo is 2
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          description: Entity Guid. if applyTo is 1
-        isRecursive:
-          type:
-          - boolean
-          - 'null'
-          description: Send true to include child entity devices. if applyTo is 1
-        scheduleUnit:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
-        scheduleUnitValue:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
-        isCpidOptional:
-          type: boolean
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
+            $ref: '#/components/schemas/CommandHistoryList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
-    CommandHistoryUpdateResponse:
+    CommandScheduleUpdateResponse:
       type: object
       properties:
         data:
@@ -3217,7 +2437,85 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandHistoryListResponse:
+    CommandScheduleList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandName:
+          type:
+          - string
+          - 'null'
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateName:
+          type:
+          - string
+          - 'null'
+        applyTo:
+          type: integer
+          format: int32
+        EntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isRecursive:
+          type: boolean
+        deviceXML:
+          type:
+          - string
+          - 'null'
+        unit:
+          type:
+          - string
+          - 'null'
+        unitValue:
+          type: integer
+          format: int32
+        unitTime:
+          type: string
+          format: date-span
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        nextExecutionDate:
+          type:
+          - string
+          - 'null'
+        wireless:
+          type: boolean
+      additionalProperties: false
+    CommandListResponse:
       type: object
       properties:
         data:
@@ -3225,7 +2523,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/CommandHistoryList'
+            $ref: '#/components/schemas/CommandList'
         status:
           enum:
           - 100
@@ -3301,7 +2599,30 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandReSendResponse:
+    CommandHistoryDynamoListRequest:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        capability:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        isCpIdOptional:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    CommandScheduleDeleteResponse:
       type: object
       properties:
         data:
@@ -3387,7 +2708,211 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandScheduleDeleteResponse:
+    CommandScheduleUpdateRequest:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Device guid list. if applyTo is 2
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. if applyTo is 1
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: Send true to include child entity devices. if applyTo is 1
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+        isCpidOptional:
+          type: boolean
+      additionalProperties: false
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CommandSendToDeviceUniqueIdResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandSendToDeviceRequest:
+      required:
+      - commandGuid
+      - gatewayGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        commandText:
+          type:
+          - string
+          - 'null'
+          description: Command Text
+        gatewayGuid:
+          minLength: 1
+          type: string
+          description: Gateway Guid
+        fPort:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        transmissionInterval:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        downlinkMode:
+          type:
+          - string
+          - 'null'
+        downlinkFrequency:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        transmissionMode:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        isBytesCommand:
+          type: boolean
+      additionalProperties: false
+    CommandHistoryUpdateResponse:
       type: object
       properties:
         data:
@@ -3559,54 +3084,235 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandList:
+    CommandScheduleListResponse:
       type: object
       properties:
-        guid:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandScheduleList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandHistoryList:
+      type: object
+      properties:
+        commandHistoryGuid:
           type:
           - string
           - 'null'
           readOnly: true
-        name:
+        uniqueId:
           type:
           - string
           - 'null'
-        command:
+        parentDeviceUniqueId:
           type:
           - string
           - 'null'
-        createdDate:
+        status:
+          type:
+          - string
+          - 'null'
+        cmdText:
+          type:
+          - string
+          - 'null'
+        statusDate:
           type:
           - string
           - 'null'
           format: date-time
-        updatedDate:
+        createdByName:
           type:
           - string
           - 'null'
-          format: date-time
-        requiredParam:
-          type:
-          - boolean
-          - 'null'
-        requiredAck:
-          type:
-          - boolean
-          - 'null'
-        isOTACommand:
-          type:
-          - boolean
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        isTemplateCommandUsed:
+        isResend:
           type: boolean
-        devices:
+        resendHistory:
+          $ref: '#/components/schemas/ResendHistoryModel'
+        statusText:
           type:
-          - object
+          - string
           - 'null'
+        messageId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandReSendResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ResendHistoryModel:
+      type: object
+      properties:
+        resendCount:
+          type: integer
+          format: int32
+        execTime:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: date-time
       additionalProperties: false
     CommandHistoryUpdateRequest:
       required:
@@ -3629,7 +3335,47 @@ components:
           - 'null'
           description: Status Text
       additionalProperties: false
-    CommandSendToDeviceRequest:
+    CommandCreateRequest:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set parameter as required
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandSendRequest:
       required:
       - commandGuid
       - gatewayGuid
@@ -3638,7 +3384,7 @@ components:
         commandGuid:
           minLength: 1
           type: string
-          description: Command Guid
+          description: Template command Guid
         parameterValue:
           type:
           - string
@@ -3649,6 +3395,47 @@ components:
           - string
           - 'null'
           description: Command Text
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Device guid list. \n            Required if applyTo is 2"
+        entityGuid:
+          maxLength: 750
+          type:
+          - string
+          - 'null'
+          description: "Entity Guid. \n            Required if applyTo is 1"
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: 'Send true to include child entity devices.
+
+            Required if applyTo is 1'
+        isScheduledCommand:
+          type:
+          - boolean
+          - 'null'
+          description: 'Allows to schedule a command. <i>true</i>: To schedule a command, <i>false</i>: Doesn''t schedule and send command instantly.'
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+        isCpidOptional:
+          type: boolean
         gatewayGuid:
           minLength: 1
           type: string
@@ -3679,8 +3466,14 @@ components:
           format: int32
         isBytesCommand:
           type: boolean
+        commandAsString:
+          type: boolean
+        dType:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    CommandScheduleListResponse:
+    CommandSendResponse:
       type: object
       properties:
         data:
@@ -3688,7 +3481,234 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/CommandScheduleList'
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandScheduleUpdateStatusRequest:
+      required:
+      - isActive
+      type: object
+      properties:
+        isActive:
+          type: boolean
+          description: 'Scheduled Command Active Status : true/false'
+        isCpidOptional:
+          type: boolean
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    CommandDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandLookup:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        requiredParam:
+          type: boolean
+        isBytesCommand:
+          type: boolean
+        wireless:
+          type: boolean
+      additionalProperties: false
+    CommandHistoryDynamoListResponse:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandHistoryList'
         status:
           enum:
           - 100
@@ -3850,7 +3870,338 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandHistoryDeleteResponse:
+    CommandUpdateRequest:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set parameter as required
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandScheduleDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        companyGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        commandName:
+          type:
+          - string
+          - 'null'
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateName:
+          type:
+          - string
+          - 'null'
+        applyTo:
+          type: integer
+          format: int32
+        EntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isRecursive:
+          type: boolean
+        selectedDevices:
+          readOnly: true
+        unit:
+          type:
+          - string
+          - 'null'
+        unitValue:
+          type: integer
+          format: int32
+        unitTime:
+          type: string
+          format: date-span
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        tagList:
+          readOnly: true
+        selectedTag:
+          type:
+          - string
+          - 'null'
+        commandList:
+          readOnly: true
+        deviceList:
+          readOnly: true
+        nextExecutionDate:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+        isOTACommand:
+          type:
+          - boolean
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        isTemplateCommandUsed:
+          type: boolean
+        devices:
+          type:
+          - object
+          - 'null'
+      additionalProperties: false
+    BatchCommandListResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandScheduleDetailResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CommandScheduleDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    CommandScheduleUpdateStatusResponse:
       type: object
       properties:
         data:
@@ -3932,165 +4283,24 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandLookupResponse:
+    CommandHistoryCombinedRequest:
       type: object
       properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CommandLookup'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+        pageSize:
           type: integer
           format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CommandScheduleDetail:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        commandGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        commandName:
-          type:
-          - string
-          - 'null'
-        templateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        templateName:
-          type:
-          - string
-          - 'null'
-        applyTo:
-          type: integer
-          format: int32
-        EntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isRecursive:
+        isEdge:
           type: boolean
-        selectedDevices:
-          readOnly: true
-        unit:
-          type:
-          - string
-          - 'null'
-        unitValue:
-          type: integer
-          format: int32
-        unitTime:
-          type: string
-          format: date-span
-        parameterValue:
-          type:
-          - string
-          - 'null'
-        isActive:
+        isGateway:
           type: boolean
-        tagList:
-          readOnly: true
-        selectedTag:
-          type:
-          - string
-          - 'null'
-        commandList:
-          readOnly: true
-        deviceList:
-          readOnly: true
-        nextExecutionDate:
-          type:
-          - string
-          - 'null'
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSphere:
+          type: boolean
       additionalProperties: false
-    CommandDeleteResponse:
+    CommandHistoryDeleteResponse_2:
       type: object
       properties:
         data:
@@ -4176,7 +4386,14 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandLookup:
+    CommandDeleteModel:
+      type: object
+      properties:
+        deviceTemplateGuid:
+          type: string
+          format: uuid
+      additionalProperties: false
+    CommandScheduleList_2:
       type: object
       properties:
         guid:
@@ -4184,30 +4401,158 @@ components:
           - string
           - 'null'
           readOnly: true
-        name:
+        companyGuid:
           type:
           - string
           - 'null'
-        command:
+          readOnly: true
+        commandGuid:
           type:
           - string
           - 'null'
-        requiredParam:
+          readOnly: true
+        commandName:
+          type:
+          - string
+          - 'null'
+        templateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        templateName:
+          type:
+          - string
+          - 'null'
+        applyTo:
+          type: integer
+          format: int32
+        EntityGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        isRecursive:
           type: boolean
-        isBytesCommand:
+        deviceXML:
+          type:
+          - string
+          - 'null'
+        unit:
+          type:
+          - string
+          - 'null'
+        unitValue:
+          type: integer
+          format: int32
+        unitTime:
+          type: string
+          format: date-span
+        parameterValue:
+          type:
+          - string
+          - 'null'
+        isActive:
           type: boolean
-        wireless:
-          type: boolean
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        nextExecutionDate:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
-    CommandListResponse:
+    BatchCommandDevice:
       type: object
       properties:
-        data:
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        commandText:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CommandScheduleUpdateRequest_2:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+        applyTo:
+          type: integer
+          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
+          format: int32
+        devices:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/CommandList'
+            type: string
+          description: Device guid list. if applyTo is 2
+        entityGuid:
+          type:
+          - string
+          - 'null'
+          description: Entity Guid. if applyTo is 1
+        isRecursive:
+          type:
+          - boolean
+          - 'null'
+          description: Send true to include child entity devices. if applyTo is 1
+        scheduleUnit:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
+        scheduleUnitValue:
+          type:
+          - string
+          - 'null'
+          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
+      additionalProperties: false
+    CommandSendToDeviceRequest_2:
+      required:
+      - commandGuid
+      type: object
+      properties:
+        commandGuid:
+          minLength: 1
+          type: string
+          description: Command Guid
+        parameterValue:
+          type:
+          - string
+          - 'null'
+          description: Command Value
+      additionalProperties: false
+    CommandFeedbackResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -4330,31 +4675,6 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    CommandScheduleUpdateStatusRequest_2:
-      required:
-      - isActive
-      type: object
-      properties:
-        isActive:
-          type: boolean
-          description: 'Scheduled Command Active Status : true/false'
-      additionalProperties: false
-    BatchCommandDevice:
-      type: object
-      properties:
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-        commandText:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
     CommandCreateRequest_2:
       required:
       - command
@@ -4394,87 +4714,35 @@ components:
           - 'null'
           description: Tag, Required if device template has enabled gateway support.
       additionalProperties: false
-    CommandFeedbackResponse:
+    CommandHistoryUpdateRequest_2:
+      required:
+      - ackId
+      - status
       type: object
       properties:
-        data:
-          type:
-          - object
-          - 'null'
+        ackId:
+          minLength: 1
+          type: string
+          description: Command History Guid
         status:
           enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
           type: integer
+          description: 'New Status Code. 0: In Queue, 1: In Transit, 2: Failed, 3: Executed'
           format: int32
-        message:
+        statusText:
+          maxLength: 100
           type:
           - string
           - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+          description: Status Text
       additionalProperties: false
     CommandSendRequest_2:
       required:
@@ -4530,392 +4798,14 @@ components:
           - 'null'
           description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
       additionalProperties: false
-    CommandScheduleList_2:
+    CommandScheduleUpdateStatusRequest_2:
+      required:
+      - isActive
       type: object
       properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        companyGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        commandGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        commandName:
-          type:
-          - string
-          - 'null'
-        templateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        templateName:
-          type:
-          - string
-          - 'null'
-        applyTo:
-          type: integer
-          format: int32
-        EntityGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        isRecursive:
-          type: boolean
-        deviceXML:
-          type:
-          - string
-          - 'null'
-        unit:
-          type:
-          - string
-          - 'null'
-        unitValue:
-          type: integer
-          format: int32
-        unitTime:
-          type: string
-          format: date-span
-        parameterValue:
-          type:
-          - string
-          - 'null'
         isActive:
           type: boolean
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        nextExecutionDate:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CommandUpdateRequest_2:
-      required:
-      - command
-      - deviceTemplateGuid
-      - name
-      - requiredAck
-      - requiredParam
-      type: object
-      properties:
-        name:
-          maxLength: 200
-          minLength: 1
-          type: string
-          description: Template command name
-        deviceTemplateGuid:
-          minLength: 1
-          type: string
-          description: Device Template Guid
-        command:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Template command
-        requiredParam:
-          type: boolean
-          description: Pass true to set parameter as required
-        requiredAck:
-          type: boolean
-          description: Pass true to set acknowledgement as required
-        isOTACommand:
-          type: boolean
-          description: Pass true if command is OTA command
-        tag:
-          maxLength: 200
-          type:
-          - string
-          - 'null'
-          description: Tag, Required if device template has enabled gateway support.
-      additionalProperties: false
-    CommandDeleteModel:
-      type: object
-      properties:
-        deviceTemplateGuid:
-          type: string
-          format: uuid
-      additionalProperties: false
-    CommandScheduleUpdateRequest_2:
-      required:
-      - commandGuid
-      type: object
-      properties:
-        commandGuid:
-          minLength: 1
-          type: string
-          description: Command Guid
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value
-        applyTo:
-          type: integer
-          description: 'Send 1 or 2. 1: for entity, 2: for device guid list'
-          format: int32
-        devices:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Device guid list. if applyTo is 2
-        entityGuid:
-          type:
-          - string
-          - 'null'
-          description: Entity Guid. if applyTo is 1
-        isRecursive:
-          type:
-          - boolean
-          - 'null'
-          description: Send true to include child entity devices. if applyTo is 1
-        scheduleUnit:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnit</i> is mandatory when <i>isScheduledCommand</i> is true. Valid unit values are given below.\n            <i>hour</i> : To send a command after every N hours.\n            <i>minute</i> : To send a command after every N minutes.\n            <i>time</i> : To send a command at specific time of the day."
-        scheduleUnitValue:
-          type:
-          - string
-          - 'null'
-          description: "<i>scheduleUnitValue</i> is mandatory when <i>isScheduledCommand</i> is true. This requires value as per the selected <i>scheduleUnit</i>.\n            When scheduleUnit is <i>hour</i>, set hours between 1 to 24. eg: 5(after every 5 hours command will be sent)\n            When scheduleUnit is <i>minute</i>, set minutes between 5 to 60. eg: 30(after every 30 minutes command will be sent)\n            When scheduleUnit is <i>time</i>, set time in HH:mm format. eg: 13:30(every day at 01:30 PM command will be sent)"
-      additionalProperties: false
-    CommandHistoryBaseRequest:
-      type: object
-      properties:
-        continuationToken:
-          type:
-          - string
-          - 'null'
-        deviceGuid:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        isEdge:
-          type: boolean
-        isGateway:
-          type: boolean
-        isLowBandwidth:
-          type: boolean
-        isIotEdgeEnable:
-          type: boolean
-        isSphere:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        searchText:
-          type:
-          - string
-          - 'null'
-        sortBy:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    CommandList_2:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        command:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        requiredParam:
-          type:
-          - boolean
-          - 'null'
-        requiredAck:
-          type:
-          - boolean
-          - 'null'
-        isOTACommand:
-          type:
-          - boolean
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        isTemplateCommandUsed:
-          type: boolean
-        devices:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BatchCommandDevice'
-      additionalProperties: false
-    CommandHistoryUpdateRequest_2:
-      required:
-      - ackId
-      - status
-      type: object
-      properties:
-        ackId:
-          minLength: 1
-          type: string
-          description: Command History Guid
-        status:
-          enum:
-          - 0
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          type: integer
-          description: 'New Status Code. 0: In Queue, 1: In Transit, 2: Failed, 3: Executed'
-          format: int32
-        statusText:
-          maxLength: 100
-          type:
-          - string
-          - 'null'
-          description: Status Text
-      additionalProperties: false
-    CommandSendToDeviceRequest_2:
-      required:
-      - commandGuid
-      type: object
-      properties:
-        commandGuid:
-          minLength: 1
-          type: string
-          description: Command Guid
-        parameterValue:
-          type:
-          - string
-          - 'null'
-          description: Command Value
-      additionalProperties: false
-    CommandHistoryDeleteResponse_2:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
+          description: 'Scheduled Command Active Status : true/false'
       additionalProperties: false
     CommandDeleteResponse_2:
       type: object
@@ -5001,23 +4891,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    CommandHistoryCombinedRequest:
-      type: object
-      properties:
-        pageSize:
-          type: integer
-          format: int32
-        isEdge:
-          type: boolean
-        isGateway:
-          type: boolean
-        isLowBandwidth:
-          type: boolean
-        isIotEdgeEnable:
-          type: boolean
-        isSphere:
-          type: boolean
-      additionalProperties: false
     CommandLookup_2:
       type: object
       properties:
@@ -5036,6 +4909,133 @@ components:
           - 'null'
         requiredParam:
           type: boolean
+      additionalProperties: false
+    CommandUpdateRequest_2:
+      required:
+      - command
+      - deviceTemplateGuid
+      - name
+      - requiredAck
+      - requiredParam
+      type: object
+      properties:
+        name:
+          maxLength: 200
+          minLength: 1
+          type: string
+          description: Template command name
+        deviceTemplateGuid:
+          minLength: 1
+          type: string
+          description: Device Template Guid
+        command:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: Template command
+        requiredParam:
+          type: boolean
+          description: Pass true to set parameter as required
+        requiredAck:
+          type: boolean
+          description: Pass true to set acknowledgement as required
+        isOTACommand:
+          type: boolean
+          description: Pass true if command is OTA command
+        tag:
+          maxLength: 200
+          type:
+          - string
+          - 'null'
+          description: Tag, Required if device template has enabled gateway support.
+      additionalProperties: false
+    CommandList_2:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        command:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requiredParam:
+          type:
+          - boolean
+          - 'null'
+        requiredAck:
+          type:
+          - boolean
+          - 'null'
+        isOTACommand:
+          type:
+          - boolean
+          - 'null'
+        tag:
+          type:
+          - string
+          - 'null'
+        isTemplateCommandUsed:
+          type: boolean
+        devices:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BatchCommandDevice'
+      additionalProperties: false
+    CommandHistoryBaseRequest:
+      type: object
+      properties:
+        continuationToken:
+          type:
+          - string
+          - 'null'
+        deviceGuid:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isEdge:
+          type: boolean
+        isGateway:
+          type: boolean
+        isLowBandwidth:
+          type: boolean
+        isIotEdgeEnable:
+          type: boolean
+        isSphere:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        searchText:
+          type:
+          - string
+          - 'null'
+        sortBy:
+          type:
+          - string
+          - 'null'
       additionalProperties: false
   securitySchemes:
     Bearer:

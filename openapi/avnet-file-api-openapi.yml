@@ -1138,6 +1138,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RetryFileAccessRequest:
+      type: object
+      properties:
+        recipeGuid:
+          type: string
+          format: uuid
+        filePath:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
     PreSignedURLRequest:
       required:
       - fileRefGuid
@@ -1161,22 +1172,173 @@ components:
           type: string
           description: "Module type should be one of below items \n<ul><li>deviceimage</li><li>companylogo</li><li>firmware</li><li>userprofile</li><li>importbatch</li><li>solutionimage</li><li>devicecertificate</li><li>custom</li><li>module</li><li>widgetimage</li><li>deviceupdate</li><li>ggComponentArtifact</li><li>ggComponentRecipe</li></ul>"
       additionalProperties: false
-    ErrorsResponse:
+    RemoveArtifactFileResponse:
       type: object
       properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
         status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
           type: integer
           format: int32
         message:
           type:
           - string
           - 'null'
-        error:
+        count:
           type:
-          - array
+          - integer
           - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
+          format: int64
+      additionalProperties: false
+    CompleteUploadResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
       additionalProperties: false
     ErrorModel:
       type: object
@@ -1186,6 +1348,61 @@ components:
           - string
           - 'null'
         message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    CompleteUploadRequest:
+      type: object
+      properties:
+        fileName:
+          type:
+          - string
+          - 'null'
+        uploadId:
+          type:
+          - string
+          - 'null'
+        parts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PartETagDto'
+      additionalProperties: false
+    PresignedUrlsRequest:
+      type: object
+      properties:
+        fileName:
+          type:
+          - string
+          - 'null'
+        uploadId:
+          type:
+          - string
+          - 'null'
+        partsCount:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PartETagDto:
+      type: object
+      properties:
+        partNumber:
+          type: integer
+          format: int32
+        eTag:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    RemoveArtifactFileRequest:
+      type: object
+      properties:
+        recipeGuid:
+          type: string
+          format: uuid
+        artifactFileName:
           type:
           - string
           - 'null'
@@ -1274,7 +1491,150 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    FileAddResponse:
+    PresignedUrlsResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FileDetail:
+      type: object
+      properties:
+        tag:
+          type:
+          - string
+          - 'null'
+        operationId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        componentName:
+          type:
+          - string
+          - 'null'
+        componentVersion:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+        file:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        fileDetails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UrlCheckResult'
+      additionalProperties: false
+    FileBaseDetail:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+        file:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        fileDetails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UrlCheckResult'
+      additionalProperties: false
+    RetryFileAccessResponse:
       type: object
       properties:
         data:
@@ -1282,7 +1642,311 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/FileDetail'
+            $ref: '#/components/schemas/RetryFileAccess'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    RetryFileAccess:
+      type: object
+      properties:
+        recipeGuid:
+          type: string
+          format: uuid
+        url:
+          type:
+          - string
+          - 'null'
+        isAccessible:
+          type: boolean
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FileUpdateResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileBaseDetail'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    UrlCheckResult:
+      type: object
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+        isAccessible:
+          type: boolean
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UploadInitRequest:
+      type: object
+      properties:
+        fileName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    UploadInitResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FileDeleteResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - object
+          - 'null'
         status:
           enum:
           - 100
@@ -1442,258 +2106,18 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    PresignedUrlsRequest:
+    ArtifactFileDeleteRequest:
+      required:
+      - artifactFileNames
       type: object
       properties:
-        fileName:
-          type:
-          - string
-          - 'null'
-        uploadId:
-          type:
-          - string
-          - 'null'
-        partsCount:
-          type: integer
-          format: int32
-      additionalProperties: false
-    UrlCheckResult:
-      type: object
-      properties:
-        url:
-          type:
-          - string
-          - 'null'
-        isAccessible:
-          type: boolean
-        status:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    RemoveArtifactFileResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
+        artifactFileNames:
+          type: array
           items:
-            type:
-            - object
-            - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    FileDetail:
-      type: object
-      properties:
-        tag:
-          type:
-          - string
-          - 'null'
-        operationId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        componentName:
-          type:
-          - string
-          - 'null'
-        componentVersion:
-          type:
-          - string
-          - 'null'
-        guid:
-          type:
-          - string
-          - 'null'
-        file:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        fileDetails:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UrlCheckResult'
-      additionalProperties: false
-    RetryFileAccess:
-      type: object
-      properties:
+            type: string
         recipeGuid:
           type: string
           format: uuid
-        url:
-          type:
-          - string
-          - 'null'
-        isAccessible:
-          type: boolean
-        status:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    UploadInitResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
       additionalProperties: false
     PreSignedURLDetail:
       type: object
@@ -1719,113 +2143,7 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    FileDeleteResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    RetryFileAccessRequest:
-      type: object
-      properties:
-        recipeGuid:
-          type: string
-          format: uuid
-        filePath:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ArtifactFileDeleteRequest:
-      required:
-      - artifactFileNames
-      type: object
-      properties:
-        artifactFileNames:
-          type: array
-          items:
-            type: string
-        recipeGuid:
-          type: string
-          format: uuid
-      additionalProperties: false
-    RetryFileAccessResponse:
+    FileAddResponse:
       type: object
       properties:
         data:
@@ -1833,7 +2151,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/RetryFileAccess'
+            $ref: '#/components/schemas/FileDetail'
         status:
           enum:
           - 100
@@ -1908,324 +2226,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    FileUpdateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FileBaseDetail'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CompleteUploadResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    CompleteUploadRequest:
-      type: object
-      properties:
-        fileName:
-          type:
-          - string
-          - 'null'
-        uploadId:
-          type:
-          - string
-          - 'null'
-        parts:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PartETagDto'
-      additionalProperties: false
-    FileBaseDetail:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-        file:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        fileDetails:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UrlCheckResult'
-      additionalProperties: false
-    PresignedUrlsResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - object
-          - 'null'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    UploadInitRequest:
-      type: object
-      properties:
-        fileName:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    PartETagDto:
-      type: object
-      properties:
-        partNumber:
-          type: integer
-          format: int32
-        eTag:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    RemoveArtifactFileRequest:
-      type: object
-      properties:
-        recipeGuid:
-          type: string
-          format: uuid
-        artifactFileName:
-          type:
-          - string
-          - 'null'
       additionalProperties: false
     FileDetail_2:
       type: object

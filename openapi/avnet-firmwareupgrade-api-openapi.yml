@@ -408,6 +408,146 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    FirmwareUpgradeGetList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        firmwareName:
+          type:
+          - string
+          - 'null'
+        firmwareDescription:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeDescription:
+          type:
+          - string
+          - 'null'
+        fileName:
+          type:
+          - string
+          - 'null'
+        isDraft:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        software:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdby:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedByName:
+          type:
+          - string
+          - 'null'
+        fileUrl:
+          type:
+          - string
+          - 'null'
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
+      additionalProperties: false
+    FirmwareUpGradeList:
+      type: object
+      properties:
+        firmwareguid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+        hardware:
+          type:
+          - string
+          - 'null'
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        software:
+          type:
+          - string
+          - 'null'
+        firmwareUpgradeDescription:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        fileName:
+          type:
+          - string
+          - 'null'
+        isDraft:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        createdBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+        updatedBy:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileUrl:
+          type:
+          - string
+          - 'null'
+        deviceTemplateGuid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FileUrl'
+      additionalProperties: false
     PublishFirmwareUpgradeResponse:
       type: object
       properties:
@@ -494,88 +634,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    FirmwareUpgradeCreate:
-      type: object
-      properties:
-        newId:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-      additionalProperties: false
-    FirmwareUpGradeList:
-      type: object
-      properties:
-        firmwareguid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        name:
-          type:
-          - string
-          - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        software:
-          type:
-          - string
-          - 'null'
-        firmwareUpgradeDescription:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        fileName:
-          type:
-          - string
-          - 'null'
-        isDraft:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedBy:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        fileUrl:
-          type:
-          - string
-          - 'null'
-        deviceTemplateGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        urls:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FileUrl'
-      additionalProperties: false
     FirmWareLookupListResponse:
       type: object
       properties:
@@ -660,30 +718,6 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
     ErrorModel:
       type: object
       properties:
@@ -696,67 +730,39 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    SuccessResponse:
+    FirmwareUpgradeCreate:
       type: object
       properties:
-        message:
+        newId:
           type:
           - string
           - 'null'
-        status:
-          type: integer
-          format: int32
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            type:
-            - object
-            - 'null'
+          readOnly: true
       additionalProperties: false
-    FirmwareUpgradeUpdateV2Request:
-      required:
-      - firmwareGuid
-      - software
+    FileUrl:
       type: object
       properties:
-        firmwareGuid:
-          minLength: 1
-          type: string
-          description: Associated firmware guid
-        description:
-          maxLength: 250
+        url:
           type:
           - string
           - 'null'
-          description: Firmware Description
-        firmwareDescription:
-          maxLength: 250
-          type:
-          - string
-          - 'null'
-          description: Firmware hardware Description
-        software:
-          maxLength: 20
-          minLength: 1
-          type: string
-          description: Firmware Software Version
         tag:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            type: string
-          description: "Tag of device template \nRequired if device template has enabled gateway support."
-        operationId:
+        name:
           type:
           - string
           - 'null'
-          description: OperationId for azure sphere image upload operation.
-          format: uuid
       additionalProperties: false
-    FirmwareUpgradeGetListResonse:
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
+    FirmwareUpGradeListResponse:
       type: object
       properties:
         data:
@@ -764,7 +770,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/FirmwareUpgradeGetList'
+            $ref: '#/components/schemas/FirmwareUpGradeList'
         status:
           enum:
           - 100
@@ -840,7 +846,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    FirmwareUpGradeListResponse:
+    FirmwareUpgradeCreateResponse:
       type: object
       properties:
         data:
@@ -848,7 +854,91 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/FirmwareUpGradeList'
+            $ref: '#/components/schemas/FirmwareUpgradeCreate'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    FirmwareUpgradeGetListResonse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/FirmwareUpgradeGetList'
         status:
           enum:
           - 100
@@ -965,6 +1055,96 @@ components:
           description: OperationId for azure sphere image upload operation.
           format: uuid
       additionalProperties: false
+    FirmWareLookupList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        software:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    FirmwareUpgradeUpdateV2Request:
+      required:
+      - firmwareGuid
+      - software
+      type: object
+      properties:
+        firmwareGuid:
+          minLength: 1
+          type: string
+          description: Associated firmware guid
+        description:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware Description
+        firmwareDescription:
+          maxLength: 250
+          type:
+          - string
+          - 'null'
+          description: Firmware hardware Description
+        software:
+          maxLength: 20
+          minLength: 1
+          type: string
+          description: Firmware Software Version
+        tag:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: "Tag of device template \nRequired if device template has enabled gateway support."
+        operationId:
+          type:
+          - string
+          - 'null'
+          description: OperationId for azure sphere image upload operation.
+          format: uuid
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+        status:
+          type: integer
+          format: int32
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            type:
+            - object
+            - 'null'
+      additionalProperties: false
     FirmwareUpgradeUpdateResponse:
       type: object
       properties:
@@ -1050,186 +1230,6 @@ components:
           - integer
           - 'null'
           format: int64
-      additionalProperties: false
-    FileUrl:
-      type: object
-      properties:
-        url:
-          type:
-          - string
-          - 'null'
-        tag:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    FirmWareLookupList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        software:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    FirmwareUpgradeCreateResponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FirmwareUpgradeCreate'
-        status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-      additionalProperties: false
-    FirmwareUpgradeGetList:
-      type: object
-      properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firmwareGuid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        firmwareName:
-          type:
-          - string
-          - 'null'
-        firmwareDescription:
-          type:
-          - string
-          - 'null'
-        firmwareUpgradeDescription:
-          type:
-          - string
-          - 'null'
-        fileName:
-          type:
-          - string
-          - 'null'
-        isDraft:
-          type:
-          - string
-          - 'null'
-        hardware:
-          type:
-          - string
-          - 'null'
-        software:
-          type:
-          - string
-          - 'null'
-        createdDate:
-          type: string
-          format: date-time
-        createdby:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        updatedDate:
-          type: string
-          format: date-time
-        updatedByName:
-          type:
-          - string
-          - 'null'
-        fileUrl:
-          type:
-          - string
-          - 'null'
-        urls:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/FileUrl'
       additionalProperties: false
   securitySchemes:
     Bearer:

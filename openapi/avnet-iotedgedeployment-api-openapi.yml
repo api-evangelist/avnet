@@ -123,6 +123,25 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ErrorModel:
+      type: object
+      properties:
+        param:
+          type:
+          - string
+          - 'null'
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    NoContentResult:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+      additionalProperties: false
     IoTEdgeDeploymentList:
       type: object
       properties:
@@ -149,13 +168,15 @@ components:
           type: string
           format: date-time
       additionalProperties: false
-    IoTEdgeDeploymentCreateResponse:
+    IoTEdgeDeploymentListResponse:
       type: object
       properties:
         data:
           type:
-          - object
+          - array
           - 'null'
+          items:
+            $ref: '#/components/schemas/IoTEdgeDeploymentList'
         status:
           enum:
           - 100
@@ -231,110 +252,13 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorsResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    NoContentResult:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          format: int32
-      additionalProperties: false
-    ErrorModel:
-      type: object
-      properties:
-        param:
-          type:
-          - string
-          - 'null'
-        message:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    IoTEdgeRoute:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        fromModule:
-          type:
-          - string
-          - 'null'
-        toModule:
-          type:
-          - string
-          - 'null'
-        fromChannel:
-          type:
-          - string
-          - 'null'
-        toChannel:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    IoTEdgeDeploymentCreateRequest:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        deviceGroup:
-          type: string
-          format: uuid
-        userName:
-          type:
-          - string
-          - 'null'
-        password:
-          type:
-          - string
-          - 'null'
-        address:
-          type:
-          - string
-          - 'null'
-        modules:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/IoTEdgeModule'
-        routes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/IoTEdgeRoute'
-      additionalProperties: false
-    IoTEdgeDeploymentListResponse:
+    IoTEdgeDeploymentCreateResponse:
       type: object
       properties:
         data:
           type:
-          - array
+          - object
           - 'null'
-          items:
-            $ref: '#/components/schemas/IoTEdgeDeploymentList'
         status:
           enum:
           - 100
@@ -434,6 +358,82 @@ components:
           - string
           - 'null'
         image:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    IoTEdgeDeploymentCreateRequest:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        deviceGroup:
+          type: string
+          format: uuid
+        userName:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        address:
+          type:
+          - string
+          - 'null'
+        modules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/IoTEdgeModule'
+        routes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/IoTEdgeRoute'
+      additionalProperties: false
+    ErrorsResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+      additionalProperties: false
+    IoTEdgeRoute:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        fromModule:
+          type:
+          - string
+          - 'null'
+        toModule:
+          type:
+          - string
+          - 'null'
+        fromChannel:
+          type:
+          - string
+          - 'null'
+        toChannel:
           type:
           - string
           - 'null'

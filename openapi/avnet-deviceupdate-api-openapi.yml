@@ -199,28 +199,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DeviceUpdatesDeviceLookup:
+    DeviceUpdatesList:
       type: object
       properties:
-        guid:
+        provider:
           type:
           - string
           - 'null'
-          readOnly: true
-        uniqueId:
+        name:
           type:
           - string
           - 'null'
-        displayName:
+        version:
           type:
           - string
           - 'null'
-        templateName:
-          type:
-          - string
-          - 'null'
+        deployments:
+          type: integer
+          format: int32
       additionalProperties: false
-    ImportHistoryResponse:
+    DeviceUpdatesDeviceLookupResponse:
       type: object
       properties:
         data:
@@ -228,7 +226,7 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/ImportHistory'
+            $ref: '#/components/schemas/DeviceUpdatesDeviceLookup'
         status:
           enum:
           - 100
@@ -304,53 +302,28 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    ErrorsResponse:
+    DeviceUpdatesDeviceLookup:
       type: object
       properties:
-        status:
-          type: integer
-          format: int32
-        message:
+        guid:
           type:
           - string
           - 'null'
-        error:
+          readOnly: true
+        uniqueId:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-      additionalProperties: false
-    ImportHistory:
-      type: object
-      properties:
-        deviceupdate:
-          $ref: '#/components/schemas/DeviceUpdate'
-        submittedDate:
-          type: string
-          format: date-time
-        status:
+        displayName:
+          type:
+          - string
+          - 'null'
+        templateName:
           type:
           - string
           - 'null'
       additionalProperties: false
-    DeviceUpdate:
-      type: object
-      properties:
-        provider:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        version:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    ImportUpdateResponse:
+    DeviceBulkTagAssignResponse:
       type: object
       properties:
         data:
@@ -448,7 +421,7 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    DeviceUpdatesDeviceLookupResponse:
+    DeviceUpdatesListReponse:
       type: object
       properties:
         data:
@@ -456,7 +429,153 @@ components:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/DeviceUpdatesDeviceLookup'
+            $ref: '#/components/schemas/DeviceUpdatesList'
+        status:
+          enum:
+          - 100
+          - 101
+          - 102
+          - 103
+          - 200
+          - 201
+          - 202
+          - 203
+          - 204
+          - 205
+          - 206
+          - 207
+          - 208
+          - 226
+          - 300
+          - 301
+          - 302
+          - 303
+          - 304
+          - 305
+          - 306
+          - 307
+          - 308
+          - 400
+          - 401
+          - 402
+          - 403
+          - 404
+          - 405
+          - 406
+          - 407
+          - 408
+          - 409
+          - 410
+          - 411
+          - 412
+          - 413
+          - 414
+          - 415
+          - 416
+          - 417
+          - 421
+          - 422
+          - 423
+          - 424
+          - 426
+          - 428
+          - 429
+          - 431
+          - 451
+          - 500
+          - 501
+          - 502
+          - 503
+          - 504
+          - 505
+          - 506
+          - 507
+          - 508
+          - 510
+          - 511
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+        count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    DeviceUpdatesDeviceList:
+      type: object
+      properties:
+        guid:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        uniqueId:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        aduGroup:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        deviceTemplateName:
+          type:
+          - string
+          - 'null'
+        entityName:
+          type:
+          - string
+          - 'null'
+        deviceStatus:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    DeviceBulkTagAssignRequest:
+      type: object
+      properties:
+        tag:
+          type:
+          - string
+          - 'null'
+        uniqueIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    ImportHistory:
+      type: object
+      properties:
+        deviceupdate:
+          $ref: '#/components/schemas/DeviceUpdate'
+        submittedDate:
+          type: string
+          format: date-time
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    ImportHistoryResponse:
+      type: object
+      properties:
+        data:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ImportHistory'
         status:
           enum:
           - 100
@@ -616,21 +735,7 @@ components:
           - 'null'
           format: int64
       additionalProperties: false
-    DeviceBulkTagAssignRequest:
-      type: object
-      properties:
-        tag:
-          type:
-          - string
-          - 'null'
-        uniqueIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-      additionalProperties: false
-    DeviceUpdatesList:
+    DeviceUpdate:
       type: object
       properties:
         provider:
@@ -645,130 +750,25 @@ components:
           type:
           - string
           - 'null'
-        deployments:
-          type: integer
-          format: int32
       additionalProperties: false
-    DeviceUpdatesDeviceList:
+    ErrorsResponse:
       type: object
       properties:
-        guid:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        uniqueId:
-          type:
-          - string
-          - 'null'
-        displayName:
-          type:
-          - string
-          - 'null'
-        aduGroup:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        deviceTemplateName:
-          type:
-          - string
-          - 'null'
-        entityName:
-          type:
-          - string
-          - 'null'
-        deviceStatus:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DeviceUpdatesListReponse:
-      type: object
-      properties:
-        data:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DeviceUpdatesList'
         status:
-          enum:
-          - 100
-          - 101
-          - 102
-          - 103
-          - 200
-          - 201
-          - 202
-          - 203
-          - 204
-          - 205
-          - 206
-          - 207
-          - 208
-          - 226
-          - 300
-          - 301
-          - 302
-          - 303
-          - 304
-          - 305
-          - 306
-          - 307
-          - 308
-          - 400
-          - 401
-          - 402
-          - 403
-          - 404
-          - 405
-          - 406
-          - 407
-          - 408
-          - 409
-          - 410
-          - 411
-          - 412
-          - 413
-          - 414
-          - 415
-          - 416
-          - 417
-          - 421
-          - 422
-          - 423
-          - 424
-          - 426
-          - 428
-          - 429
-          - 431
-          - 451
-          - 500
-          - 501
-          - 502
-          - 503
-          - 504
-          - 505
-          - 506
-          - 507
-          - 508
-          - 510
-          - 511
           type: integer
           format: int32
         message:
           type:
           - string
           - 'null'
-        count:
+        error:
           type:
-          - integer
+          - array
           - 'null'
-          format: int64
+          items:
+            $ref: '#/components/schemas/ErrorModel'
       additionalProperties: false
-    DeviceBulkTagAssignResponse:
+    ImportUpdateResponse:
       type: object
       properties:
         data:
